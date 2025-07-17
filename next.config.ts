@@ -6,16 +6,17 @@ const nextConfig: NextConfig = {
             {
                 source: "/:path*",
                 headers: [
-                    // this will allow site to be framed under the specified domains for live editing
+                    // this will allow your website to be framed under the specified domains for live editing
                     {
                         key: "Content-Security-Policy",
                         value: "frame-ancestors http://localhost:3001"
+                        // Example: "frame-ancestors http://localhost:3001 https://d3fak6u4cx01ke.cloudfront.net"
                     }
                 ]
             }
         ];
     },
-    webpack: (config, context) => {
+    webpack: config => {
         config.externals.push({
             "thread-stream": "commonjs thread-stream"
         });
