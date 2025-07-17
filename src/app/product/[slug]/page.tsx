@@ -1,0 +1,66 @@
+import React from "react";
+import { draftMode } from "next/headers";
+import { contentSdk } from "@webiny/website-builder-react";
+import { PageLayout } from "@/src/components/PageLayout";
+import { DocumentRenderer } from "@/src/components/DocumentRenderer";
+import { sampleApi } from "@/src/sampleApi/SampleApi";
+import { initializeContentSdk } from "@/src/contentSdk";
+import ProductDetails from "@/src/components/ProductDetails";
+
+type PageProps = {
+    // If it's a catch-all route, you get an array of path segments.
+    params: Promise<{ slug: string }>;
+    searchParams: Promise<Record<string, string>>;
+};
+
+// This function runs at build time to generate all static paths for Next.js prerendering.
+// We must initialize the SDK here because the SDK needs to be ready before fetching the list of pages.
+export async function generateStaticParams() {
+    const products = await sampleApi.listProducts();
+
+    return products.map(product => {
+        return {
+            slug: product.id
+        };
+    });
+}
+
+// This function fetches page data for a given path, considering preview (draft) mode.
+// It is critical to initialize the SDK **before** using the `contentSdk` because this function
+// runs **before** any React components mount, so our ContentSdkInitializer has no effect.
+async function getPage(path: string) {
+    const { isEnabled } = await draftMode();
+
+    // Initialize the SDK with the preview flag to ensure correct data fetching.
+    initializeContentSdk({ preview: isEnabled });
+
+    return await contentSdk.getPage(path);
+}
+
+// The main page component, rendered server-side, receives parameters and search params.
+// It takes into account the live editing mode (`wb.editing` query parameter).
+export default async function ProductPage({ params, searchParams }: PageProps) {
+    const { slug } = await params;
+    const search = await searchParams;
+
+    const product = await sampleApi.getProduct(slug);
+
+    const isEditing = search["wb.editing"] === "true";
+    const page = await getPage(`/product/${slug}`);
+
+    const productDetails = <ProductDetails product={product} />;
+
+    return (
+        <PageLayout>
+            {page ? (
+                <DocumentRenderer
+                    document={page}
+                    isEditing={isEditing}
+                    slots={{ header: null, footer: null, productDetails }}
+                />
+            ) : (
+                productDetails
+            )}
+        </PageLayout>
+    );
+}

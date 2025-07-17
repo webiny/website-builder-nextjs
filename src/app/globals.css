@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: InterVariable, sans-serif;
+}
+
+body {
+  padding: 20px;
+}
