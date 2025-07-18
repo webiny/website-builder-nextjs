@@ -1,6 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-> NOTE: This is a sample project to get you started. You're free to change everything.
+> [!NOTE]
+> This is a sample project to get you started. You're free to change everything.
 
 ## What's included?
 
@@ -10,6 +11,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Sample components
 - Sample component groups
 
+> [!IMPORTANT]
 > This project uses [App Router](https://nextjs.org/docs/app)!
 
 ## Connecting to Webiny Website Builder
@@ -50,3 +52,13 @@ Open `next.config.ts`, and add your domain to the `Content-Security-Policy` head
     value: "frame-ancestors http://localhost:3001 https://d3fak6u4cx01ke.cloudfront.net"
 }
 ```
+
+## Sample Routes
+
+- `src/app/[[...slug]]` - this directory contains an example of simple static page generation, using pages from the Webiny Website Builder
+
+- `src/app/product/[slug]` - this directory contains an example of Product Details Page (PDP) generation, using a combination of a remote ecommerce API, and optional editorial content.
+
+
+> [!TIP]
+> For developers: inspect the sample code for more inline comments!

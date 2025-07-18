@@ -1,11 +1,11 @@
 import React from "react";
 import { draftMode } from "next/headers";
-import { contentSdk } from "@webiny/website-builder-react";
+import { contentSdk, DocumentFragment } from "@webiny/website-builder-react";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { sampleApi } from "@/src/sampleApi/SampleApi";
 import { initializeContentSdk } from "@/src/contentSdk";
-import ProductDetails from "@/src/components/ProductDetails";
+import { ProductDetails } from "@/src/components/ProductDetails";
 
 type PageProps = {
     // If it's a catch-all route, you get an array of path segments.
@@ -43,24 +43,27 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
     const { slug } = await params;
     const search = await searchParams;
 
-    const product = await sampleApi.getProduct(slug);
-
+    // Check if the application is loaded in "live editing" mode.
     const isEditing = search["wb.editing"] === "true";
-    const page = await getPage(`/product/${slug}`);
 
-    const productDetails = <ProductDetails product={product} />;
+    const [product, page] = await Promise.all([
+        sampleApi.getProduct(slug),
+        getPage(`/product/${slug}`)
+    ]);
+
+    if (!product) {
+        // Product is required for the page to render!
+        return <PageLayout>Product not found!</PageLayout>;
+    }
 
     return (
         <PageLayout>
-            {page ? (
-                <DocumentRenderer
-                    document={page}
-                    isEditing={isEditing}
-                    slots={{ header: null, footer: null, productDetails }}
-                />
-            ) : (
-                productDetails
-            )}
+            {/* Page _is_ optional. If it doesn't exist, the default fragment is rendered. */}
+            <DocumentRenderer document={page} isEditing={isEditing}>
+                <DocumentFragment name={"productDetails"}>
+                    <ProductDetails product={product} />
+                </DocumentFragment>
+            </DocumentRenderer>
         </PageLayout>
     );
 }

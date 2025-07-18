@@ -23,22 +23,21 @@ const DocumentRendererNoSSR = dynamic(
 interface DocumentRendererProps {
     document: Document | null;
     isEditing?: boolean;
-    slots?: { [key: string]: React.ReactNode };
+    children?: React.ReactNode | React.ReactNode[];
 }
 
 // Main DocumentRenderer component that decides whether to render with SSR or without SSR
 // based on the `isEditing` flag. If no document is provided, it shows a simple "Page Not Found" message.
-export const DocumentRenderer = ({ document, isEditing, slots }: DocumentRendererProps) => {
-    if (!document) {
-        // Render fallback UI when document data is missing
-        return <h2>Page Not Found!</h2>;
-    }
-
+export const DocumentRenderer = ({ document, isEditing, children }: DocumentRendererProps) => {
     // Render the client-only version when editing to avoid SSR issues,
     // otherwise render server-side for production view.
     return isEditing ? (
-        <DocumentRendererNoSSR document={document} components={editorComponents} slots={slots}/>
+        <DocumentRendererNoSSR document={document} components={editorComponents}>
+            {children}
+        </DocumentRendererNoSSR>
     ) : (
-        <DocumentRendererSSR document={document} components={editorComponents} slots={slots}/>
+        <DocumentRendererSSR document={document} components={editorComponents}>
+            {children}
+        </DocumentRendererSSR>
     );
 };

@@ -6,7 +6,7 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function ProductDetails({ product }: { product: SampleProduct }) {
+export function ProductDetails({ product }: { product: SampleProduct }) {
     return (
         <div className="bg-white">
             <div className="pt-6 pb-16 sm:pb-24">
@@ -62,10 +62,10 @@ export default function ProductDetails({ product }: { product: SampleProduct }) 
                         </div>
 
                         {/* Image gallery */}
-                        <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+                        <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-start-1 lg:mt-0">
                             <h2 className="sr-only">Images</h2>
 
-                            <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
+                            <div className="grid grid-cols-1 lg:grid-cols-2">
                                 <img
                                     alt={product.title}
                                     src={product.image}

@@ -90,7 +90,9 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
     const { slug = [] } = await params;
     const search = await searchParams;
 
+    // Check if the application is loaded in "live editing" mode.
     const isEditing = search["wb.editing"] === "true";
+
     const page = await getPage(`/${slug.join("/")}`);
 
     return (

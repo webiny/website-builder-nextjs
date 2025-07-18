@@ -37,12 +37,16 @@ export class SampleApi {
         return [...(this.listCache ?? [])];
     }
 
-    async getProduct(id: string): Promise<SampleProduct> {
+    async getProduct(id: string): Promise<SampleProduct | null> {
         if (this.productCache.has(id)) {
             return this.productCache.get(id) as SampleProduct;
         }
 
-        const product: ApiProduct = await this.fetch(`/products/${id}`);
+        const product: ApiProduct | null = await this.fetch(`/products/${id}`);
+        if (!product) {
+            return null;
+        }
+
         product.id = String(product.id);
         this.productCache.set(product.id, product);
         return product;
@@ -56,7 +60,9 @@ export class SampleApi {
             }
         });
 
-        return await res.json();
+        return await res.json().catch(() => {
+            return null;
+        });
     }
 }
 
