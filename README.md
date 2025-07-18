@@ -59,6 +59,10 @@ Open `next.config.ts`, and add your domain to the `Content-Security-Policy` head
 
 - `src/app/product/[slug]` - this directory contains an example of Product Details Page (PDP) generation, using a combination of a remote ecommerce API, and optional editorial content.
 
+## Website Builder SDK
+
+When you initially clone this repo, `@webiny/website-builder-nextjs` package in the `package.json` will be set to `*`. We recommend you set the version to whatever is the latest version at the time of cloning. Also, keep in mind that it's preferable to keep this version in sync with your actual Webiny Admin app version, so the Editor SDK and the Contend SDK are on the same version.  
+
 
 > [!TIP]
 > For developers: inspect the sample code for more inline comments!
