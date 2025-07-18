@@ -1,5 +1,5 @@
 "use client";
-import { createComponent, createTextInput } from "@webiny/website-builder-react";
+import { createComponent, createTextInput } from "@webiny/website-builder-nextjs";
 import { Hero_1 } from "./components/Hero-1";
 import { ProductRecommendations } from "./components/ProductRecommendations";
 
@@ -18,7 +18,7 @@ export const editorComponents = [
             createTextInput({
                 name: "productIds",
                 list: true,
-                renderer: "SampleEcommerce/ProductList",
+                renderer: "SampleEcommerce/Product/List",
                 label: "Products"
             })
         ]

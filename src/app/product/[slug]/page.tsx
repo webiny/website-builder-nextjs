@@ -1,6 +1,6 @@
 import React from "react";
 import { draftMode } from "next/headers";
-import { contentSdk, DocumentFragment } from "@webiny/website-builder-react";
+import { contentSdk, DocumentFragment } from "@webiny/website-builder-nextjs";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { sampleApi } from "@/src/sampleApi/SampleApi";

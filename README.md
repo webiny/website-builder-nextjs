@@ -62,3 +62,38 @@ Open `next.config.ts`, and add your domain to the `Content-Security-Policy` head
 
 > [!TIP]
 > For developers: inspect the sample code for more inline comments!
+
+## Ecommerce Integrations and Component Inputs
+
+> [!IMPORTANT]
+> This section is closely connected to, and depends on, ecommerce integrations in your Webiny Admin app. If you don't have any ecommerce integrations, you can skip this part.
+
+Webiny Website Builder provides a way to integrate with your ecommerce platform of choice. Once an integration is enabled in Webiny Admin app, you get access to specialized component input renderers, which allow you to browse and select your ecommerce resources (products, categories, etc.) to assign them to your components in the editor.
+
+To use a specific renderer in your component inputs definition, you need to follow a naming convention. 
+Here's an example, which creates a "text" input, which contains a list of string values, and uses a renderer called `SampleEcommerce/Product/List`.
+
+### Single Resource Picker
+
+```
+createTextInput({
+    name: "productId",
+    renderer: "SampleEcommerce/Product",
+    label: "Product"
+})
+```
+
+<img src="./docs/single_resource_picker.png" alt="Single Resource Picker">
+
+### Multiple Resources Picker
+
+```
+createTextInput({
+    name: "productIds",
+    list: true,
+    renderer: "SampleEcommerce/Product/List",
+    label: "Products"
+})
+```
+
+<img src="./docs/multiple_resources_picker.png" alt="Multiple Resources Picker">

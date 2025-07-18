@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@webiny/website-builder-react": "*",
+    "@webiny/website-builder-nextjs": "*",
     "next": "^15.4.1",
     "next-i18next": "^10.2.0",
     "next-logger": "^3.0.2",

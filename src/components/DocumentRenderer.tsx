@@ -2,13 +2,13 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { editorComponents } from "../editorComponents";
-import { type Document } from "@webiny/website-builder-react";
+import { type Document } from "@webiny/website-builder-nextjs";
 
 // Dynamically import DocumentRenderer with SSR enabled for non-editing mode.
 // This component will be server-side rendered for better SEO and initial load performance.
 const DocumentRendererSSR = dynamic(
     // eslint-disable-next-line import/dynamic-import-chunkname
-    () => import("@webiny/website-builder-react").then(m => ({ default: m.DocumentRenderer })),
+    () => import("@webiny/website-builder-nextjs").then(m => ({ default: m.DocumentRenderer })),
     { ssr: true }
 );
 
@@ -16,7 +16,7 @@ const DocumentRendererSSR = dynamic(
 // This prevents hydration mismatches and allows client-only behavior needed during editing.
 const DocumentRendererNoSSR = dynamic(
     // eslint-disable-next-line import/dynamic-import-chunkname
-    () => import("@webiny/website-builder-react").then(m => ({ default: m.DocumentRenderer })),
+    () => import("@webiny/website-builder-nextjs").then(m => ({ default: m.DocumentRenderer })),
     { ssr: false }
 );
 

@@ -2,7 +2,7 @@ import {
     contentSdk,
     registerComponentGroup,
     type ComponentManifest
-} from "@webiny/website-builder-react";
+} from "@webiny/website-builder-nextjs";
 
 interface ContentSdkOptions {
     preview?: boolean;

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
-import { contentSdk } from "@webiny/website-builder-react";
+import { contentSdk } from "@webiny/website-builder-nextjs";
 import { initializeContentSdk } from "@/src/contentSdk";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
