@@ -3,6 +3,7 @@ import {
     registerComponentGroup,
     type ComponentManifest
 } from "@webiny/website-builder-nextjs";
+import { theme } from "./theme";
 
 interface ContentSdkOptions {
     preview?: boolean;
@@ -14,7 +15,8 @@ export const initializeContentSdk = (options: ContentSdkOptions = {}) => {
             apiKey: String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_KEY),
             apiHost: String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST),
             apiTenant: String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_TENANT),
-            preview: options.preview === true
+            preview: options.preview === true,
+            theme
         },
         () => {
             registerComponentGroup({

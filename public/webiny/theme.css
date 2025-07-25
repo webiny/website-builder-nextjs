@@ -1,0 +1,78 @@
+@import "https://rsms.me/inter/inter.css";
+@import "./lexical.css";
+
+:root {
+  --wb-theme-color1: #fa5723;
+  --wb-theme-color2: #00ccb0;
+  --wb-theme-color3: #0a0a0a;
+  --wb-theme-color4: #616161;
+  --wb-theme-color5: #eaecec;
+  --wb-theme-color6: #ffffff;
+  --wb-theme-font-family: InterVariable, sans-serif;
+}
+
+.wb-heading-1 {
+  line-height: 1.5;
+  font-family: var(--wb-theme-font-family);
+  font-weight: bold;
+  font-size: 48px;
+  color: var(--wb-theme-color3);
+  --webkit-font-smoothing: antialiased;
+}
+
+.wb-heading-2 {
+  line-height: 1.5;
+  font-family: var(--wb-theme-font-family);
+  font-size: 36px;
+  color: var(--wb-theme-color3);
+  --webkit-font-smoothing: antialiased;
+}
+
+.wb-paragraph-1 {
+  line-height: 1.35;
+  font-family: var(--wb-theme-font-family);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--wb-theme-color3);
+  --webkit-font-smoothing: antialiased;
+}
+
+.wb-paragraph-2 {
+  line-height: 19px;
+  font-family: var(--wb-theme-font-family);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.45px;
+  color: var(--wb-theme-color3);
+  --webkit-font-smoothing: antialiased;
+}
+
+.wb-blockquote-1 {
+  font-family: var(--wb-theme-font-family);
+  font-weight: bold;
+  font-size: 22px;
+  letter-spacing: 0.45px;
+  color: var(--wb-theme-color3);
+  --webkit-font-smoothing: antialiased;
+}
+
+.wb-unordered-list-1 {
+  padding: 0;
+  margin: 0 0 0 16px;
+  list-style: inside;
+  font-size: 17px;
+  color: var(--wb-theme-color3);
+  li {
+    margin: 0;
+  }
+}
+
+.wb-ordered-list-1 {
+  padding: 0;
+  margin: 0 0 0 16px;
+  color: var(--wb-theme-color3);
+  list-style: inside;
+  li {
+    margin: 0;
+  }
+}

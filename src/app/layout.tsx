@@ -13,7 +13,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <head>
-                <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+                <link rel="stylesheet" href="/webiny/theme.css" />
             </head>
             <body>
                 <ContentSdkInitializer draftMode={isEnabled} />
