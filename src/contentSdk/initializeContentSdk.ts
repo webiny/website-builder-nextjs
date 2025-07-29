@@ -7,7 +7,7 @@ import {
 
 interface ContentSdkOptions {
     preview?: boolean;
-    theme?: WebsiteBuilderThemeInput
+    theme?: WebsiteBuilderThemeInput;
 }
 
 export const initializeContentSdk = (options: ContentSdkOptions = {}) => {

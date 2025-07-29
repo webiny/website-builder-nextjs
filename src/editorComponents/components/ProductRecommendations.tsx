@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import type { ComponentProps} from "@webiny/website-builder-nextjs";
+import type { ComponentProps } from "@webiny/website-builder-nextjs";
 import { contentSdk } from "@webiny/website-builder-nextjs";
 import { useProductsByIds } from "@/src/sampleApi/useProductsByIds";
 
