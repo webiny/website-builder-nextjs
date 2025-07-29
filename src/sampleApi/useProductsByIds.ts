@@ -1,4 +1,5 @@
-import { sampleApi, SampleProduct } from "./SampleApi";
+import type { SampleProduct } from "./SampleApi";
+import { sampleApi } from "./SampleApi";
 import { useEffect, useState } from "react";
 
 export const useProductsByIds = (ids: string[]) => {

@@ -1,7 +1,9 @@
+"use server";
 import React from "react";
 import { draftMode } from "next/headers";
 import { ContentSdkInitializer } from "@/src/contentSdk";
-import "./globals.css";
+import "@/src/theme/globals.css";
+import { getTheme } from "@/src/theme";
 
 export default async function RootLayout({
     children
@@ -9,14 +11,15 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const { isEnabled } = await draftMode();
+    const { theme, css } = await getTheme();
 
     return (
         <html lang="en">
             <head>
-                <link rel="stylesheet" href="/webiny/theme.css" />
+                <style>{css}</style>
             </head>
             <body>
-                <ContentSdkInitializer draftMode={isEnabled} />
+                <ContentSdkInitializer draftMode={isEnabled} theme={theme} />
                 {children}
             </body>
         </html>
