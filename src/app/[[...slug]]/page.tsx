@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { contentSdk } from "@webiny/website-builder-nextjs";
-import { initializeContentSdk } from "@/src/contentSdk";
+import { initializeContentSdk, getTenant } from "@/src/contentSdk";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 
@@ -15,7 +15,7 @@ type PageProps = {
 // This function runs at build time to generate all static paths for Next.js prerendering.
 // We must initialize the SDK here because the SDK needs to be ready before fetching the list of pages.
 export async function generateStaticParams() {
-    initializeContentSdk();
+    initializeContentSdk({ tenantId: await getTenant() });
 
     // List all published pages
     const pages = await contentSdk.listPages();
@@ -32,6 +32,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    initializeContentSdk({ tenantId: await getTenant() });
+
     const { slug } = await params;
 
     const page = await contentSdk.getPage(`/${slug}`);
@@ -79,7 +81,7 @@ async function getPage(path: string) {
     const { isEnabled } = await draftMode();
 
     // Initialize the SDK with the preview flag to ensure correct data fetching.
-    initializeContentSdk({ preview: isEnabled });
+    initializeContentSdk({ preview: isEnabled, tenantId: await getTenant() });
 
     return await contentSdk.getPage(path);
 }

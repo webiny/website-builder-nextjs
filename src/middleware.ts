@@ -18,22 +18,34 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
+    const requestHeaders = new Headers(request.headers);
+
+    // Detect tenant id
+    const tenantId = searchParams.get("wb.tenant");
+    if (tenantId) {
+        requestHeaders.set("X-Tenant", tenantId);
+    }
+
     // Retrieve the current draft mode state for this request.
     const previewMode = await draftMode();
 
     if (previewRequested) {
         // If preview mode is already enabled, disable caching on the response.
+        const response = NextResponse.next({
+            request: {
+                headers: requestHeaders
+            }
+        });
         // This ensures fresh content when in preview.
         if (previewMode.isEnabled) {
-            const res = NextResponse.next();
-            res.headers.set("X-Preview-Params", searchParams.toString());
-            res.headers.set(
+            response.headers.set("X-Preview-Params", searchParams.toString());
+            response.headers.set(
                 "Cache-Control",
                 "no-store, no-cache, must-revalidate, proxy-revalidate"
             );
-            res.headers.set("Pragma", "no-cache");
-            res.headers.set("Expires", "0");
-            return res;
+            response.headers.set("Pragma", "no-cache");
+            response.headers.set("Expires", "0");
+            return response;
         }
 
         // If preview mode is not enabled yet, redirect to the preview API route
@@ -53,5 +65,9 @@ export async function middleware(request: NextRequest) {
     }
 
     // For all other requests, continue as normal without any modifications.
-    return NextResponse.next();
+    return NextResponse.next({
+        request: {
+            headers: requestHeaders
+        }
+    });
 }
