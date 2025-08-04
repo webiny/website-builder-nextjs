@@ -4,7 +4,7 @@ import { contentSdk, DocumentFragment } from "@webiny/website-builder-nextjs";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { sampleApi } from "@/src/sampleApi/SampleApi";
-import { initializeContentSdk } from "@/src/contentSdk";
+import { initializeContentSdk, getTenant } from "@/src/contentSdk";
 import { ProductDetails } from "@/src/components/ProductDetails";
 
 type PageProps = {
@@ -32,7 +32,7 @@ async function getPage(path: string) {
     const { isEnabled } = await draftMode();
 
     // Initialize the SDK with the preview flag to ensure correct data fetching.
-    initializeContentSdk({ preview: isEnabled });
+    initializeContentSdk({ preview: isEnabled, tenantId: await getTenant() });
 
     return await contentSdk.getPage(path);
 }

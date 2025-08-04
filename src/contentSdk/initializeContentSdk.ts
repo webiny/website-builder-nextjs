@@ -6,18 +6,19 @@ import {
 } from "@webiny/website-builder-nextjs";
 
 interface ContentSdkOptions {
+    tenantId?: string;
     preview?: boolean;
     theme?: WebsiteBuilderThemeInput;
 }
 
-export const initializeContentSdk = (options: ContentSdkOptions = {}) => {
+export const initializeContentSdk = ({ tenantId, preview, theme }: ContentSdkOptions = {}) => {
     contentSdk.init(
         {
             apiKey: String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_KEY),
             apiHost: String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST),
-            apiTenant: String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_TENANT),
-            preview: options.preview === true,
-            theme: options.theme
+            apiTenant: tenantId ?? String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_TENANT),
+            preview,
+            theme
         },
         () => {
             registerComponentGroup({

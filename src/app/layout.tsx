@@ -1,7 +1,7 @@
 "use server";
 import React from "react";
 import { draftMode } from "next/headers";
-import { ContentSdkInitializer } from "@/src/contentSdk";
+import { ContentSdkInitializer, getTenant } from "@/src/contentSdk";
 import "@/src/theme/globals.css";
 import { getTheme } from "@/src/theme";
 
@@ -12,6 +12,7 @@ export default async function RootLayout({
 }>) {
     const { isEnabled } = await draftMode();
     const { theme, css } = await getTheme();
+    const tenantId = await getTenant();
 
     return (
         <html lang="en">
@@ -19,7 +20,7 @@ export default async function RootLayout({
                 <style>{css}</style>
             </head>
             <body>
-                <ContentSdkInitializer draftMode={isEnabled} theme={theme} />
+                <ContentSdkInitializer draftMode={isEnabled} theme={theme} tenantId={tenantId} />
                 {children}
             </body>
         </html>

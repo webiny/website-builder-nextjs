@@ -19,6 +19,14 @@ export async function middleware(request: NextRequest) {
         requestHeaders.set("X-Tenant", tenantId);
     }
 
+    const requestHeaders = new Headers(request.headers);
+
+    // Detect tenant id
+    const tenantId = searchParams.get("wb.tenant");
+    if (tenantId) {
+        requestHeaders.set("X-Tenant", tenantId);
+    }
+
     // Retrieve the current draft mode state for this request.
     const previewMode = await draftMode();
 
