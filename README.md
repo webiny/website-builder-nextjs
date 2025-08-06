@@ -2,10 +2,13 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 > [!NOTE]
 > This is a sample project to get you started. You're free to change everything.
+ 
+> [!CRITICAL]
+> Pick the right branch for your Webiny project! If your Webiny project runs on `v6.0.0-alpha.1`, you need to check out the appropriate branch from this repo. If there isn't a matching branch, use the one that is the closest to your version.
 
 ## What's included?
 
-- Typecript
+- Typescript
 - Tailwind
 - Sample ecommerce API
 - Sample components
