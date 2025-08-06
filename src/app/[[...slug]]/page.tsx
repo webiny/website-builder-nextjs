@@ -34,7 +34,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     initializeContentSdk({ tenantId: await getTenant() });
 
-    const { slug } = await params;
+    const { slug = "" } = await params;
 
     const page = await contentSdk.getPage(`/${slug}`);
 
