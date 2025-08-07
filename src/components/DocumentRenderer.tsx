@@ -29,6 +29,11 @@ interface DocumentRendererProps {
 // Main DocumentRenderer component that decides whether to render with SSR or without SSR
 // based on the `isEditing` flag. If no document is provided, it shows a simple "Page Not Found" message.
 export const DocumentRenderer = ({ document, isEditing, children }: DocumentRendererProps) => {
+    // Optionally, show a 404 page here!
+    if(!document && !isEditing) {
+        return <div>Not found!</div>
+    }
+
     // Render the client-only version when editing to avoid SSR issues,
     // otherwise render server-side for production view.
     return isEditing ? (
