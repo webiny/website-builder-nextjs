@@ -2,9 +2,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 > [!NOTE]
 > This is a sample project to get you started. You're free to change everything.
- 
+
 > [!WARNING]
-> Pick the right branch for your Webiny project! If your Webiny project runs on `v6.0.0-alpha.1`, you need to check out the appropriate branch from this repo. If there isn't a matching branch, use the one that is the closest to your version.
+> Pick the right branch for your Webiny project! If your Webiny project runs on `v6.0.0-alpha.2`, you need to check out the appropriate branch from this repo. If there isn't a matching branch, use the one that is the closest to your version (for example: `v6.0.0-alpha.1`), and make sure you update `@webiny/website-builder-nextjs` version in package.json to reflect your project version number.
 
 ## What's included?
 
@@ -64,8 +64,7 @@ Open `next.config.ts`, and add your domain to the `Content-Security-Policy` head
 
 ## Website Builder SDK
 
-When you initially clone this repo, `@webiny/website-builder-nextjs` package in the `package.json` will be set to `*`. We recommend you set the version to whatever is the latest version at the time of cloning. Also, keep in mind that it's preferable to keep this version in sync with your actual Webiny Admin app version, so the Editor SDK and the Contend SDK are on the same version.  
-
+When you initially clone this repo, `@webiny/website-builder-nextjs` package in the `package.json` will be set to `*`. We recommend you set the version to whatever is the latest version at the time of cloning. Also, keep in mind that it's preferable to keep this version in sync with your actual Webiny Admin app version, so the Editor SDK and the Contend SDK are on the same version.
 
 > [!TIP]
 > For developers: inspect the sample code for more inline comments!
@@ -77,7 +76,7 @@ When you initially clone this repo, `@webiny/website-builder-nextjs` package in 
 
 Webiny Website Builder provides a way to integrate with your ecommerce platform of choice. Once an integration is enabled in Webiny Admin app, you get access to specialized component input renderers, which allow you to browse and select your ecommerce resources (products, categories, etc.) to assign them to your components in the editor.
 
-To use a specific renderer in your component inputs definition, you need to follow a naming convention. 
+To use a specific renderer in your component inputs definition, you need to follow a naming convention.
 Here's an example, which creates a "text" input, which contains a list of string values, and uses a renderer called `SampleEcommerce/Product/List`.
 
 ### Single Resource Picker
