@@ -5,6 +5,7 @@ import { contentSdk } from "@webiny/website-builder-nextjs";
 import { initializeContentSdk, getTenant } from "@/src/contentSdk";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
+import { normalizeSlug } from "@/src/utils/normalizeSlug";
 
 type PageProps = {
     // If it's a catch-all route, you get an array of path segments.
@@ -25,8 +26,7 @@ export async function generateStaticParams() {
 
         return {
             // The starter kit defines one single catch-all route, which expects an array of path segments.
-            // We split by `/` and remove the leading segment (which is a `/`)
-            slug: path.split("/").slice(1)
+            slug: path.split("/")
         };
     });
 }
@@ -35,8 +35,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     initializeContentSdk({ tenantId: await getTenant() });
 
     const { slug = "" } = await params;
+    const normalizedSlug = normalizeSlug(slug);
 
-    const page = await contentSdk.getPage(`/${slug}`);
+    const page = await contentSdk.getPage(normalizedSlug);
 
     if (!page) {
         return {};
@@ -62,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         description,
         openGraph: {
             type: "website",
-            url: `https://example.com/${slug}`,
+            url: `https://example.com${normalizedSlug}`,
             title: ogTitle,
             description: ogDescription,
             siteName: "My Website"
@@ -95,7 +96,7 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
     // Check if the application is loaded in "live editing" mode.
     const isEditing = search["wb.editing"] === "true";
 
-    const page = await getPage(`/${slug.join("/")}`);
+    const page = await getPage(normalizeSlug(slug));
 
     return (
         <PageLayout>

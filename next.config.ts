@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
+import { trailingSlash } from "@/src/constants";
 
 const nextConfig: NextConfig = {
     devIndicators: false,
     productionBrowserSourceMaps: false,
+    trailingSlash,
     async headers() {
         return [
             {
