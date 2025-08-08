@@ -1,12 +1,10 @@
 import { draftMode } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
-import { contentSdk } from "@webiny/website-builder-nextjs";
-import { initializeContentSdk } from "@/src/contentSdk";
 
 const ENABLE_DRAFT_MODE_ROUTE = "/api/preview";
 
 export async function middleware(request: NextRequest) {
-    const { searchParams, pathname } = request.nextUrl;
+    const { searchParams } = request.nextUrl;
     // Check if the preview/editing flag is set.
     const previewRequested =
         searchParams.get("wb.preview") === "true" || searchParams.get("wb.editing") === "true";
@@ -55,13 +53,6 @@ export async function middleware(request: NextRequest) {
 
         // Redirect to the same URL to clear draft mode cookies properly.
         return NextResponse.redirect(request.url);
-    }
-
-    // Check if there's a redirect defined for the requested page.
-    initializeContentSdk({ tenantId });
-    const redirect = await contentSdk.getRedirectByPath(pathname);
-    if (redirect) {
-        return NextResponse.redirect(new URL(redirect.to, request.url), redirect.permanent ? 308 : 307);
     }
 
     // For all other requests, continue as normal without any modifications.

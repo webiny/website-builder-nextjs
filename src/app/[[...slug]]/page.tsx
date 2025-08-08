@@ -26,7 +26,8 @@ export async function generateStaticParams() {
 
         return {
             // The starter kit defines one single catch-all route, which expects an array of path segments.
-            slug: path.split("/")
+            // We split by `/` and remove the leading segment (which is a `/`), because Next appends the leading slash!
+            slug: path.split("/").slice(1)
         };
     });
 }
