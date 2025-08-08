@@ -19,14 +19,6 @@ export async function middleware(request: NextRequest) {
         requestHeaders.set("X-Tenant", tenantId);
     }
 
-    const requestHeaders = new Headers(request.headers);
-
-    // Detect tenant id
-    const tenantId = searchParams.get("wb.tenant");
-    if (tenantId) {
-        requestHeaders.set("X-Tenant", tenantId);
-    }
-
     // Retrieve the current draft mode state for this request.
     const previewMode = await draftMode();
 
@@ -67,7 +59,6 @@ export async function middleware(request: NextRequest) {
 
     // Check if there's a redirect defined for the requested page.
     initializeContentSdk({ tenantId });
-
     const redirect = await contentSdk.getRedirectByPath(pathname);
     if (redirect) {
         return NextResponse.redirect(new URL(redirect.to, request.url), redirect.permanent ? 308 : 307);
