@@ -5,7 +5,7 @@ import { trailingSlash } from "@/src/constants";
 
 export default async (): Promise<NextConfig> => {
     // Create webpack plugins for theme injection.
-    const {getPlugins} = await injectThemeCss(path.resolve("src/theme/theme.css"));
+    const { getPlugins } = await injectThemeCss(path.resolve("src/theme/theme.css"));
 
     return {
         devIndicators: false,
@@ -26,13 +26,13 @@ export default async (): Promise<NextConfig> => {
                 }
             ];
         },
-        webpack: (config, { dev }) => {
+        webpack: (config, context) => {
             config.externals.push({
                 "thread-stream": "commonjs thread-stream"
             });
 
             // Add plugins responsible for theme compilation.
-            config.plugins.push(...getPlugins(dev));
+            config.plugins.push(...getPlugins(context));
 
             return config;
         }
