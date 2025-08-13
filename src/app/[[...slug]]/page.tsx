@@ -90,7 +90,7 @@ async function getPage(path: string) {
 
 // The main page component, rendered server-side, receives parameters and search params.
 // It takes into account the live editing mode (`wb.editing` query parameter).
-export default async function ProductPage({ params, searchParams }: PageProps) {
+export default async function Page({ params, searchParams }: PageProps) {
     const { slug = [] } = await params;
     const search = await searchParams;
 

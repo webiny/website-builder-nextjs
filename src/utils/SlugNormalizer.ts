@@ -75,13 +75,11 @@ export class SlugNormalizer {
 
     /** Clean a single path segment according to options. */
     private cleanSegment(seg: string): string {
-        let s: string = seg;
-
         // Remove dot segments entirely.
-        if (s === "." || s === "..") {
+        if (seg === "." || seg === "..") {
             return "";
         }
 
-        return s.trim();
+        return seg.trim();
     }
 }

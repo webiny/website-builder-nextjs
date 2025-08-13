@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 const ENABLE_DRAFT_MODE_ROUTE = "/api/preview";
 
 export async function middleware(request: NextRequest) {
-    const { searchParams } = request.nextUrl;
+    const { searchParams, pathname } = request.nextUrl;
     // Check if the preview/editing flag is set.
     const previewRequested =
         searchParams.get("wb.preview") === "true" || searchParams.get("wb.editing") === "true";
@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
     const requestHeaders = new Headers(request.headers);
 
     // Detect tenant id
-    const tenantId = searchParams.get("wb.tenant") ?? undefined;
+    const tenantId = searchParams.get("wb.tenant") ?? "root";
     if (tenantId) {
         requestHeaders.set("X-Tenant", tenantId);
     }
@@ -55,6 +55,22 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(request.url);
     }
 
+    // Check if there's a redirect defined for the requested page.
+    const redirectsUrl = new URL(
+        `/api/redirects?wb.tenant=${tenantId}&pathname=${encodeURIComponent(pathname)}`,
+        request.url
+    );
+
+    const redirectResponse = await fetch(redirectsUrl);
+
+    const { redirect } = await redirectResponse.json();
+    if (redirect) {
+        return NextResponse.redirect(
+            new URL(redirect.to, request.url),
+            redirect.permanent ? 308 : 307
+        );
+    }
+
     // For all other requests, continue as normal without any modifications.
     return NextResponse.next({
         request: {
@@ -64,7 +80,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: [
-        "/((?!_next|api|static|favicon.ico|.well-known).*)"
-    ]
+    matcher: ["/((?!_next|api|static|favicon.ico|.well-known).*)"]
 };
