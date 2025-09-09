@@ -21,9 +21,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 To connect to Webiny Website Builder, you'll need the following:
 
-- Webiny API host URL
+- Webiny API host URL (e.g. "https://d2pectsnqadb1k.cloudfront.net" note: no trailing slash)
 - Webiny API key
-- Webiny Tenant ID
+- Webiny Tenant ID (e.g. "root" for the root tenant)
 
 Configure the following ENV vars:
 
