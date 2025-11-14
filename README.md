@@ -21,6 +21,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 To connect to Webiny Website Builder, you'll need the following:
 
+- Webiny API host URL (e.g. "https://d2pectsnqadb1k.cloudfront.net" note: no trailing slash)
+- Webiny API key
+- Webiny Tenant ID (e.g. "root" for the root tenant)
 
 #### 1. Webiny API host URL
 A simple way to retrieve your API host URL is to log in to your Webiny Admin app, and open the **API Playground**.
