@@ -16,10 +16,13 @@ export default async (): Promise<NextConfig> => {
                 {
                     source: "/:path*",
                     headers: [
-                        // this will allow your website to be framed under the specified domains for live editing
                         {
                             key: "Content-Security-Policy",
-                            value: "frame-ancestors http://localhost:3001"
+                            value: [
+                                "frame-ancestors",
+                                "http://localhost:3001",
+                                ...whitelistedDomains()
+                            ].join(" ")
                             // Example: "frame-ancestors http://localhost:3001 https://d3fak6u4cx01ke.cloudfront.net"
                         }
                     ]
@@ -37,4 +40,9 @@ export default async (): Promise<NextConfig> => {
             return config;
         }
     };
+}
+
+function whitelistedDomains(): string[] {
+    const adminHost = process.env.NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST ?? "";
+    return adminHost.split(",").map(host => host.trim());
 }
