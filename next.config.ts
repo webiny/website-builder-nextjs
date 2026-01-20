@@ -11,6 +11,13 @@ export default async (): Promise<NextConfig> => {
         devIndicators: false,
         trailingSlash,
         productionBrowserSourceMaps: false,
+        images: {
+          remotePatterns: [{
+              protocol: 'https',
+              hostname: String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST).replace('https://', '') || '',
+              pathname: '/**',
+          },]
+        },
         async headers() {
             return [
                 {
