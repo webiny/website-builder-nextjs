@@ -2,8 +2,11 @@
 
 @theme {
   --font-sans: InterVariable, sans-serif;
+  --color-primary: #4f46e5;
+  --color-primary-hover: #6366f1;
 }
 
 body {
-  padding: 20px;
+  margin: 0;
+  padding: 0;
 }
