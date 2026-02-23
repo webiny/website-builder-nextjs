@@ -3,9 +3,9 @@
 import React from "react";
 
 const navigation = [
-  { name: "Features 2", href: "#" },
-  { name: "Marketpslace 3", href: "#" },
-  { name: "Company 4", href: "#" },
+  { name: "Menu Item 1", href: "#" },
+  { name: "Menu Item 2", href: "#" },
+  { name: "Menu Item 3", href: "#" },
 ];
 
 export default function Header() {
