@@ -21,7 +21,6 @@ export const editorComponents = [
         label: "Headline",
         description: "The main headline text displayed on the banner.",
         defaultValue: "Ready to get started?",
-        helperText: "asd",
       }),
       createTextInput({
         name: "ctaLabel",
