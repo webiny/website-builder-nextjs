@@ -1,139 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Webiny Website Builder — Next.js Starter
 
-> [!NOTE]
-> This is a sample project to get you started. You're free to change everything.
+A Next.js starter kit for building sites powered by Webiny Website Builder.
 
-> [!WARNING]
-> Pick the right branch for your Webiny project! If your Webiny project runs on `v6.0.0-alpha.2`, you need to check out the appropriate branch from this repo. If there isn't a matching branch, use the one that is the closest to your version (for example: `v6.0.0-alpha.1`), and make sure you update `@webiny/website-builder-nextjs` version in package.json to reflect your project version number.
+---
 
-## What's included?
+## Get started
 
-- Typescript
-- Tailwind
-- Sample ecommerce API
-- Sample components
-- Sample component groups
+Follow the [Learn Webiny Website Builder](https://webiny.link/learn-website-builder) course to get up and running.
 
-> [!IMPORTANT]
-> This project uses [App Router](https://nextjs.org/docs/app)!
+## Documentation
 
-## Connecting to Webiny Website Builder
+For full documentation, visit [webiny.com/docs](https://www.webiny.com/docs).
 
-To connect to Webiny Website Builder, you'll need the following:
+## Community
 
-- Webiny API host URL (e.g. "https://d2pectsnqadb1k.cloudfront.net" note: no trailing slash)
-- Webiny API key
-- Webiny Tenant ID (e.g. "root" for the root tenant)
+For help, discussion about best practices, or feature ideas:
 
-#### 1. Webiny API host URL
-A simple way to retrieve your API host URL is to log in to your Webiny Admin app, and open the **API Playground**.
-
-This can be done by clicking on the **Support** link in the bottom left corner, and then selecting **API Playground**.
-
-![API Playground](./docs/webiny-api-playground.png)
-
-> [!NOTE]
-> Copy the URL without the `/graphql` part. For example: https://dyx8rrzqfvlss.cloudfront.net
-
-#### 2. Webiny API key
-You can create an API key in the Webiny Admin app. Via the main menu on the left, go to Settings -> Access Management -> API Keys, and create a new key. Make sure the key has access to Website Builder.
-
-![API Key](./docs/webiny-api-keys.png)
-
-Note that you don't need to assign any specific permissions to the key. Just creating an API key is enough.
-
-Once created, copy the value of the key.
-
-#### 3. Webiny Tenant ID
-@pavel
-
-#### 4. (Optional) Webiny Admin app host URL
-If you're using your Next.js project in an editor that is hosted on a domain different from your Next.js domain, you'll have to whitelist the editor's domain. You can do that via the `NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST` env var (see "Cross-Origin Configuration" section below).
-
-A simple way to retrieve your Admin app host URL is to log in to your Webiny Admin app, and copy the URL from your browser's address bar. For example: https://dxhy1vkapexg1.cloudfront.net
-
-### Environment variables
-
-Ultimately, you'll need to set the following environment variables in your `.env` file:
-
-```dotenv
-# .env
-NEXT_PUBLIC_WEBSITE_BUILDER_API_KEY: {YOUR_API_KEY}
-NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST: {YOUR_API_HOST}
-NEXT_PUBLIC_WEBSITE_BUILDER_API_TENANT: {YOUR_API_TENANT}
-
-# Optional, check "Cross-Origin Configuration" section below.
-NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST: {YOUR_ADMIN_HOST} 
-```
-
-
-
-## Content SDK
-
-Webiny Content SDK is located in `src/contentSdk` folder. The [initializeContentSdk.ts](./src/contentSdk/initializeContentSdk.ts) file contains the SDK initialization, and editor component group registration. Customize your component groups here.
-
-## Custom components
-
-Custom components are passed directly to the `DocumentRenderer` (see the example in [./src/app/[[...slug]]/page.tsx](./src/app/[[...slug]]/page.tsx)).
-To create custom components, see examples in [./src/editorComponents/index.tsx](./src/editorComponents/index.tsx).
-
-## Cross-Origin Configuration
-
-If you're using your Next.js project in an editor that is hosted on a domain different from your Next.js domain, you'll have to whitelist the editor's domain.
-
-Open `next.config.ts`, and add your domain to the `Content-Security-Policy` header. For example:
-
-```
-{
-    key: "Content-Security-Policy",
-    value: "frame-ancestors http://localhost:3001 https://d3fak6u4cx01ke.cloudfront.net"
-}
-```
-
-## Sample Routes
-
-- `src/app/[[...slug]]` - this directory contains an example of simple static page generation, using pages from the Webiny Website Builder
-
-- `src/app/product/[slug]` - this directory contains an example of Product Details Page (PDP) generation, using a combination of a remote ecommerce API, and optional editorial content.
-
-## Website Builder SDK
-
-When you initially clone this repo, `@webiny/website-builder-nextjs` package in the `package.json` will be set to `*`. We recommend you set the version to whatever is the latest version at the time of cloning. Also, keep in mind that it's preferable to keep this version in sync with your actual Webiny Admin app version, so the Editor SDK and the Contend SDK are on the same version.
-
-> [!TIP]
-> For developers: inspect the sample code for more inline comments!
-
-## Ecommerce Integrations and Component Inputs
-
-> [!IMPORTANT]
-> This section is closely connected to, and depends on, ecommerce integrations in your Webiny Admin app. If you don't have any ecommerce integrations, you can skip this part.
-
-Webiny Website Builder provides a way to integrate with your ecommerce platform of choice. Once an integration is enabled in Webiny Admin app, you get access to specialized component input renderers, which allow you to browse and select your ecommerce resources (products, categories, etc.) to assign them to your components in the editor.
-
-To use a specific renderer in your component inputs definition, you need to follow a naming convention.
-Here's an example, which creates a "text" input, which contains a list of string values, and uses a renderer called `SampleEcommerce/Product/List`.
-
-### Single Resource Picker
-
-```
-createTextInput({
-    name: "productId",
-    renderer: "SampleEcommerce/Product",
-    label: "Product"
-})
-```
-
-<img src="./docs/single_resource_picker.png" alt="Single Resource Picker">
-
-### Multiple Resources Picker
-
-```
-createTextInput({
-    name: "productIds",
-    list: true,
-    renderer: "SampleEcommerce/Product/List",
-    label: "Products"
-})
-```
-
-<img src="./docs/multiple_resources_picker.png" alt="Multiple Resources Picker">
+[Join our Slack community](https://www.webiny.com/slack)

@@ -2,27 +2,40 @@
 import React from "react";
 import { draftMode } from "next/headers";
 import { ContentSdkInitializer, getTenant } from "@/src/contentSdk";
-import "@/src/theme/globals.css";
-import { getTheme } from "@/src/theme";
+import "@/src/theme/tailwind.css";
+import { theme, css } from "@/src/theme/theme";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  preload: true,
+  fallback: ["system-ui", "arial"],
+});
 
 export default async function RootLayout({
-    children
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    const { isEnabled } = await draftMode();
-    const { theme, css } = await getTheme();
-    const tenantId = await getTenant();
+  const { isEnabled } = await draftMode();
 
-    return (
-        <html lang="en">
-            <head>
-                <style>{css}</style>
-            </head>
-            <body>
-                <ContentSdkInitializer draftMode={isEnabled} theme={theme} tenantId={tenantId} />
-                {children}
-            </body>
-        </html>
-    );
+  const tenantId = await getTenant();
+
+  return (
+    <html lang="en" className={`${inter.className}`}>
+      <head>
+        <style>{css}</style>
+      </head>
+      <body>
+        <ContentSdkInitializer
+          draftMode={isEnabled}
+          theme={theme}
+          tenantId={tenantId}
+        />
+        {children}
+      </body>
+    </html>
+  );
 }
