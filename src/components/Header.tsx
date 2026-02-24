@@ -10,7 +10,7 @@ const navigation = [
 
 export default function Header() {
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+    <header className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
@@ -25,7 +25,7 @@ export default function Header() {
             <a
               key={item.name}
               href={item.href}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-sm font-medium text-text-muted hover:text-text-base transition-colors"
             >
               {item.name}
             </a>
