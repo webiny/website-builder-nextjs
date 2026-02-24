@@ -6,7 +6,7 @@ import { trailingSlash } from "@/src/constants";
 export default async (): Promise<NextConfig> => {
   // Create webpack plugins for theme injection.
   const { getPlugins } = await injectThemeCss(
-    path.resolve("src/theme/wbTheme.css"),
+    path.resolve("src/theme/theme.css"),
   );
 
   return {

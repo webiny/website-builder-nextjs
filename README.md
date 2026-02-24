@@ -32,8 +32,8 @@ src/
 ├── editorComponents/       # Custom builder components registered with DocumentRenderer
 ├── theme/
 │   ├── tailwind.css        # Tailwind import + semantic @theme token mappings
-│   ├── wbTheme.css         # CSS variables, typography classes (processed outside Tailwind)
-│   └── wbTheme.ts          # Theme definition passed to the Website Builder SDK
+│   ├── theme.css         # CSS variables, typography classes (processed outside Tailwind)
+│   └── theme.ts          # Theme definition passed to the Website Builder SDK
 └── utils/                  # Slug normalization helpers
 ```
 
@@ -80,7 +80,7 @@ NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST=https://your-admin-host.cloudfront.net
 
 ## Theme
 
-### CSS variables (`src/theme/wbTheme.css`)
+### CSS variables (`src/theme/theme.css`)
 
 All design tokens are defined as CSS custom properties in `:root`. This file is compiled and injected into the Website Builder SDK at build time — it runs outside of Tailwind's pipeline, so only standard CSS is supported here.
 
@@ -111,7 +111,7 @@ bg-surface        border-border
 bg-success        bg-warning          bg-error
 ```
 
-### Builder color palette (`src/theme/wbTheme.ts`)
+### Builder color palette (`src/theme/theme.ts`)
 
 All 10 tokens are exposed as swatches in the Website Builder editor color picker.
 

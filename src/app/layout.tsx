@@ -3,7 +3,7 @@ import React from "react";
 import { draftMode } from "next/headers";
 import { ContentSdkInitializer, getTenant } from "@/src/contentSdk";
 import "@/src/theme/tailwind.css";
-import { getWbTheme } from "@/src/theme/wbTheme";
+import { theme, css } from "@/src/theme/theme";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
@@ -21,7 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { isEnabled } = await draftMode();
-  const { theme, css } = await getWbTheme();
+
   const tenantId = await getTenant();
 
   return (
