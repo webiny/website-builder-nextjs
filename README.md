@@ -1,141 +1,167 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Webiny Website Builder — Next.js Starter
+
+A Next.js starter kit for building sites powered by the [Webiny Website Builder](https://www.webiny.com/docs/website-builder/introduction).
 
 > [!NOTE]
-> This is a sample project to get you started. You're free to change everything.
+> This is a starter project. You're free to change everything.
 
 > [!WARNING]
-> Pick the right branch for your Webiny project! If your Webiny project runs on `v6.0.0-alpha.2`, you need to check out the appropriate branch from this repo. If there isn't a matching branch, use the one that is the closest to your version (for example: `v6.0.0-alpha.1`), and make sure you update `@webiny/website-builder-nextjs` version in package.json to reflect your project version number.
+> Match the branch to your Webiny version. If your Webiny project runs on `v6.0.0-alpha.2`, check out the matching branch. If no exact match exists, use the closest one and update `@webiny/website-builder-nextjs` in `package.json` to your version.
 
-## What's included?
+## What's included
 
-- Typescript
-- Tailwind
-- Sample ecommerce API
-- Sample components
-- Sample component groups
+- Next.js App Router
+- TypeScript
+- Tailwind CSS v4 with a semantic color token system
+- Sample custom components (`Banner`, `Hero1`)
+- Content SDK setup with draft mode and tenant support
+- Preview and redirect API routes
 
-> [!IMPORTANT]
-> This project uses [App Router](https://nextjs.org/docs/app)!
+## Project structure
 
-## Connecting to Webiny Website Builder
+```
+src/
+├── app/
+│   ├── [[...slug]]/        # Catch-all page route (static generation)
+│   ├── api/
+│   │   ├── preview/        # Draft mode enable/disable
+│   │   └── redirects/      # Redirect handling
+│   └── layout.tsx
+├── components/             # Shared UI (Header, PageLayout, NotFound, DocumentRenderer)
+├── contentSdk/             # Content SDK initialization and tenant resolution
+├── editorComponents/       # Custom builder components registered with DocumentRenderer
+├── theme/
+│   ├── tailwind.css        # Tailwind import + semantic @theme token mappings
+│   ├── wbTheme.css         # CSS variables, typography classes (processed outside Tailwind)
+│   └── wbTheme.ts          # Theme definition passed to the Website Builder SDK
+└── utils/                  # Slug normalization helpers
+```
 
-To connect to Webiny Website Builder, you'll need the following:
+## Connecting to Webiny
 
-- Webiny API host URL (e.g. "https://d2pectsnqadb1k.cloudfront.net" note: no trailing slash)
-- Webiny API key
-- Webiny Tenant ID (e.g. "root" for the root tenant)
+You'll need three values from your Webiny project:
 
-#### 1. Webiny API host URL
+- **API host URL** — e.g. `https://d2pectsnqadb1k.cloudfront.net` (no trailing slash)
+- **API key** — created in Settings → Access Management → API Keys
+- **Tenant ID** — e.g. `root` for the default tenant
 
-A simple way to retrieve your API host URL is to log in to your Webiny Admin app, and open the **API Playground**.
+#### 1. API host URL
 
-This can be done by clicking on the **Support** link in the bottom left corner, and then selecting **API Playground**.
+Log in to your Webiny Admin app and open the **API Playground** (Support → API Playground). Copy the URL without the `/graphql` suffix.
 
 ![API Playground](./docs/webiny-api-playground.png)
 
-> [!NOTE]
-> Copy the URL without the `/graphql` part. For example: https://dyx8rrzqfvlss.cloudfront.net
+#### 2. API key
 
-#### 2. Webiny API key
-
-You can create an API key in the Webiny Admin app. Via the main menu on the left, go to Settings -> Access Management -> API Keys, and create a new key. Make sure the key has access to Website Builder.
+Go to Settings → Access Management → API Keys and create a new key. Ensure it has access to Website Builder, then copy the value.
 
 ![API Key](./docs/webiny-api-keys.png)
 
-Note that you don't need to assign any specific permissions to the key. Just creating an API key is enough.
+#### 3. Tenant ID
 
-Once created, copy the value of the key.
+The tenant ID is visible in your Webiny Admin URL. For most projects it is `root`.
 
-#### 3. Webiny Tenant ID
+#### 4. (Optional) Admin app host URL
 
-@pavel
-
-#### 4. (Optional) Webiny Admin app host URL
-
-If you're using your Next.js project in an editor that is hosted on a domain different from your Next.js domain, you'll have to whitelist the editor's domain. You can do that via the `NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST` env var (see "Cross-Origin Configuration" section below).
-
-A simple way to retrieve your Admin app host URL is to log in to your Webiny Admin app, and copy the URL from your browser's address bar. For example: https://dxhy1vkapexg1.cloudfront.net
+If your Next.js project is embedded in an editor hosted on a different domain, you must whitelist that domain. Set `NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST` and add the domain to the `Content-Security-Policy` header in `next.config.ts` (see [Cross-Origin Configuration](#cross-origin-configuration)).
 
 ### Environment variables
 
-Ultimately, you'll need to set the following environment variables in your `.env` file:
+Create a `.env` file at the project root:
 
 ```dotenv
-# .env
-NEXT_PUBLIC_WEBSITE_BUILDER_API_KEY: {YOUR_API_KEY}
-NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST: {YOUR_API_HOST}
-NEXT_PUBLIC_WEBSITE_BUILDER_API_TENANT: {YOUR_API_TENANT}
+NEXT_PUBLIC_WEBSITE_BUILDER_API_KEY=your_api_key
+NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST=https://your-api-host.cloudfront.net
+NEXT_PUBLIC_WEBSITE_BUILDER_API_TENANT=root
 
-# Optional, check "Cross-Origin Configuration" section below.
-NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST: {YOUR_ADMIN_HOST}
+# Optional — required only if editor is on a different domain
+NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST=https://your-admin-host.cloudfront.net
 ```
 
-## Content SDK
+## Theme
 
-Webiny Content SDK is located in `src/contentSdk` folder. The [initializeContentSdk.ts](./src/contentSdk/initializeContentSdk.ts) file contains the SDK initialization, and editor component group registration. Customize your component groups here.
+### CSS variables (`src/theme/wbTheme.css`)
+
+All design tokens are defined as CSS custom properties in `:root`. This file is compiled and injected into the Website Builder SDK at build time — it runs outside of Tailwind's pipeline, so only standard CSS is supported here.
+
+Default semantic color tokens:
+
+| Variable                      | Default   | Role              |
+| ----------------------------- | --------- | ----------------- |
+| `--wb-theme-color-primary`    | `#4632f5` | Brand / CTA       |
+| `--wb-theme-color-secondary`  | `#00ccb0` | Accent            |
+| `--wb-theme-color-background` | `#ffffff` | Page background   |
+| `--wb-theme-color-surface`    | `#f9f9f9` | Cards, panels     |
+| `--wb-theme-color-text-base`  | `#0a0a0a` | Body text         |
+| `--wb-theme-color-text-muted` | `#6b7280` | Secondary text    |
+| `--wb-theme-color-border`     | `#e5e7eb` | Dividers, borders |
+| `--wb-theme-color-success`    | `#16a34a` | Positive states   |
+| `--wb-theme-color-warning`    | `#d97706` | Caution states    |
+| `--wb-theme-color-error`      | `#dc2626` | Errors            |
+
+### Tailwind tokens (`src/theme/tailwind.css`)
+
+All `--wb-theme-*` variables are mapped to Tailwind tokens via `@theme inline`, making them available as utility classes throughout your components:
+
+```
+bg-primary        text-primary        border-primary
+bg-secondary      text-secondary
+bg-background     text-text-base      text-text-muted
+bg-surface        border-border
+bg-success        bg-warning          bg-error
+```
+
+### Builder color palette (`src/theme/wbTheme.ts`)
+
+All 10 tokens are exposed as swatches in the Website Builder editor color picker.
 
 ## Custom components
 
-Custom components are passed directly to the `DocumentRenderer` (see the example in [./src/app/[[...slug]]/page.tsx](./src/app/[[...slug]]/page.tsx)).
-To create custom components, see examples in [./src/editorComponents/index.tsx](./src/editorComponents/index.tsx).
+Register custom components in `src/editorComponents/index.tsx` using `createComponent`. Each component receives its inputs via `ComponentProps<TInputs>`:
 
-## Cross-Origin Configuration
+```tsx
+import { ComponentProps } from "@webiny/website-builder-nextjs";
 
-If you're using your Next.js project in an editor that is hosted on a domain different from your Next.js domain, you'll have to whitelist the editor's domain.
+interface BannerInputs {
+  headline: string;
+}
 
-Open `next.config.ts`, and add your domain to the `Content-Security-Policy` header. For example:
-
-```
-{
-    key: "Content-Security-Policy",
-    value: "frame-ancestors http://localhost:3001 https://d3fak6u4cx01ke.cloudfront.net"
+export function Banner({ inputs: { headline } }: ComponentProps<BannerInputs>) {
+  return <div>{headline}</div>;
 }
 ```
 
-## Sample Routes
+Then register it:
 
-- `src/app/[[...slug]]` - this directory contains an example of simple static page generation, using pages from the Webiny Website Builder
-
-- `src/app/product/[slug]` - this directory contains an example of Product Details Page (PDP) generation, using a combination of a remote ecommerce API, and optional editorial content.
-
-## Website Builder SDK
-
-When you initially clone this repo, `@webiny/website-builder-nextjs` package in the `package.json` will be set to `*`. We recommend you set the version to whatever is the latest version at the time of cloning. Also, keep in mind that it's preferable to keep this version in sync with your actual Webiny Admin app version, so the Editor SDK and the Contend SDK are on the same version.
-
-> [!TIP]
-> For developers: inspect the sample code for more inline comments!
-
-## Ecommerce Integrations and Component Inputs
+```tsx
+createComponent(Banner, {
+  name: "Custom/Banner",
+  label: "Banner",
+  inputs: [createTextInput({ name: "headline", label: "Headline" })],
+});
+```
 
 > [!IMPORTANT]
-> This section is closely connected to, and depends on, ecommerce integrations in your Webiny Admin app. If you don't have any ecommerce integrations, you can skip this part.
+> When passing inputs as an array, `name` is required in each `createTextInput` call so TypeScript can infer the correct type.
 
-Webiny Website Builder provides a way to integrate with your ecommerce platform of choice. Once an integration is enabled in Webiny Admin app, you get access to specialized component input renderers, which allow you to browse and select your ecommerce resources (products, categories, etc.) to assign them to your components in the editor.
+## Content SDK
 
-To use a specific renderer in your component inputs definition, you need to follow a naming convention.
-Here's an example, which creates a "text" input, which contains a list of string values, and uses a renderer called `SampleEcommerce/Product/List`.
+The Content SDK lives in `src/contentSdk/`. The `initializeContentSdk.ts` file handles SDK setup and component group registration. Customize your groups there.
 
-### Single Resource Picker
+## Cross-Origin Configuration
 
-```
-createTextInput({
-    name: "productId",
-    renderer: "SampleEcommerce/Product",
-    label: "Product"
-})
-```
+If the Website Builder editor is hosted on a different domain than your Next.js app, whitelist the editor's origin in `next.config.ts`:
 
-<img src="./docs/single_resource_picker.png" alt="Single Resource Picker">
-
-### Multiple Resources Picker
-
-```
-createTextInput({
-    name: "productIds",
-    list: true,
-    renderer: "SampleEcommerce/Product/List",
-    label: "Products"
-})
+```ts
+{
+  key: "Content-Security-Policy",
+  value: "frame-ancestors https://your-admin-host.cloudfront.net"
+}
 ```
 
-<img src="./docs/multiple_resources_picker.png" alt="Multiple Resources Picker">
+## SDK versioning
+
+The `@webiny/website-builder-nextjs` package version should match your Webiny Admin app version so the Editor SDK and Content SDK stay in sync. Update the version in `package.json` after cloning.
+
+> [!TIP]
+> Inline comments throughout the source code provide additional context on implementation details.
