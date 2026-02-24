@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: InterVariable, sans-serif;
+  --font-sans: "Inter", sans-serif;
   --color-primary: var(--wb-theme-color-primary);
   --color-secondary: var(--wb-theme-color-secondary);
   --color-background: var(--wb-theme-color-background);

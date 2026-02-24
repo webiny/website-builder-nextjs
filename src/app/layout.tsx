@@ -9,7 +9,6 @@ import { Inter } from "next/font/google";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-inter",
   display: "swap",
   preload: true,
   fallback: ["system-ui", "arial"],
@@ -25,7 +24,7 @@ export default async function RootLayout({
   const tenantId = await getTenant();
 
   return (
-    <html lang="en" className={`${inter.variable}`}>
+    <html lang="en" className={`${inter.className}`}>
       <head>
         <style>{css}</style>
       </head>
