@@ -2,9 +2,16 @@
 @import "@webiny/website-builder-nextjs/lexical.css";
 
 :root {
-  --wb-theme-color1: #4632f5;
-  --wb-theme-color2: #00ccb0;
+  --wb-theme-color-primary: #4632f5;
+  --wb-theme-color-secondary: #00ccb0;
+  --wb-theme-color-background: #ffffff;
+  --wb-theme-color-surface: #f9f9f9;
   --wb-theme-color-text-base: #0a0a0a;
+  --wb-theme-color-text-muted: #6b7280;
+  --wb-theme-color-border: #e5e7eb;
+  --wb-theme-color-success: #16a34a;
+  --wb-theme-color-warning: #d97706;
+  --wb-theme-color-error: #dc2626;
   --wb-theme-font-family: "Inter", sans-serif;
 }
 

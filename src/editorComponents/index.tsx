@@ -3,11 +3,11 @@ import {
   createComponent,
   createTextInput,
 } from "@webiny/website-builder-nextjs";
-import { Hero_1 } from "./Hero-1";
+import { Hero1 } from "./Hero1";
 import { Banner } from "./Banner";
 
 export const editorComponents = [
-  createComponent(Hero_1, {
+  createComponent(Hero1, {
     name: "Webiny/Hero",
     label: "Hero #1",
     inputs: [],

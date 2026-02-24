@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: InterVariable, sans-serif;
+  --color-primary: var(--wb-theme-color-primary);
+  --color-secondary: var(--wb-theme-color-secondary);
+  --color-background: var(--wb-theme-color-background);
+  --color-surface: var(--wb-theme-color-surface);
+  --color-text-base: var(--wb-theme-color-text-base);
+  --color-text-muted: var(--wb-theme-color-text-muted);
+  --color-border: var(--wb-theme-color-border);
+  --color-success: var(--wb-theme-color-success);
+  --color-warning: var(--wb-theme-color-warning);
+  --color-error: var(--wb-theme-color-error);
+}

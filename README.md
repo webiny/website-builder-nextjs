@@ -26,6 +26,7 @@ To connect to Webiny Website Builder, you'll need the following:
 - Webiny Tenant ID (e.g. "root" for the root tenant)
 
 #### 1. Webiny API host URL
+
 A simple way to retrieve your API host URL is to log in to your Webiny Admin app, and open the **API Playground**.
 
 This can be done by clicking on the **Support** link in the bottom left corner, and then selecting **API Playground**.
@@ -36,6 +37,7 @@ This can be done by clicking on the **Support** link in the bottom left corner, 
 > Copy the URL without the `/graphql` part. For example: https://dyx8rrzqfvlss.cloudfront.net
 
 #### 2. Webiny API key
+
 You can create an API key in the Webiny Admin app. Via the main menu on the left, go to Settings -> Access Management -> API Keys, and create a new key. Make sure the key has access to Website Builder.
 
 ![API Key](./docs/webiny-api-keys.png)
@@ -45,9 +47,11 @@ Note that you don't need to assign any specific permissions to the key. Just cre
 Once created, copy the value of the key.
 
 #### 3. Webiny Tenant ID
+
 @pavel
 
 #### 4. (Optional) Webiny Admin app host URL
+
 If you're using your Next.js project in an editor that is hosted on a domain different from your Next.js domain, you'll have to whitelist the editor's domain. You can do that via the `NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST` env var (see "Cross-Origin Configuration" section below).
 
 A simple way to retrieve your Admin app host URL is to log in to your Webiny Admin app, and copy the URL from your browser's address bar. For example: https://dxhy1vkapexg1.cloudfront.net
@@ -63,10 +67,8 @@ NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST: {YOUR_API_HOST}
 NEXT_PUBLIC_WEBSITE_BUILDER_API_TENANT: {YOUR_API_TENANT}
 
 # Optional, check "Cross-Origin Configuration" section below.
-NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST: {YOUR_ADMIN_HOST} 
+NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST: {YOUR_ADMIN_HOST}
 ```
-
-
 
 ## Content SDK
 
