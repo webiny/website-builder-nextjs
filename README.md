@@ -1,10 +1,6 @@
-<p align="center">
-  <img src="./docs/static/webiny-logo.svg" width="350">
-</p>
+# Webiny Website Builder — Next.js Starter
 
-<p align="center">
-  A Next.js starter kit for building sites powered by Webiny Website Builder.
-</p>
+A Next.js starter kit for building sites powered by Webiny Website Builder.
 
 ---
 
