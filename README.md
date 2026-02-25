@@ -6,7 +6,7 @@ A Next.js starter kit for building sites powered by Webiny Website Builder.
 
 ## Get started
 
-Follow the [Learn Webiny Website Builder](https://webiny.link/learn-website-builder) course to get up and running.
+Follow the [Learn Webiny Website Builder](https://webiny.link/learn-website-builder) course to get up and running, or check out the [Learn Webiny](https://webiny.link/learn-webiny) course for a broader introduction.
 
 ## Documentation
 

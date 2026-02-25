@@ -416,31 +416,36 @@
   dependencies:
     csstype "^3.2.2"
 
-"@webiny/website-builder-nextjs@0.0.0-unstable.df7a8bb475":
-  version "0.0.0-unstable.df7a8bb475"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-nextjs/-/website-builder-nextjs-0.0.0-unstable.df7a8bb475.tgz#6aaa922cf4b357fbfc0cdd36dea13ea4ff0f3d64"
-  integrity sha512-MPQkoQoyyHDVgQ3Ja3qhsplbgT6oSLydOYO43X0+/6SGF/7JGJL1X5UPDubT8FO6erVsZcj5MbPdmYpSDkhPSw==
+"@webiny/sdk@6.0.0-rc.0":
+  version "6.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@webiny/sdk/-/sdk-6.0.0-rc.0.tgz#58cffed170ffde22a2657c8cf993e7f4d0e1227f"
+  integrity sha512-JliqRTGDxKEOxEOoMbrATHTVefItmuzdEfJbzK6mU13iah0flTCBPFw/C4Q3xtQIkMTI4sSOByLO1o9nMMwYHA==
+
+"@webiny/website-builder-nextjs@6.0.0-rc.0":
+  version "6.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-nextjs/-/website-builder-nextjs-6.0.0-rc.0.tgz#da6d5a0cb685e5d976167fab8b2de0f993554278"
+  integrity sha512-rqCEFE3eZkoujDatO0CJrZVnHuIC/KMRtft3gdOIpvYpJhNmsk3AFB6oc04tYeinrw8hCFLEoBKugjE93q2Sxw==
   dependencies:
-    "@webiny/website-builder-react" "0.0.0-unstable.df7a8bb475"
+    "@webiny/website-builder-react" "6.0.0-rc.0"
     postcss "8.5.6"
     postcss-import "16.1.1"
 
-"@webiny/website-builder-react@0.0.0-unstable.df7a8bb475":
-  version "0.0.0-unstable.df7a8bb475"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-react/-/website-builder-react-0.0.0-unstable.df7a8bb475.tgz#d3ecc8c24c691068e2fca429035b4cc9003901b0"
-  integrity sha512-k37ZyYLs71z7OnTsl4R3eLyMTTQjUvloCGqVJIlgXPo8/AFWxPNdGiwzBWTswof17I65mQLFFZciKoE2UUgsGg==
+"@webiny/website-builder-react@6.0.0-rc.0":
+  version "6.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-react/-/website-builder-react-6.0.0-rc.0.tgz#3a6b3441987bf8cdad6a710e02cf4bc9bbc739ef"
+  integrity sha512-aGW26CFwXXohe5LBerldOrT4Nb7YsFN0BYQxEwi48DmxuVu4tCx/ZlMy6YRH4DRqFndHKHwAbaYCp+PDfCoXYw==
   dependencies:
-    "@webiny/website-builder-sdk" "0.0.0-unstable.df7a8bb475"
+    "@webiny/website-builder-sdk" "6.0.0-rc.0"
     deep-equal "2.2.3"
     mobx "6.15.0"
     mobx-react-lite "3.4.3"
     react "18.2.0"
     react-dom "18.2.0"
 
-"@webiny/website-builder-sdk@0.0.0-unstable.df7a8bb475":
-  version "0.0.0-unstable.df7a8bb475"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-sdk/-/website-builder-sdk-0.0.0-unstable.df7a8bb475.tgz#cb6675a69ebf1678e127c292f67c18fca2d62ee2"
-  integrity sha512-PJMKyrV48QGKF9m/q1B0LJM9Fn0k5/ZCLaMYN116PScDqZAxuHZBBges7CBfRjY+ky6C+a6qpD/x8S7yo0pZiQ==
+"@webiny/website-builder-sdk@6.0.0-rc.0":
+  version "6.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-sdk/-/website-builder-sdk-6.0.0-rc.0.tgz#9b2dffee80a8910ec7e33e5b52e5fd08a83c474a"
+  integrity sha512-W8PGZ0SHxfx/nzlKZRQ8lHalvb0Zld5poLdlvyfTcpwKY5MVYShn5Xzy0wMXCOL8/9Usjy8IsXrwPyaKR7MdPA==
   dependencies:
     csstype "3.2.3"
     deep-equal "2.2.3"
@@ -1290,11 +1295,6 @@ postcss@8.5.6, postcss@^8.4.41:
     nanoid "^3.3.11"
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
-
-prettier@^3.8.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.8.1.tgz#edf48977cf991558f4fcbd8a3ba6015ba2a3a173"
-  integrity sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==
 
 process-warning@^5.0.0:
   version "5.0.0"
