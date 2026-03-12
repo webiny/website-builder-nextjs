@@ -416,36 +416,36 @@
   dependencies:
     csstype "^3.2.2"
 
-"@webiny/sdk@6.0.0-rc.0":
-  version "6.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@webiny/sdk/-/sdk-6.0.0-rc.0.tgz#58cffed170ffde22a2657c8cf993e7f4d0e1227f"
-  integrity sha512-JliqRTGDxKEOxEOoMbrATHTVefItmuzdEfJbzK6mU13iah0flTCBPFw/C4Q3xtQIkMTI4sSOByLO1o9nMMwYHA==
+"@webiny/sdk@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@webiny/sdk/-/sdk-6.0.0.tgz#e82c6aec9fc47a083ea55f67bc818a4f783c57c1"
+  integrity sha512-n5SqEU19w5hz6WhiCnEA2Zshbd8Wl9Zeu9/UWICuZVC1LW0Re/OsJNjUcHnqfrFoUJQgKgShj0os8tP+rPQNZQ==
 
-"@webiny/website-builder-nextjs@6.0.0-rc.0":
-  version "6.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-nextjs/-/website-builder-nextjs-6.0.0-rc.0.tgz#da6d5a0cb685e5d976167fab8b2de0f993554278"
-  integrity sha512-rqCEFE3eZkoujDatO0CJrZVnHuIC/KMRtft3gdOIpvYpJhNmsk3AFB6oc04tYeinrw8hCFLEoBKugjE93q2Sxw==
+"@webiny/website-builder-nextjs@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-nextjs/-/website-builder-nextjs-6.0.0.tgz#9a3f90b6782c0f02d4e0c0323c9af6e6c4e8eb59"
+  integrity sha512-XN5bADlxD7iVIwdNEfpQrqzo/duAEHbIHTY8E3QQ6tmgw/ajDyfforMAp7po/MjDFMC0O0paI4FnqkHbM6JXag==
   dependencies:
-    "@webiny/website-builder-react" "6.0.0-rc.0"
-    postcss "8.5.6"
+    "@webiny/website-builder-react" "6.0.0"
+    postcss "8.5.8"
     postcss-import "16.1.1"
 
-"@webiny/website-builder-react@6.0.0-rc.0":
-  version "6.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-react/-/website-builder-react-6.0.0-rc.0.tgz#3a6b3441987bf8cdad6a710e02cf4bc9bbc739ef"
-  integrity sha512-aGW26CFwXXohe5LBerldOrT4Nb7YsFN0BYQxEwi48DmxuVu4tCx/ZlMy6YRH4DRqFndHKHwAbaYCp+PDfCoXYw==
+"@webiny/website-builder-react@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-react/-/website-builder-react-6.0.0.tgz#dc5e600e16e45422194cc44fa22468395371162a"
+  integrity sha512-7gFhFeUgJhS+lwyhTnYtcfVFwmNd8iG3MJAR/BfkG9okOykyJz2vM4/qeX8ye9iVy/j6XmgNkRkrB6o9U383BA==
   dependencies:
-    "@webiny/website-builder-sdk" "6.0.0-rc.0"
+    "@webiny/website-builder-sdk" "6.0.0"
     deep-equal "2.2.3"
     mobx "6.15.0"
     mobx-react-lite "3.4.3"
     react "18.2.0"
     react-dom "18.2.0"
 
-"@webiny/website-builder-sdk@6.0.0-rc.0":
-  version "6.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-sdk/-/website-builder-sdk-6.0.0-rc.0.tgz#9b2dffee80a8910ec7e33e5b52e5fd08a83c474a"
-  integrity sha512-W8PGZ0SHxfx/nzlKZRQ8lHalvb0Zld5poLdlvyfTcpwKY5MVYShn5Xzy0wMXCOL8/9Usjy8IsXrwPyaKR7MdPA==
+"@webiny/website-builder-sdk@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-sdk/-/website-builder-sdk-6.0.0.tgz#ce057bcd2d99441960a4cb8925601442db1f49ac"
+  integrity sha512-eepGc42HH58U9yljTXs5LK1uEwfo9ioGgZZEvVDc5I0h0KYGlv/daIsLFeeBBRrEHbZtvX0ykiCwhYC+7nVQeQ==
   dependencies:
     csstype "3.2.3"
     deep-equal "2.2.3"
@@ -1287,7 +1287,16 @@ postcss@8.4.31:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postcss@8.5.6, postcss@^8.4.41:
+postcss@8.5.8:
+  version "8.5.8"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.5.8.tgz#6230ecc8fb02e7a0f6982e53990937857e13f399"
+  integrity sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==
+  dependencies:
+    nanoid "^3.3.11"
+    picocolors "^1.1.1"
+    source-map-js "^1.2.1"
+
+postcss@^8.4.41:
   version "8.5.6"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.5.6.tgz#2825006615a619b4f62a9e7426cc120b349a8f3c"
   integrity sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==

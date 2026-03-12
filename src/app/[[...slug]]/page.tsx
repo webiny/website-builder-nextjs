@@ -21,7 +21,7 @@ export async function generateStaticParams() {
   // List all published pages
   const pages = await contentSdk.listPages();
 
-  return pages.map((page) => {
+  return pages.data.map((page) => {
     const path = page.properties.path;
 
     return {
