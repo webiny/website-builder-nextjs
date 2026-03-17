@@ -10,6 +10,11 @@ export const registerComponentGroups = () => {
     description: "Components for simple content creation",
   });
   registerComponentGroup({
+    name: "funnelBuilder",
+    label: "Funnel Builder",
+    description: "Components for building of funnels",
+  });
+  registerComponentGroup({
     name: "custom",
     label: "Custom",
     description: "Assorted custom components",
