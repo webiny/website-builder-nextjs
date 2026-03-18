@@ -55,23 +55,23 @@ export default async function Page({ params, searchParams }: PageProps) {
   const page = await getPage(normalizeSlug(slug));
 
   return (
-    <PageLayout>
+    <div className={"p-2"}>
       <DocumentRenderer document={page} isEditing={isEditing}>
         <DocumentFragment
-          component={"FunnelBuilder/Funnel"}
+          component={"Fub/Container"}
           inputs={{
             fields: [],
             activeStep: 0,
             steps: [
               createElement({
-                component: "FunnelBuilder/Step",
+                component: "Fub/Step",
                 inputs: {
                   label: "Step 1",
                   children: []
                 }
               }),
               createElement({
-                component: "FunnelBuilder/Step",
+                component: "Fub/Step",
                 inputs: {
                   label: "Final Step",
                   children: []
@@ -81,6 +81,6 @@ export default async function Page({ params, searchParams }: PageProps) {
           }}
         />
       </DocumentRenderer>
-    </PageLayout>
+    </div>
   );
 }

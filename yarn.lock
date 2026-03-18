@@ -404,6 +404,11 @@
   dependencies:
     undici-types "~6.21.0"
 
+"@types/object-hash@^3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@types/object-hash/-/object-hash-3.0.6.tgz#25c052428199d374ef723b7b0ed44b5bfe1b3029"
+  integrity sha512-fOBV8C1FIu2ELinoILQ+ApxcUKz4ngq+IWUYrxSGjXzzjUALijilampwkMgEtJ+h2njAW3pi853QpzNVCHB73w==
+
 "@types/prop-types@*":
   version "15.7.15"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.15.tgz#e6e5a86d602beaca71ce5163fadf5f95d70931c7"
@@ -426,6 +431,14 @@
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@webiny/sdk/-/sdk-6.0.0.tgz#e82c6aec9fc47a083ea55f67bc818a4f783c57c1"
   integrity sha512-n5SqEU19w5hz6WhiCnEA2Zshbd8Wl9Zeu9/UWICuZVC1LW0Re/OsJNjUcHnqfrFoUJQgKgShj0os8tP+rPQNZQ==
+
+"@webiny/validation@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@webiny/validation/-/validation-6.0.0.tgz#344822a29d25a17f6000c67d1961f0ae54610728"
+  integrity sha512-N6hZ9ali9xut1YHMhW0RA+v/SMOgzLxlAdzsTdFWLF46or9gHNrilJ/zmoobF5Bn4eBwS5AfcyPwrcyAPEzUwQ==
+  dependencies:
+    isnumeric "0.3.3"
+    lodash "4.17.23"
 
 "@webiny/website-builder-nextjs@6.0.0":
   version "6.0.0"
@@ -973,6 +986,11 @@ isarray@^2.0.5:
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.5.tgz#8af1e4c1221244cc62459faf38940d4e644a5723"
   integrity sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==
 
+isnumeric@0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/isnumeric/-/isnumeric-0.3.3.tgz#74c6cc0a80219a7a65f0f7b3d1ba4d395497354d"
+  integrity sha512-GTxMCA0SsHdQWdsb6CDavRbeq4mQ2pryJUqwpcRHfKNnvdnNnI+3zT8K2zR/o9zZxTM6HKW7GRRetObb8E7p9Q==
+
 jiti@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.6.1.tgz#178ef2fc9a1a594248c20627cd820187a4d78d92"
@@ -1150,6 +1168,11 @@ next@^15.5.2:
     "@next/swc-win32-arm64-msvc" "15.5.7"
     "@next/swc-win32-x64-msvc" "15.5.7"
     sharp "^0.34.3"
+
+object-hash@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-3.0.0.tgz#73f97f753e7baffc0e2cc9d6e079079744ac82e9"
+  integrity sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==
 
 object-inspect@^1.13.3:
   version "1.13.4"

@@ -1,9 +1,9 @@
 import type { InferDescendantChange } from "@webiny/website-builder-nextjs";
-import type { Funnel } from "../Funnel.js";
+import type { FunnelContainer } from "../FunnelContainer/FunnelContainer.js";
 
-export const onStepDelete: InferDescendantChange<typeof Funnel> = ctx => {
+export const onStepDelete: InferDescendantChange<typeof FunnelContainer> = ctx => {
   const element = ctx.descendant;
-  if (element.component.name === "FunnelBuilder/Step" && ctx.action === "delete") {
+  if (element.component.name === "Fub/Step" && ctx.action === "delete") {
     ctx.updateInputs(inputs => {
       const steps = inputs.registry.steps ?? [];
       const index = steps.findIndex(s => s.id === element.id);

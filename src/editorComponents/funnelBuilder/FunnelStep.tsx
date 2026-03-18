@@ -10,7 +10,7 @@ type FunnelStepProps = ComponentProps<{
 export function FunnelStep({ inputs }: FunnelStepProps) {
   // TODO: use context provider to determine the active step, and render `null` if not active.
   return (
-    <div data-component="FunnelBuilder/Step">
+    <div data-component="Fub/Step">
       <div>{inputs.label}</div>
       {inputs.children}
     </div>

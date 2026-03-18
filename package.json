@@ -10,15 +10,18 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@webiny/website-builder-nextjs": "6.0.0",
     "@webiny/sdk": "6.0.0",
+    "@webiny/validation": "^6.0.0",
+    "@webiny/website-builder-nextjs": "6.0.0",
     "next": "^15.5.2",
+    "object-hash": "^3.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/object-hash": "^3.0.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "prettier": "^3.8.1",

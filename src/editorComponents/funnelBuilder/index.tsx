@@ -7,7 +7,7 @@ import {
   createBooleanInput,
   createNumberInput
 } from "@webiny/website-builder-nextjs";
-import { Funnel } from "./Funnel";
+import { FunnelContainer } from "./FunnelContainer/FunnelContainer";
 import { FunnelStep } from "./FunnelStep";
 import { FunnelTextField } from "./FunnelTextField";
 import {
@@ -17,13 +17,13 @@ import {
   oneFunnelPerPage
 } from "./constraints";
 // import { funnelOnDescendantChange } from "./funnelOnDescendantChange";
-import { onStepCreate } from "./Funnel/onStepCreate";
-import { onStepUpdate } from "./Funnel/onStepUpdate";
-import { onStepDelete } from "./Funnel/onStepDelete";
+import { onStepCreate } from "./FunnelContainer/onStepCreate";
+import { onStepUpdate } from "./FunnelContainer/onStepUpdate";
+import { onStepDelete } from "./FunnelContainer/onStepDelete";
 
 export const funnelComponents = [
-  createComponent(Funnel, {
-    name: "FunnelBuilder/Funnel",
+  createComponent(FunnelContainer, {
+    name: "Fub/Container",
     label: "Funnel",
     group: "funnelBuilder",
     canDelete: true,
@@ -46,18 +46,12 @@ export const funnelComponents = [
       createSlotInput({
         name: "steps",
         list: true,
-        components: ["FunnelBuilder/Step"]
-      }),
-      createObjectInput({
-        name: "conditionRules",
-        list: true,
-        renderer: "FunnelBuilder/ConditionRulesRenderer",
-        fields: []
+        components: ["Fub/Step"]
       })
     ]
   }),
   createComponent(FunnelStep, {
-    name: "FunnelBuilder/Step",
+    name: "Fub/Step",
     label: "Funnel Step",
     group: "funnelBuilder",
     acceptsChildren: true,
@@ -86,7 +80,7 @@ export const funnelComponents = [
     }
   }),
   createComponent(FunnelTextField, {
-    name: "FunnelBuilder/TextField",
+    name: "Fub/TextField",
     label: "Text Field",
     group: "funnelBuilder",
     tags: ["funnel-field"],
