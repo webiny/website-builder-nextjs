@@ -4,9 +4,9 @@ import {
   createObjectInput,
   createSlotInput,
   createTextInput,
-  createBooleanInput,
   createNumberInput
 } from "@webiny/website-builder-nextjs";
+import type { FunnelFieldDefinitionModelDto } from "./models/FunnelFieldDefinitionModel";
 import { FunnelContainer } from "./FunnelContainer/FunnelContainer";
 import { FunnelStep } from "./FunnelStep";
 import { FunnelTextField } from "./FunnelTextField";
@@ -32,7 +32,7 @@ export const funnelComponents = [
     onDescendantChange: [onStepCreate, onStepUpdate, onStepDelete],
     inputs: [
       createObjectInput({
-        name: "registry",
+        name: "containerData",
         hideFromUi: true,
         fields: [],
         defaultValue: {}
@@ -88,20 +88,11 @@ export const funnelComponents = [
       ctx.log("TextField.onChange", ctx);
     },
     inputs: [
-      createTextInput({
-        name: "label",
-        label: "Label",
-        defaultValue: "Label"
-      }),
-      createTextInput({
-        name: "placeholder",
-        label: "Placeholder",
-        defaultValue: "Enter text..."
-      }),
-      createBooleanInput({
-        name: "required",
-        label: "Required",
-        defaultValue: false
+      createObjectInput({
+        name: "fieldData",
+        hideFromUi: true,
+        fields: [],
+        defaultValue: { type: "text" } as FunnelFieldDefinitionModelDto
       })
     ],
     constraints: [descendantOfFunnelStep]

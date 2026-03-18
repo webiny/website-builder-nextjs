@@ -7,12 +7,12 @@ export const onStepUpdate: InferDescendantChange<typeof FunnelContainer> = ctx =
   // Cannot use const for name here b/c we need this fn to be serializable.
   if (element.component.name === "Fub/Step" && ctx.action === "update") {
     ctx.updateInputs(inputs => {
-      const steps = inputs.registry.steps ?? [];
+      const steps = inputs.containerData.steps ?? [];
       const index = steps.findIndex(s => s.id === element.id);
       if (index > -1) {
         steps[index] = { id: element.id, title: element.inputs.title };
       }
-      inputs.registry.steps = steps;
+      inputs.containerData.steps = steps;
     });
 
     return ctx.stop();

@@ -6,14 +6,14 @@ import { FunnelModelDto } from "../models/FunnelModel";
 import { ContainerProvider } from "./ContainerProvider";
 
 type FunnelProps = ComponentProps<{
-  registry: FunnelModelDto;
+  containerData: FunnelModelDto;
   steps: React.ReactNode[];
   activeStep: number;
 }>;
 
 export function FunnelContainer({ inputs }: FunnelProps) {
   if (contentSdk.isEditing()) {
-    console.log("registry", inputs.registry);
+    console.log("containerData", inputs.containerData);
   }
 
   return (
