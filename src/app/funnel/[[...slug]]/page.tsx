@@ -2,7 +2,6 @@ import React from "react";
 import { draftMode } from "next/headers";
 import { contentSdk, createElement, DocumentFragment } from "@webiny/website-builder-nextjs";
 import { initializeContentSdk, getTenant } from "@/src/contentSdk";
-import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { normalizeSlug } from "@/src/utils/normalizeSlug";
 

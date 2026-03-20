@@ -20,6 +20,7 @@ import {
 import { onStepCreate } from "./FunnelContainer/onStepCreate";
 import { onStepUpdate } from "./FunnelContainer/onStepUpdate";
 import { onStepDelete } from "./FunnelContainer/onStepDelete";
+import { FunnelModelDto } from "./models/FunnelModel";
 
 export const funnelComponents = [
   createComponent(FunnelContainer, {
@@ -35,7 +36,11 @@ export const funnelComponents = [
         name: "containerData",
         hideFromUi: true,
         fields: [],
-        defaultValue: {}
+        defaultValue: {
+          steps: [],
+          fields: [],
+          conditionRules: []
+        } as FunnelModelDto
       }),
       createNumberInput({
         name: "activeStep",
@@ -80,7 +85,7 @@ export const funnelComponents = [
     }
   }),
   createComponent(FunnelTextField, {
-    name: "Fub/TextField",
+    name: "Fub/Field/Text",
     label: "Text Field",
     group: "funnelBuilder",
     tags: ["funnel-field"],

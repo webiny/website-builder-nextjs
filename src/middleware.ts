@@ -7,8 +7,7 @@ export async function middleware(request: NextRequest) {
   const { searchParams, pathname } = request.nextUrl;
   // Check if the preview/editing flag is set.
   const previewRequested =
-    searchParams.get("wb.preview") === "true" ||
-    searchParams.get("wb.editing") === "true";
+    searchParams.get("wb.preview") === "true" || searchParams.get("wb.editing") === "true";
 
   const requestHeaders = new Headers(request.headers);
 
@@ -25,15 +24,15 @@ export async function middleware(request: NextRequest) {
     // If preview mode is already enabled, disable caching on the response.
     const response = NextResponse.next({
       request: {
-        headers: requestHeaders,
-      },
+        headers: requestHeaders
+      }
     });
     // This ensures fresh content when in preview.
     if (previewMode.isEnabled) {
       response.headers.set("X-Preview-Params", searchParams.toString());
       response.headers.set(
         "Cache-Control",
-        "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "no-store, no-cache, must-revalidate, proxy-revalidate"
       );
       response.headers.set("Pragma", "no-cache");
       response.headers.set("Expires", "0");
@@ -56,30 +55,30 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(request.url);
   }
 
-  // Check if there's a redirect defined for the requested page.
-  const redirectsUrl = new URL(
-    `/api/redirects?wb.tenant=${tenantId}&pathname=${encodeURIComponent(pathname)}`,
-    request.url,
-  );
-
-  const redirectResponse = await fetch(redirectsUrl);
-
-  const { redirect } = await redirectResponse.json();
-  if (redirect) {
-    return NextResponse.redirect(
-      new URL(redirect.to, request.url),
-      redirect.permanent ? 308 : 307,
-    );
-  }
+  // // Check if there's a redirect defined for the requested page.
+  // const redirectsUrl = new URL(
+  //   `/api/redirects?wb.tenant=${tenantId}&pathname=${encodeURIComponent(pathname)}`,
+  //   request.url,
+  // );
+  //
+  // const redirectResponse = await fetch(redirectsUrl);
+  //
+  // const { redirect } = await redirectResponse.json();
+  // if (redirect) {
+  //   return NextResponse.redirect(
+  //     new URL(redirect.to, request.url),
+  //     redirect.permanent ? 308 : 307,
+  //   );
+  // }
 
   // For all other requests, continue as normal without any modifications.
   return NextResponse.next({
     request: {
-      headers: requestHeaders,
-    },
+      headers: requestHeaders
+    }
   });
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|static|favicon.ico|.well-known).*)"],
+  matcher: ["/((?!_next|api|static|favicon.ico|.well-known).*)"]
 };
