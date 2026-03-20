@@ -18,10 +18,7 @@ export function FunnelContainer({ inputs }: FunnelProps) {
 
   return (
     <ContainerProvider>
-      <div
-        data-component={"Fub/Container"}
-        className={"border-solid border-1 border-amber-800 p-2"}
-      >
+      <div data-component={"Fub/Container"}>
         <p>Active step: {inputs.activeStep}</p>
         {inputs.steps}
       </div>

@@ -6,7 +6,7 @@ import {
   createTextInput,
   createNumberInput
 } from "@webiny/website-builder-nextjs";
-import { FunnelContainer } from "./FunnelContainer/FunnelContainer";
+import { FunnelContainer } from "./FunnelContainer";
 import { FunnelStep } from "./FunnelStep";
 import { funnelTextFieldComponent } from "./fields/text";
 import { funnelTextareaFieldComponent } from "./fields/textarea";
