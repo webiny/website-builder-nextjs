@@ -1,0 +1,51 @@
+"use client";
+import React, { useCallback, useState } from "react";
+import type { ComponentProps } from "@webiny/website-builder-nextjs";
+import type { FunnelFieldDefinitionModelDto } from "../../models/FunnelFieldDefinitionModel";
+import { FunnelFieldDefinitionModel } from "../../models/FunnelFieldDefinitionModel";
+import { Field } from "../components/Field";
+import { FieldLabel } from "../components/FieldLabel";
+import { FieldHelperMessage } from "../components/FieldHelperMessage";
+import { FieldErrorMessage } from "../components/FieldErrorMessage";
+
+type FunnelTextareaFieldProps = ComponentProps<{
+  fieldData: FunnelFieldDefinitionModelDto;
+}>;
+
+export function FunnelTextareaField({ inputs }: FunnelTextareaFieldProps) {
+  const field = FunnelFieldDefinitionModel.fromDto(inputs.fieldData);
+  const [value, setValue] = useState<string>((field.value?.value as string) ?? "");
+  const [validation, setValidation] = useState<{ isValid: boolean | null; message: string }>({
+    isValid: null,
+    message: ""
+  });
+
+  const onBlur = useCallback(() => {
+    const isRequired = field.validators.some(v => v.type === "required");
+    if (isRequired && !value) {
+      setValidation({ isValid: false, message: "This field is required." });
+    } else {
+      setValidation({ isValid: true, message: "" });
+    }
+  }, [field, value]);
+
+  const extra = field.extra as any;
+
+  return (
+    <Field>
+      <FieldLabel field={field} />
+      {field.helpText && <FieldHelperMessage>{field.helpText}</FieldHelperMessage>}
+      <textarea
+        id={field.fieldId}
+        name={field.fieldId}
+        value={value}
+        placeholder={extra?.placeholderText ?? ""}
+        rows={extra?.rows ?? 4}
+        onChange={e => setValue(e.target.value)}
+        onBlur={onBlur}
+        className="w-full px-[10px] py-[10px] border border-gray-200 bg-gray-50 rounded box-border transition-[border-color,box-shadow] duration-150 ease-in-out focus:border-blue-500 focus:shadow-[0_0_0_0.2rem_rgba(0,123,255,0.25)] focus:outline-none resize-y"
+      />
+      <FieldErrorMessage isValid={validation.isValid} message={validation.message} />
+    </Field>
+  );
+}

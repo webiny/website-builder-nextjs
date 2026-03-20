@@ -6,20 +6,19 @@ import {
   createTextInput,
   createNumberInput
 } from "@webiny/website-builder-nextjs";
-import type { FunnelFieldDefinitionModelDto } from "./models/FunnelFieldDefinitionModel";
 import { FunnelContainer } from "./FunnelContainer/FunnelContainer";
 import { FunnelStep } from "./FunnelStep";
-import { FunnelTextField } from "./FunnelTextField";
-import {
-  childOfFunnel,
-  descendantOfFunnelStep,
-  noFieldsInLastStep,
-  oneFunnelPerPage
-} from "./constraints";
+import { funnelTextFieldComponent } from "./fields/text";
+import { funnelTextareaFieldComponent } from "./fields/textarea";
+import { funnelCheckboxGroupFieldComponent } from "./fields/checkboxGroup";
+import { childOfFunnel, noFieldsInLastStep, oneFunnelPerPage } from "./constraints";
 // import { funnelOnDescendantChange } from "./funnelOnDescendantChange";
 import { onStepCreate } from "./FunnelContainer/onStepCreate";
 import { onStepUpdate } from "./FunnelContainer/onStepUpdate";
 import { onStepDelete } from "./FunnelContainer/onStepDelete";
+import { onFieldCreate } from "./FunnelContainer/onFieldCreate";
+import { onFieldUpdate } from "./FunnelContainer/onFieldUpdate";
+import { onFieldDelete } from "./FunnelContainer/onFieldDelete";
 import { FunnelModelDto } from "./models/FunnelModel";
 
 export const funnelComponents = [
@@ -30,7 +29,14 @@ export const funnelComponents = [
     canDelete: true,
     hideFromToolbar: true,
     constraints: [oneFunnelPerPage],
-    onDescendantChange: [onStepCreate, onStepUpdate, onStepDelete],
+    onDescendantChange: [
+      onStepCreate,
+      onStepUpdate,
+      onStepDelete,
+      onFieldCreate,
+      onFieldUpdate,
+      onFieldDelete
+    ],
     inputs: [
       createObjectInput({
         name: "containerData",
@@ -84,22 +90,7 @@ export const funnelComponents = [
       }
     }
   }),
-  createComponent(FunnelTextField, {
-    name: "Fub/Field/Text",
-    label: "Text Field",
-    group: "funnelBuilder",
-    tags: ["funnel-field"],
-    onChange: ctx => {
-      ctx.log("TextField.onChange", ctx);
-    },
-    inputs: [
-      createObjectInput({
-        name: "fieldData",
-        hideFromUi: true,
-        fields: [],
-        defaultValue: { type: "text" } as FunnelFieldDefinitionModelDto
-      })
-    ],
-    constraints: [descendantOfFunnelStep]
-  })
+  funnelTextFieldComponent,
+  funnelTextareaFieldComponent,
+  funnelCheckboxGroupFieldComponent
 ];
