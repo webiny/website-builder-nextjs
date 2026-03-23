@@ -8,10 +8,7 @@ export const onStepCreate: InferDescendantChange<typeof FunnelContainer> = ctx =
   if (element.component.name === "Fub/Step" && ctx.action === "create") {
     ctx.updateInputs(inputs => {
       const steps = inputs.containerData.steps ?? [];
-      steps.splice(steps.length - 1, 0, {
-        id: element.inputs.stepData.id,
-        title: element.inputs.label
-      });
+      steps.splice(steps.length - 1, 0, element.inputs.stepData);
       inputs.containerData.steps = steps;
     });
 

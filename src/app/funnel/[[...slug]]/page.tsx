@@ -1,9 +1,11 @@
 import React from "react";
 import { draftMode } from "next/headers";
 import { contentSdk, createElement, DocumentFragment } from "@webiny/website-builder-nextjs";
-import { initializeContentSdk, getTenant } from "@/src/contentSdk";
+import { getTenant, initializeContentSdk } from "@/src/contentSdk";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { normalizeSlug } from "@/src/utils/normalizeSlug";
+import { FunnelStepModel } from "@/src/editorComponents/funnelBuilder/models/FunnelStepModel";
+import { SuccessStep } from "@/src/editorComponents/funnelBuilder/models/steps/SuccessStep";
 
 type PageProps = {
   // If it's a catch-all route, you get an array of path segments.
@@ -64,14 +66,14 @@ export default async function Page({ params, searchParams }: PageProps) {
               createElement({
                 component: "Fub/Step",
                 inputs: {
-                  label: "Step 1",
+                  stepData: new SuccessStep().toDto(),
                   children: []
                 }
               }),
               createElement({
                 component: "Fub/Step",
                 inputs: {
-                  label: "Final Step",
+                  stepData: new FunnelStepModel().toDto(),
                   children: []
                 }
               })

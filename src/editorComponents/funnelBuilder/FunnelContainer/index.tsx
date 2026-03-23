@@ -11,7 +11,7 @@ import { onStepDelete } from "./onStepDelete";
 import { onFieldCreate } from "./onFieldCreate";
 import { onFieldUpdate } from "./onFieldUpdate";
 import { onFieldDelete } from "./onFieldDelete";
-import { createInitialContainerData } from "./createInitialContainerData";
+import { FunnelModelDto } from "@/src/editorComponents/funnelBuilder/models/FunnelModel";
 
 export const funnelContainerComponent = createComponent(FunnelContainer, {
   name: "Fub/Container",
@@ -33,7 +33,11 @@ export const funnelContainerComponent = createComponent(FunnelContainer, {
       name: "containerData",
       hideFromUi: true,
       fields: [],
-      defaultValue: createInitialContainerData()
+      defaultValue: {
+        steps: [],
+        fields: [],
+        conditionRules: []
+      } as FunnelModelDto
     }),
     createSlotInput({
       name: "steps",
