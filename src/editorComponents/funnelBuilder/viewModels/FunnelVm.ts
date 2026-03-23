@@ -144,7 +144,10 @@ export class FunnelVm {
   }
 
   getChecksum() {
-    return [this.funnel.getChecksum(), this.getActiveStepId()].join();
+    const checksum = [this.funnel.getChecksum(), this.getActiveStepId()].join();
+
+    console.log(checksum);
+    return checksum;
   }
 
   private emitChange() {

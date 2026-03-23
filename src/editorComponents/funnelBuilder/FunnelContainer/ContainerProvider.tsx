@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useSyncExternalStore } from "react";
 import { contentSdk } from "@webiny/website-builder-nextjs";
 import { FunnelVm } from "../viewModels/FunnelVm";
-import { FunnelModelDto } from "../models/FunnelModel";
+import { FunnelModelDto, FunnelModel } from "../models/FunnelModel";
 import { FunnelSubmissionVm } from "../viewModels/FunnelSubmissionVm";
 import { ThemeSettings } from "../types";
 
@@ -36,6 +36,7 @@ const ContainerContext = React.createContext<ContainerContextValue>(createInitia
 
 export interface ContainerProviderProps {
   children: React.ReactNode;
+  containerData?: FunnelModelDto;
 
   // Used only within the Admin (editor) renderer.
   updateElementData?: (data: FunnelModelDto) => void;
@@ -63,15 +64,12 @@ export interface ContainerProviderProps {
 
 export const ContainerProvider = ({
   children,
+  containerData,
   updateElementData = () => undefined
 }: ContainerProviderProps) => {
-  // const { getElement } = useRenderer();
-  // const element = getElement<FunnelModelDto>();
-
   // 1. FunnelVm.
   const funnelVm = useMemo(() => {
-    //    return new FunnelVm(element.data);
-    return new FunnelVm();
+    return new FunnelVm(containerData ? new FunnelModel(containerData) : undefined);
   }, []);
 
   useEffect(() => {

@@ -56,7 +56,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const page = await getPage(normalizeSlug(slug));
 
   return (
-    <div className={"p-2"}>
+    <div className={"py-10 px-4"}>
       <DocumentRenderer document={page} isEditing={isEditing}>
         <DocumentFragment
           component={"Fub/Container"}
@@ -66,14 +66,14 @@ export default async function Page({ params, searchParams }: PageProps) {
               createElement({
                 component: "Fub/Step",
                 inputs: {
-                  stepData: new SuccessStep().toDto(),
+                  stepData: new FunnelStepModel().toDto(),
                   children: []
                 }
               }),
               createElement({
                 component: "Fub/Step",
                 inputs: {
-                  stepData: new FunnelStepModel().toDto(),
+                  stepData: new SuccessStep().toDto(),
                   children: []
                 }
               })

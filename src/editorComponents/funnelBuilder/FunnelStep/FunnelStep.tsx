@@ -17,5 +17,10 @@ export function FunnelStep({ inputs }: FunnelStepProps) {
     return null;
   }
 
-  return <div data-component="Fub/Step">{inputs.children}</div>;
+  return (
+    <div data-component="Fub/Step">
+      {inputs.stepData.id}
+      {inputs.children}
+    </div>
+  );
 }

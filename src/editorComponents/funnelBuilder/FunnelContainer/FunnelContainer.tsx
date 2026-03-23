@@ -16,7 +16,7 @@ export function FunnelContainer({ inputs }: FunnelProps) {
   }
 
   return (
-    <ContainerProvider>
+    <ContainerProvider containerData={inputs.containerData}>
       <div data-component={"Fub/Container"}>{inputs.steps}</div>
     </ContainerProvider>
   );
