@@ -12,6 +12,9 @@ export const onFieldCreate: InferDescendantChange<typeof FunnelContainer> = ctx 
       inputs.containerData.fields = fields;
     });
 
+    // Execute command to open the settings dialog
+    ctx.executeCommand("Fub/OpenSettingsDialog", { elementId: element.id });
+
     return ctx.stop();
   }
 };
