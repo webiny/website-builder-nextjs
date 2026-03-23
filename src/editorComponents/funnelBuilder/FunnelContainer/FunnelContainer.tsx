@@ -8,7 +8,6 @@ import { ContainerProvider } from "./ContainerProvider";
 type FunnelProps = ComponentProps<{
   containerData: FunnelModelDto;
   steps: React.ReactNode[];
-  activeStep: number;
 }>;
 
 export function FunnelContainer({ inputs }: FunnelProps) {
@@ -18,10 +17,7 @@ export function FunnelContainer({ inputs }: FunnelProps) {
 
   return (
     <ContainerProvider>
-      <div data-component={"Fub/Container"}>
-        <p>Active step: {inputs.activeStep}</p>
-        {inputs.steps}
-      </div>
+      <div data-component={"Fub/Container"}>{inputs.steps}</div>
     </ContainerProvider>
   );
 }

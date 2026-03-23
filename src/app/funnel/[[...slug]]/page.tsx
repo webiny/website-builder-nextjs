@@ -60,7 +60,6 @@ export default async function Page({ params, searchParams }: PageProps) {
           component={"Fub/Container"}
           inputs={{
             fields: [],
-            activeStep: 0,
             steps: [
               createElement({
                 component: "Fub/Step",

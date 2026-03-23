@@ -2,22 +2,20 @@
 import React from "react";
 import type { ComponentProps } from "@webiny/website-builder-nextjs";
 import { useContainer } from "../FunnelContainer/ContainerProvider";
+import type { FunnelStepModelDto } from "../models/FunnelStepModel";
 
 type FunnelStepProps = ComponentProps<{
   label: string;
+  stepData: FunnelStepModelDto;
   children: React.ReactNode;
 }>;
 
 export function FunnelStep({ inputs }: FunnelStepProps) {
-  // TODO: use context provider to determine the active step, and render `null` if not active.
-
   const { funnelVm } = useContainer();
 
-  console.log("asds22adsd", funnelVm);
-  return (
-    <div data-component="Fub/Step">
-      <div>{inputs.label}</div>
-      {inputs.children}
-    </div>
-  );
+  if (inputs.stepData.id !== funnelVm.activeStepId) {
+    return null;
+  }
+
+  return <div data-component="Fub/Step">{inputs.children}</div>;
 }

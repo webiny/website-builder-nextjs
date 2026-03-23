@@ -1,7 +1,6 @@
 import {
   createComponent,
   createObjectInput,
-  createNumberInput,
   createSlotInput
 } from "@webiny/website-builder-nextjs";
 import { FunnelContainer } from "./FunnelContainer";
@@ -12,7 +11,7 @@ import { onStepDelete } from "./onStepDelete";
 import { onFieldCreate } from "./onFieldCreate";
 import { onFieldUpdate } from "./onFieldUpdate";
 import { onFieldDelete } from "./onFieldDelete";
-import { FunnelModelDto } from "../models/FunnelModel";
+import { createInitialContainerData } from "./createInitialContainerData";
 
 export const funnelContainerComponent = createComponent(FunnelContainer, {
   name: "Fub/Container",
@@ -34,17 +33,7 @@ export const funnelContainerComponent = createComponent(FunnelContainer, {
       name: "containerData",
       hideFromUi: true,
       fields: [],
-      defaultValue: {
-        steps: [],
-        fields: [],
-        conditionRules: []
-      } as FunnelModelDto
-    }),
-    createNumberInput({
-      name: "activeStep",
-      label: "Active Step",
-      defaultValue: 0,
-      hideFromUi: true
+      defaultValue: createInitialContainerData()
     }),
     createSlotInput({
       name: "steps",

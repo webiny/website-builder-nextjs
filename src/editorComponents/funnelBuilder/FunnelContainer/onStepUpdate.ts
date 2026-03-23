@@ -8,9 +8,9 @@ export const onStepUpdate: InferDescendantChange<typeof FunnelContainer> = ctx =
   if (element.component.name === "Fub/Step" && ctx.action === "update") {
     ctx.updateInputs(inputs => {
       const steps = inputs.containerData.steps ?? [];
-      const index = steps.findIndex(s => s.id === element.id);
+      const index = steps.findIndex(s => s.id === element.inputs.stepData.id);
       if (index > -1) {
-        steps[index] = { id: element.id, title: element.inputs.title };
+        steps[index] = { id: element.inputs.stepData.id, title: element.inputs.label };
       }
       inputs.containerData.steps = steps;
     });

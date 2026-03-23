@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useSyncExternalStore } from "react";
+import { contentSdk } from "@webiny/website-builder-nextjs";
 import { FunnelVm } from "../viewModels/FunnelVm";
 import { FunnelModelDto } from "../models/FunnelModel";
 import { FunnelSubmissionVm } from "../viewModels/FunnelSubmissionVm";
@@ -76,6 +77,16 @@ export const ContainerProvider = ({
   useEffect(() => {
     return funnelVm.subscribe(updateElementData);
   }, [funnelVm, updateElementData]);
+
+  useEffect(() => {
+    const editingSdk = contentSdk.getEditingSdk();
+    if (!editingSdk) {
+      return;
+    }
+    return editingSdk.messenger.on("fub.activeStepChanged", ({ stepId }: { stepId: string }) => {
+      funnelVm.activateStep(stepId);
+    });
+  }, [funnelVm]);
 
   // useEffect(() => {
   //   funnelVm.populateFunnel(element.data, { emitChange: false });
