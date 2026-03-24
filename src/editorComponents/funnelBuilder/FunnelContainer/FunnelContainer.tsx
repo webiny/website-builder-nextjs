@@ -12,7 +12,7 @@ type FunnelProps = ComponentProps<{
 
 export function FunnelContainer({ inputs }: FunnelProps) {
   if (contentSdk.isEditing()) {
-    console.log("containerData", inputs.containerData);
+    // Do something.
   }
 
   return (

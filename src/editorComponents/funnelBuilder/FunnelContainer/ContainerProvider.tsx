@@ -82,10 +82,12 @@ export const ContainerProvider = ({
       return;
     }
     return editingSdk.messenger.on("fub.activeStepChanged", ({ stepId }: { stepId: string }) => {
+      console.log("aktiviram step", stepId);
       funnelVm.activateStep(stepId);
     });
   }, [funnelVm]);
 
+  console.log("rerenda cont prov");
   // useEffect(() => {
   //   funnelVm.populateFunnel(element.data, { emitChange: false });
   // }, [element.data]);
