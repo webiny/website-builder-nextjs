@@ -1,7 +1,6 @@
 import { createComponent, createObjectInput } from "@webiny/website-builder-nextjs";
 import { FunnelStep } from "./FunnelStep";
 import { childOfFunnel, noFieldsInLastStep } from "../constraints";
-import { createInitialStepData } from "./createInitialStepData";
 
 export const funnelStepComponent = createComponent(FunnelStep, {
   name: "Fub/Step",
@@ -14,7 +13,15 @@ export const funnelStepComponent = createComponent(FunnelStep, {
       name: "stepData",
       hideFromUi: true,
       fields: [],
-      defaultValue: createInitialStepData()
+      defaultValue: () => {
+        // Copied from src/editorComponents/funnelBuilder/utils/getRandomId.ts
+        const getRandomId = () => Math.random().toString(36).substr(2, 7);
+
+        return {
+          id: getRandomId(),
+          title: "New step"
+        };
+      }
     })
   ],
   canDelete: ctx => {
@@ -24,6 +31,9 @@ export const funnelStepComponent = createComponent(FunnelStep, {
     }
     if (ctx.component.isLastChild()) {
       return ctx.block("Cannot delete last step.");
+    }
+    if (ctx.hasDescendantWithTag("funnel-field")) {
+      return ctx.block("Cannot delete a step that still has fields in it.");
     }
   },
   constraints: [childOfFunnel],
