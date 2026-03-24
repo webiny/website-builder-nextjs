@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useSyncExternalStore } from "react";
+import React, { useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { contentSdk } from "@webiny/website-builder-nextjs";
 import { FunnelVm } from "../viewModels/FunnelVm";
 import { FunnelModelDto, FunnelModel } from "../models/FunnelModel";
@@ -62,37 +62,29 @@ export interface ContainerProviderProps {
 //   }
 // `;
 
-export const ContainerProvider = ({
-  children,
-  containerData,
-  updateElementData = () => undefined
-}: ContainerProviderProps) => {
+export const ContainerProvider = ({ children, containerData }: ContainerProviderProps) => {
   // 1. FunnelVm.
   const funnelVm = useMemo(() => {
     return new FunnelVm(containerData ? new FunnelModel(containerData) : undefined);
   }, []);
 
+  const [editorActiveStep, setEditorActiveStep] = useState<string>();
+  useSyncExternalStore(funnelVm.subscribe.bind(funnelVm), funnelVm.getChecksum.bind(funnelVm));
+
   useEffect(() => {
-    return funnelVm.subscribe(updateElementData);
-  }, [funnelVm, updateElementData]);
+    funnelVm.populateFunnel(containerData!, { emitChange: false });
+  }, [containerData]);
 
   useEffect(() => {
     const editingSdk = contentSdk.getEditingSdk();
     if (!editingSdk) {
       return;
     }
+
     return editingSdk.messenger.on("fub.activeStepChanged", ({ stepId }: { stepId: string }) => {
-      console.log("aktiviram step", stepId);
       funnelVm.activateStep(stepId);
     });
   }, [funnelVm]);
-
-  console.log("rerenda cont prov");
-  // useEffect(() => {
-  //   funnelVm.populateFunnel(element.data, { emitChange: false });
-  // }, [element.data]);
-  //
-  useSyncExternalStore(funnelVm.subscribe.bind(funnelVm), funnelVm.getChecksum.bind(funnelVm));
 
   // 2. FunnelSubmissionVm.
   const funnelSubmissionVm = useMemo(() => {
