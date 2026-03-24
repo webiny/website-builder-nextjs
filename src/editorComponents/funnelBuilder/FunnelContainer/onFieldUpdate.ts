@@ -10,7 +10,6 @@ export const onFieldUpdate: InferDescendantChange<typeof FunnelContainer> = ctx 
       const fields = inputs.containerData.fields ?? [];
       const index = fields.findIndex(f => f.id === element.inputs.fieldData.id);
 
-      ctx.log("f", element.inputs.fieldData);
       if (index > -1) {
         fields[index] = element.inputs.fieldData;
       }
