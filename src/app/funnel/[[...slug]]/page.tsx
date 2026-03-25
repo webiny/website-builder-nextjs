@@ -74,7 +74,17 @@ export default async function Page({ params, searchParams }: PageProps) {
                 component: "Fub/Step",
                 inputs: {
                   stepData: new SuccessStep().toDto(),
-                  children: []
+                  children: [
+                    createElement({
+                      component: "Webiny/Lexical",
+                      inputs: {
+                        content: {
+                          state: `{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"✅","type":"text","version":1}],"direction":null,"format":"center","indent":0,"type":"wby-heading","version":1,"tag":"h1","styleId":"heading1","className":"wb-heading-1"},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Success","type":"text","version":1}],"direction":null,"format":"center","indent":0,"type":"wby-heading","version":1,"tag":"h1","styleId":"heading1","className":"wb-heading-1"},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Thank you for your submission!","type":"text","version":1}],"direction":"ltr","format":"center","indent":0,"type":"wby-paragraph","version":1,"textFormat":0,"textStyle":"","styleId":"paragraph1","className":"wb-paragraph-1"}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`,
+                          html: `<h1 class="wb-lx-h1 wb-heading-1" style="text-align: center;"><strong class="wb-lx-textBold" style="white-space: pre-wrap;">✅</strong></h1><h1 class="wb-lx-h1 wb-heading-1" style="text-align: center;"><span style="white-space: pre-wrap;">Success</span></h1><p class="wb-lx-paragraph wb-paragraph-1" dir="ltr" style="text-align: center;"><span style="white-space: pre-wrap;">Thank you for your submission!</span></p>`
+                        }
+                      }
+                    })
+                  ]
                 }
               })
             ]
