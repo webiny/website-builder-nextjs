@@ -4,15 +4,16 @@ import { NextResponse, type NextRequest } from "next/server";
 const ENABLE_DRAFT_MODE_ROUTE = "/api/preview";
 
 export async function middleware(request: NextRequest) {
-  const { searchParams, pathname } = request.nextUrl;
+  const { searchParams, pathname, hostname } = request.nextUrl;
   // Check if the preview/editing flag is set.
   const previewRequested =
     searchParams.get("wb.preview") === "true" || searchParams.get("wb.editing") === "true";
 
   const requestHeaders = new Headers(request.headers);
 
-  // Detect tenant id
-  const tenantId = searchParams.get("wb.tenant") ?? "root";
+  // Resolve tenant from the wb.tenant query param (sent by the editor iframe),
+  // or fall back to subdomain-based resolution for public traffic.
+  const tenantId = searchParams.get("wb.tenant") ?? resolveTenantFromHostname(hostname);
   if (tenantId) {
     requestHeaders.set("X-Tenant", tenantId);
   }
@@ -77,6 +78,12 @@ export async function middleware(request: NextRequest) {
       headers: requestHeaders
     }
   });
+}
+
+function resolveTenantFromHostname(hostname: string): string | undefined {
+  // Example: tenant-a.example.com → "tenant-a"
+  const subdomain = hostname.split(".")[0];
+  return subdomain !== "www" ? subdomain : undefined;
 }
 
 export const config = {

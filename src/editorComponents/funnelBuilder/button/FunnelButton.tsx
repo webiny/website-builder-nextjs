@@ -10,7 +10,7 @@ type FunnelButtonProps = ComponentProps<{
 }>;
 
 export function FunnelButton({ inputs }: FunnelButtonProps) {
-  const { funnelVm, funnelSubmissionVm, theme } = useContainer();
+  const { funnelVm, funnelSubmissionVm } = useContainer();
   const [running, setRunning] = useState(false);
 
   const onClick = useCallback(async () => {
@@ -36,7 +36,7 @@ export function FunnelButton({ inputs }: FunnelButtonProps) {
 
   return (
     <button
-      style={{ background: theme.primaryColor }}
+      style={{ background: "var(--fub-primary-color)" }}
       className="border-none rounded px-[10px] py-[10px] text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:enabled:opacity-80"
       onClick={onClick}
       disabled={running}
