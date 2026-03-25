@@ -25,13 +25,15 @@ export const funnelStepComponent = createComponent(FunnelStep, {
     })
   ],
   canDelete: ctx => {
-    ctx.log("Checking if step can be deleted...");
-    if (ctx.component.isFirstChild()) {
-      return ctx.block("Cannot delete first step.");
+    // Block deletion of the success step.
+    if (ctx.getElementInputs().stepData?.id === "success") {
+      return ctx.block("Cannot delete the success step.");
     }
-    if (ctx.component.isLastChild()) {
-      return ctx.block("Cannot delete last step.");
+    // Block if this is the last non-success step (childCount includes the success step).
+    if (ctx.component.childCount() <= 2) {
+      return ctx.block("Cannot delete the last step.");
     }
+    // Block if the step still has fields in it.
     if (ctx.hasDescendantWithTag("funnel-field")) {
       return ctx.block("Cannot delete a step that still has fields in it.");
     }

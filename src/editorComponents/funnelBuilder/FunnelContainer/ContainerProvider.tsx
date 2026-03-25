@@ -65,10 +65,10 @@ export interface ContainerProviderProps {
 export const ContainerProvider = ({ children, containerData }: ContainerProviderProps) => {
   // 1. FunnelVm.
   const funnelVm = useMemo(() => {
+    console.log("containerData", containerData);
     return new FunnelVm(containerData ? new FunnelModel(containerData) : undefined);
   }, []);
 
-  const [editorActiveStep, setEditorActiveStep] = useState<string>();
   useSyncExternalStore(funnelVm.subscribe.bind(funnelVm), funnelVm.getChecksum.bind(funnelVm));
 
   useEffect(() => {
