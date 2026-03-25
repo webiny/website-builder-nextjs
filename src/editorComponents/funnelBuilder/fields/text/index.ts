@@ -31,5 +31,15 @@ export const funnelTextFieldComponent = createComponent(FunnelTextField, {
       }
     })
   ],
+  canDelete: ctx => {
+    // Cannot use const for name here b/c we need this fn to be serializable.
+    const fieldId = ctx.getElementInputs().fieldData?.id;
+    const containerInputs = ctx.getAncestorInputs("Fub/Container");
+    if (fieldId && containerInputs) {
+      if (JSON.stringify(containerInputs.containerData?.conditionRules ?? []).includes(fieldId)) {
+        return ctx.block("Cannot delete this field because it is used in conditional rules.");
+      }
+    }
+  },
   constraints: [descendantOfFunnelStep]
 });
