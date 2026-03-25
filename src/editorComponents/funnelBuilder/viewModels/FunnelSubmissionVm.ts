@@ -40,6 +40,14 @@ export class FunnelSubmissionVm {
     this.emitChange();
   }
 
+  activateStep(stepId: string) {
+    const step = this.funnel.steps.find(s => s.id === stepId);
+    if (step) {
+      this.funnelSubmission.activateStep(step);
+      this.emitChange();
+    }
+  }
+
   evaluateConditionRulesForActiveStep() {
     this.funnelSubmission.evaluateRelatedConditionRules();
     this.emitChange();

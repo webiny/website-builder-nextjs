@@ -9,7 +9,6 @@ type Listener = (dto: FunnelModelDto) => void;
 
 export class FunnelVm {
   funnel: FunnelModel;
-  activeStepId: string;
   listeners: Set<Listener> = new Set();
 
   constructor(funnel?: FunnelModel | FunnelModelDto) {
@@ -18,8 +17,6 @@ export class FunnelVm {
     } else {
       this.funnel = new FunnelModel(funnel);
     }
-
-    this.activeStepId = this.funnel.steps[0]?.id || "";
   }
 
   // Fields. 👇
@@ -54,14 +51,6 @@ export class FunnelVm {
     return this.funnel.fields.find(field => field.fieldId === fieldId);
   }
 
-  getFieldsForActiveStep() {
-    const step = this.funnel.steps.find(step => step.id === this.activeStepId);
-    if (!step) {
-      return [];
-    }
-    return this.funnel.fields.filter(field => field.stepId === step.id);
-  }
-
   // Steps. 👇
   addStep(dto: FunnelStepModelDto) {
     const newStep = new FunnelStepModel(dto);
@@ -83,50 +72,6 @@ export class FunnelVm {
     return this.funnel.steps;
   }
 
-  getActiveStepId() {
-    return this.activeStepId;
-  }
-
-  getActiveStep() {
-    return this.funnel.steps.find(step => step.id === this.activeStepId);
-  }
-
-  getActiveStepIndex() {
-    return this.funnel.steps.findIndex(step => step.id === this.activeStepId);
-  }
-
-  getAvailableStepIndex() {
-    const currentIndex = this.getActiveStepIndex();
-    return currentIndex < this.funnel.steps.length - 1 ? currentIndex + 1 : -1;
-  }
-
-  activateStepIndex(index: number) {
-    const step = this.funnel.steps[index];
-    if (!step) {
-      return;
-    }
-
-    this.activeStepId = step.id;
-    this.emitChange();
-  }
-
-  activateStep(stepId: string) {
-    const step = this.funnel.steps.find(step => step.id === stepId);
-    if (!step) {
-      return;
-    }
-
-    this.activeStepId = step.id;
-    this.emitChange();
-  }
-
-  activateFirstAvailableStep() {
-    const nextStepIndex = this.getAvailableStepIndex();
-    if (nextStepIndex !== -1) {
-      this.activateStepIndex(nextStepIndex);
-    }
-  }
-
   // Other methods. 👇
   populateFunnel(funnel: Partial<FunnelModelDto>, options?: { emitChange?: boolean }) {
     this.funnel.populate(funnel);
@@ -144,9 +89,7 @@ export class FunnelVm {
   }
 
   getChecksum() {
-    const checksum = [this.funnel.getChecksum(), this.getActiveStepId()].join();
-
-    return checksum;
+    return this.funnel.getChecksum();
   }
 
   private emitChange() {

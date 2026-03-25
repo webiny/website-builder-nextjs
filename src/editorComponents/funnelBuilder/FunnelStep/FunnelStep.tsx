@@ -11,9 +11,9 @@ type FunnelStepProps = ComponentProps<{
 }>;
 
 export function FunnelStep({ inputs }: FunnelStepProps) {
-  const { funnelVm } = useContainer();
+  const { funnelSubmissionVm } = useContainer();
 
-  if (inputs.stepData.id !== funnelVm.activeStepId) {
+  if (inputs.stepData.id !== funnelSubmissionVm.activeStepId) {
     return null;
   }
 

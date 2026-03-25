@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { contentSdk } from "@webiny/website-builder-nextjs";
 import { FunnelVm } from "../viewModels/FunnelVm";
-import { FunnelModelDto, FunnelModel } from "../models/FunnelModel";
+import { FunnelModel, FunnelModelDto } from "../models/FunnelModel";
 import { FunnelSubmissionVm } from "../viewModels/FunnelSubmissionVm";
 import { ThemeSettings } from "../types";
 
@@ -65,15 +65,20 @@ export interface ContainerProviderProps {
 export const ContainerProvider = ({ children, containerData }: ContainerProviderProps) => {
   // 1. FunnelVm.
   const funnelVm = useMemo(() => {
-    console.log("containerData", containerData);
     return new FunnelVm(containerData ? new FunnelModel(containerData) : undefined);
   }, []);
 
-  useSyncExternalStore(funnelVm.subscribe.bind(funnelVm), funnelVm.getChecksum.bind(funnelVm));
-
   useEffect(() => {
+    // No change needed — containerData and funnelVm are already in sync,
+    // and the updated containerData has triggered a rerender.
     funnelVm.populateFunnel(containerData!, { emitChange: false });
   }, [containerData]);
+
+  // Do we need this!?
+  // useSyncExternalStore(funnelVm.subscribe.bind(funnelVm), funnelVm.getChecksum.bind(funnelVm));
+
+  // Tracks which step the editor user has clicked to preview — undefined at runtime.
+  const [editorActiveStepId, setEditorActiveStepId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const editingSdk = contentSdk.getEditingSdk();
@@ -82,14 +87,20 @@ export const ContainerProvider = ({ children, containerData }: ContainerProvider
     }
 
     return editingSdk.messenger.on("fub.activeStepChanged", ({ stepId }: { stepId: string }) => {
-      funnelVm.activateStep(stepId);
+      setEditorActiveStepId(stepId);
     });
-  }, [funnelVm]);
+  }, []);
 
-  // 2. FunnelSubmissionVm.
+  // 2. FunnelSubmissionVm — recreated when the funnel definition or editor active step changes.
+  // editorActiveStepId is passed in so the correct step is restored after recreation.
   const funnelSubmissionVm = useMemo(() => {
-    return new FunnelSubmissionVm(funnelVm.funnel);
-  }, [funnelVm.getChecksum()]);
+    const vm = new FunnelSubmissionVm(funnelVm.funnel);
+    if (editorActiveStepId) {
+      vm.activateStep(editorActiveStepId);
+    }
+    return vm;
+    // }, [funnelVm.getChecksum(), editorActiveStepId]);
+  }, [editorActiveStepId]);
 
   useSyncExternalStore(
     funnelSubmissionVm.subscribe.bind(funnelSubmissionVm),
