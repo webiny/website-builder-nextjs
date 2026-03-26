@@ -4,13 +4,8 @@ import {
   createSlotInput
 } from "@webiny/website-builder-nextjs";
 import { FunnelContainer } from "./FunnelContainer";
-import { oneFunnelPerPage } from "../constraints";
-import { onStepCreate } from "./onStepCreate";
-import { onStepUpdate } from "./onStepUpdate";
-import { onStepDelete } from "./onStepDelete";
-import { onFieldCreate } from "./onFieldCreate";
-import { onFieldUpdate } from "./onFieldUpdate";
-import { onFieldDelete } from "./onFieldDelete";
+import { oneFunnelPerPage } from "./constraints";
+import { onDescendantChange } from "./onDescendantChange";
 import { FunnelModelDto } from "@/src/editorComponents/funnelBuilder/models/FunnelModel";
 
 export const funnelContainerComponent = createComponent(FunnelContainer, {
@@ -20,14 +15,7 @@ export const funnelContainerComponent = createComponent(FunnelContainer, {
   canDelete: true,
   hideFromToolbar: true,
   constraints: [oneFunnelPerPage],
-  onDescendantChange: [
-    onStepCreate,
-    onStepUpdate,
-    onStepDelete,
-    onFieldCreate,
-    onFieldUpdate,
-    onFieldDelete
-  ],
+  onDescendantChange,
   inputs: [
     createObjectInput({
       name: "containerData",

@@ -1,11 +1,5 @@
 import type { ComponentConstraint } from "@webiny/website-builder-nextjs";
 
-export const oneFunnelPerPage: ComponentConstraint = ctx => {
-  if (ctx.countInstances("Fub/Container") >= 1) {
-    return ctx.block("Only one Funnel is allowed per page.");
-  }
-};
-
 export const descendantOfFunnel: ComponentConstraint = ctx => {
   if (!ctx.isDescendantOf("Fub/Container")) {
     return ctx.block("This component must be placed inside a Funnel.");

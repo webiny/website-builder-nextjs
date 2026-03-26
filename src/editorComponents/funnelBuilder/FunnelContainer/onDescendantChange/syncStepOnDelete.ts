@@ -1,7 +1,7 @@
 import type { InferDescendantChange } from "@webiny/website-builder-nextjs";
-import type { FunnelContainer } from "../FunnelContainer/FunnelContainer.js";
+import type { FunnelContainer } from "../FunnelContainer.js";
 
-export const onStepDelete: InferDescendantChange<typeof FunnelContainer> = ctx => {
+export const syncStepOnDelete: InferDescendantChange<typeof FunnelContainer> = ctx => {
   const element = ctx.descendant;
   if (element.component.name === "Fub/Step" && ctx.action === "delete") {
     ctx.updateInputs(inputs => {
