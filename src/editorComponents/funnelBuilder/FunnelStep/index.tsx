@@ -19,7 +19,7 @@ export const funnelStepComponent = createComponent(FunnelStep, {
 
         return {
           id: getRandomId(),
-          title: "New step"
+          title: "New page"
         };
       }
     })
