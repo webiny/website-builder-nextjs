@@ -1,6 +1,7 @@
 import { createComponent, createObjectInput } from "@webiny/website-builder-nextjs";
 import { FunnelStep } from "./FunnelStep";
 import { childOfFunnel, noFieldsInLastStep } from "../constraints";
+import { onDescendantChange } from "./onDescendantChange";
 
 export const funnelStepComponent = createComponent(FunnelStep, {
   name: "Fub/Step",
@@ -39,5 +40,6 @@ export const funnelStepComponent = createComponent(FunnelStep, {
     }
   },
   constraints: [childOfFunnel],
-  descendantConstraints: [noFieldsInLastStep]
+  descendantConstraints: [noFieldsInLastStep],
+  onDescendantChange
 });
