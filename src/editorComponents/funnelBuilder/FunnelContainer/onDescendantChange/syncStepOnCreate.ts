@@ -8,11 +8,11 @@ export const syncStepOnCreate: InferDescendantChange<typeof FunnelContainer> = c
   if (element.component.name === "Fub/Step" && ctx.action === "create") {
     ctx.updateInputs(inputs => {
       const steps = inputs.containerData.steps ?? [];
-      const successIndex = steps.findIndex(s => s.id === "success");
-      if (successIndex > -1) {
-        steps.splice(successIndex, 0, element.inputs.stepData);
+      if (element.inputs.isSuccess === true) {
+        steps.push({ id: element.id, title: "Success page" });
       } else {
-        steps.push(element.inputs.stepData);
+        const successIndex = steps.findIndex(s => s.id === "success");
+        steps.splice(successIndex, 0, { id: element.id, title: "New page" });
       }
       inputs.containerData.steps = steps;
     });

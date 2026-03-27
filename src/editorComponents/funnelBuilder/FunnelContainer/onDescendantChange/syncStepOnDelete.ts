@@ -6,7 +6,7 @@ export const syncStepOnDelete: InferDescendantChange<typeof FunnelContainer> = c
   if (element.component.name === "Fub/Step" && ctx.action === "delete") {
     ctx.updateInputs(inputs => {
       const steps = inputs.containerData.steps ?? [];
-      const index = steps.findIndex(s => s.id === element.inputs.stepData.id);
+      const index = steps.findIndex(s => s.id === element.id);
       if (index > -1) {
         inputs.containerData.steps.splice(index, 1);
       }
