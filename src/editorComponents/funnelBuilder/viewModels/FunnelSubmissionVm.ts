@@ -1,5 +1,6 @@
 import { FunnelModel } from "../models/FunnelModel";
 import { FunnelSubmissionModel } from "../models/FunnelSubmissionModel";
+import { createObjectHash } from "../utils/createObjectHash";
 
 type Listener = () => void;
 
@@ -7,6 +8,9 @@ export class FunnelSubmissionVm {
   funnel: FunnelModel;
   funnelSubmission: FunnelSubmissionModel;
   listeners: Set<Listener> = new Set();
+  // Stores per-field validation errors produced by submitActiveStep().
+  // Cleared when a step is successfully submitted or navigated away from.
+  validationErrors: Record<string, string> = {};
 
   constructor(funnel: FunnelModel) {
     this.funnel = funnel;
@@ -31,11 +35,23 @@ export class FunnelSubmissionVm {
     this.emitChange();
   }
 
+  getFieldValidationError(fieldId: string): string | null {
+    return this.validationErrors[fieldId] ?? null;
+  }
+
   submitActiveStep() {
-    this.funnelSubmission.submitActiveStep().then(this.emitChange.bind(this));
+    this.funnelSubmission.submitActiveStep().then(result => {
+      if (!result.success && result.errors) {
+        this.validationErrors = result.errors as Record<string, string>;
+      } else {
+        this.validationErrors = {};
+      }
+      this.emitChange();
+    });
   }
 
   activatePreviousStep() {
+    this.validationErrors = {};
     this.funnelSubmission.activatePreviousStep();
     this.emitChange();
   }
@@ -81,6 +97,9 @@ export class FunnelSubmissionVm {
   }
 
   getChecksum() {
-    return this.funnelSubmission.getChecksum();
+    return createObjectHash({
+      submission: this.funnelSubmission.getChecksum(),
+      validationErrors: this.validationErrors
+    });
   }
 }

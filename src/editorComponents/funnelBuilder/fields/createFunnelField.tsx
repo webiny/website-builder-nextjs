@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import type { ComponentProps } from "@webiny/website-builder-nextjs";
 import type { FunnelFieldDefinitionModelDto } from "../models/FunnelFieldDefinitionModel";
 import type { FunnelFieldDefinitionModel } from "../models/FunnelFieldDefinitionModel";
@@ -34,7 +34,8 @@ export function createFunnelField<
     const { funnelSubmissionVm } = useContainer();
     const fieldId = inputs.fieldData?.fieldId;
 
-    const [validation, setValidation] = useState<FieldValidation>({
+    // Local validation state — populated by on-blur validate() calls.
+    const [localValidation, setLocalValidation] = useState<FieldValidation>({
       isValid: null,
       message: ""
     });
@@ -46,7 +47,7 @@ export function createFunnelField<
         return;
       }
       const result = await field.validate();
-      setValidation({
+      setLocalValidation({
         isValid: result.isValid,
         message: result.isValid ? "" : result.errorMessage
       });
@@ -62,6 +63,19 @@ export function createFunnelField<
       },
       [field, funnelSubmissionVm]
     );
+
+    // Merge local validation with errors set by submitActiveStep().
+    // VM errors (from a submit attempt) take precedence over local on-blur state.
+    const validation = useMemo<FieldValidation>(() => {
+      if (!fieldId) {
+        return localValidation;
+      }
+      const submitError = funnelSubmissionVm.getFieldValidationError(fieldId);
+      if (submitError !== null) {
+        return { isValid: false, message: submitError };
+      }
+      return localValidation;
+    }, [fieldId, funnelSubmissionVm, funnelSubmissionVm.validationErrors, localValidation]);
 
     if (!field) {
       return (
