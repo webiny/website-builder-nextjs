@@ -5,10 +5,10 @@ export const syncFieldOnDelete: InferDescendantChange<typeof FunnelContainer> = 
   const element = ctx.descendant;
 
   // Cannot use const for name here b/c we need this fn to be serializable.
-  if (element.component.tags?.includes("funnel-field") && ctx.action === "delete") {
+  if (element.component.name.startsWith("Fub/Field/") && ctx.action === "delete") {
     ctx.updateInputs(inputs => {
       const fields = inputs.containerData.fields ?? [];
-      const index = fields.findIndex(f => f.id === element.inputs.fieldData.id);
+      const index = fields.findIndex(f => f.id === element.id);
       if (index > -1) {
         inputs.containerData.fields.splice(index, 1);
       }
