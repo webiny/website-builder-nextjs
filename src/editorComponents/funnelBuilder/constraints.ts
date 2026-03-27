@@ -23,12 +23,15 @@ export const descendantOfFunnelStep: ComponentConstraint = ctx => {
  * Blocks funnel-field tagged components from being placed in the last step.
  */
 export const noFieldsInLastStep: ComponentConstraint = ctx => {
-  if (!ctx.hasTag("funnel-field")) {
+  console.log("ctx.component.name, ");
+  if (!ctx.component.name.startsWith("Fub/Field/")) {
     return;
   }
+
   const step = ctx.getAncestor("Fub/Step");
-  if (!step || !step.isLastChild()) {
-    return;
+  if (step && step.isLastChild()) {
+    return ctx.block("Funnel fields cannot be placed in the last step.");
   }
-  return ctx.block("Funnel fields cannot be placed in the last step.");
+
+  return;
 };

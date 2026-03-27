@@ -26,6 +26,10 @@ export class FunnelSubmissionVm {
     return this.funnelSubmission.getField(fieldId);
   }
 
+  getFieldById(id: string) {
+    return this.funnelSubmission.getFieldById(id);
+  }
+
   fieldExists(fieldId: string) {
     return this.funnelSubmission.fieldExists(fieldId);
   }

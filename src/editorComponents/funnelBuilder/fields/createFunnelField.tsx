@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useCallback, useMemo } from "react";
 import type { ComponentProps } from "@webiny/website-builder-nextjs";
-import type { FunnelFieldDefinitionModelDto } from "../models/FunnelFieldDefinitionModel";
 import type { FunnelFieldDefinitionModel } from "../models/FunnelFieldDefinitionModel";
 import type { FunnelSubmissionFieldModel } from "../models/FunnelSubmissionFieldModel";
 import { useContainer } from "../FunnelContainer/ContainerProvider";
@@ -23,16 +22,14 @@ export interface FunnelFieldRendererProps<
   isHidden: boolean;
 }
 
-type FunnelFieldProps = ComponentProps<{
-  fieldData: FunnelFieldDefinitionModelDto;
-}>;
+type FunnelFieldProps = ComponentProps;
 
 export function createFunnelField<
   TField extends FunnelFieldDefinitionModel = FunnelFieldDefinitionModel
 >(Component: React.ComponentType<FunnelFieldRendererProps<TField>>) {
-  function FunnelField({ inputs }: FunnelFieldProps) {
+  function FunnelField({ element }: FunnelFieldProps) {
     const { funnelSubmissionVm } = useContainer();
-    const fieldId = inputs.fieldData?.fieldId;
+    const fieldId = element.id;
 
     // Local validation state — populated by on-blur validate() calls.
     const [localValidation, setLocalValidation] = useState<FieldValidation>({
@@ -40,7 +37,7 @@ export function createFunnelField<
       message: ""
     });
 
-    const field = fieldId ? funnelSubmissionVm.getField(fieldId) : null;
+    const field = fieldId ? funnelSubmissionVm.getFieldById(fieldId) : null;
 
     const validate = useCallback(async () => {
       if (!field) {

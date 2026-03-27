@@ -1,7 +1,8 @@
-import { createComponent, createObjectInput } from "@webiny/website-builder-nextjs";
+import { createComponent } from "@webiny/website-builder-nextjs";
 import { FunnelStep } from "./FunnelStep";
 import { childOfFunnel, noFieldsInLastStep } from "../constraints";
 import { onDescendantChange } from "./onDescendantChange";
+import { createBooleanInput } from "@webiny/website-builder-react";
 
 export const funnelStepComponent = createComponent(FunnelStep, {
   name: "Fub/Step",
@@ -9,22 +10,9 @@ export const funnelStepComponent = createComponent(FunnelStep, {
   group: "funnelBuilder",
   acceptsChildren: true,
   hideFromToolbar: true,
-  inputs: [
-    createObjectInput({
-      name: "stepData",
-      hideFromUi: true,
-      fields: [],
-      defaultValue: () => {
-        // Copied from src/editorComponents/funnelBuilder/utils/getRandomId.ts
-        const getRandomId = () => Math.random().toString(36).substr(2, 7);
-
-        return {
-          id: getRandomId(),
-          title: "New page"
-        };
-      }
-    })
-  ],
+  inputs: {
+    isSuccess: createBooleanInput({ hideFromUi: true })
+  },
   canDelete: ctx => {
     // Block deletion of the success step.
     if (ctx.getElementInputs().stepData?.id === "success") {
