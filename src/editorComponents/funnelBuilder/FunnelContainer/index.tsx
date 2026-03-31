@@ -12,7 +12,7 @@ export const funnelContainerComponent = createComponent(FunnelContainer, {
   name: "Fub/Container",
   label: "Funnel",
   group: "funnelBuilder",
-  canDelete: true,
+  canDelete: false,
   hideFromToolbar: true,
   constraints: [oneFunnelPerPage],
   onDescendantChange,
