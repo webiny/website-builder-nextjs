@@ -15,7 +15,7 @@ export const funnelStepComponent = createComponent(FunnelStep, {
   },
   canDelete: ctx => {
     // Block deletion of the success step.
-    if (ctx.getElementInputs().stepData?.id === "success") {
+    if (ctx.getElementInputs().isSuccess) {
       return ctx.block("Cannot delete the success step.");
     }
     // Block if this is the last non-success step (childCount includes the success step).
