@@ -1,7 +1,6 @@
 import { createComponent } from "@webiny/website-builder-nextjs";
 import { FunnelStep } from "./FunnelStep";
 import { childOfFunnel, noFieldsInLastStep } from "../constraints";
-import { onDescendantChange } from "./onDescendantChange";
 import { createBooleanInput } from "@webiny/website-builder-react";
 
 export const funnelStepComponent = createComponent(FunnelStep, {
@@ -28,6 +27,5 @@ export const funnelStepComponent = createComponent(FunnelStep, {
     }
   },
   constraints: [childOfFunnel],
-  descendantConstraints: [noFieldsInLastStep],
-  onDescendantChange
+  descendantConstraints: [noFieldsInLastStep]
 });
