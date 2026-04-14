@@ -1,6 +1,9 @@
 "use client";
 
 import React from "react";
+import type { Language } from "@webiny/sdk";
+import { LanguageSelector } from "./LanguageSelector";
+import type { LanguagePaths } from "./LanguageSelector";
 
 const navigation = [
   { name: "Menu Item 1", href: "#" },
@@ -8,7 +11,17 @@ const navigation = [
   { name: "Menu Item 3", href: "#" },
 ];
 
-export default function Header() {
+interface HeaderProps {
+  languages?: Language[];
+  languagePaths?: LanguagePaths | null;
+  currentLanguageCode?: string | null;
+}
+
+export default function Header({
+  languages = [],
+  languagePaths,
+  currentLanguageCode,
+}: HeaderProps) {
   return (
     <header className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
       <nav
@@ -31,7 +44,14 @@ export default function Header() {
             </a>
           ))}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
+          {languages.length > 0 && (
+            <LanguageSelector
+              languages={languages}
+              languagePaths={languagePaths}
+              currentLanguageCode={currentLanguageCode}
+            />
+          )}
           <a
             href="#"
             className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/80 transition-colors"

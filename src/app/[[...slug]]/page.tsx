@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { contentSdk } from "@webiny/website-builder-nextjs";
 import { initializeContentSdk, getTenant } from "@/src/contentSdk";
+import { webinySdk } from "@/src/webinySdk";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { normalizeSlug } from "@/src/utils/normalizeSlug";
@@ -82,6 +83,11 @@ export async function generateMetadata({
 // This function fetches page data for a given path, considering preview (draft) mode.
 // It is critical to initialize the SDK **before** using the `contentSdk` because this function
 // runs **before** any React components mount, so our ContentSdkInitializer has no effect.
+async function listLanguages() {
+  const result = await webinySdk.languages.listLanguages();
+  return result.isFail() ? [] : result.value;
+}
+
 async function getPage(path: string) {
   const { isEnabled } = await draftMode();
 
@@ -100,10 +106,21 @@ export default async function Page({ params, searchParams }: PageProps) {
   // Check if the application is loaded in "live editing" mode.
   const isEditing = search["wb.editing"] === "true";
 
-  const page = await getPage(normalizeSlug(slug));
+  const [page, languages] = await Promise.all([
+    getPage(normalizeSlug(slug)),
+    listLanguages(),
+  ]);
+
+  console.log("Received page:", page);
+  const languagePaths = page?.languagePaths;
+  const currentLanguageCode = page?.properties?.language;
 
   return (
-    <PageLayout>
+    <PageLayout
+      languages={languages}
+      languagePaths={languagePaths}
+      currentLanguageCode={currentLanguageCode}
+    >
       <DocumentRenderer document={page} isEditing={isEditing} />
     </PageLayout>
   );
