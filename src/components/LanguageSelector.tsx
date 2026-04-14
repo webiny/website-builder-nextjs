@@ -9,7 +9,7 @@ export type LanguagePaths = Record<string, string>;
 interface LanguageSelectorProps {
   languages: Language[];
   languagePaths: LanguagePaths;
-  currentLanguageCode: string | null | undefined;
+  currentLanguageCode: string | undefined;
 }
 
 export function LanguageSelector({
@@ -33,7 +33,7 @@ export function LanguageSelector({
   if (!languages.length) return null;
 
   const defaultLanguage = languages.find((l) => l.isDefault);
-  const activeCode = currentLanguageCode ?? defaultLanguage?.code ?? null;
+  const activeCode = currentLanguageCode ?? defaultLanguage?.code;
 
   const activeLabel =
     languages.find((l) => l.code === activeCode)?.name ??

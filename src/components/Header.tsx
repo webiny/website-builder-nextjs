@@ -14,7 +14,7 @@ const navigation = [
 interface HeaderProps {
   languages?: Language[];
   languagePaths?: LanguagePaths;
-  currentLanguageCode?: string | null;
+  currentLanguageCode?: string;
 }
 
 export default function Header({

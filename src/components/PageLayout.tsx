@@ -7,7 +7,7 @@ interface PageLayoutProps {
   children: React.ReactNode;
   languages?: Language[];
   languagePaths?: LanguagePaths;
-  currentLanguageCode?: string | null;
+  currentLanguageCode?: string;
 }
 
 export const PageLayout = ({

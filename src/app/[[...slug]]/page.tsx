@@ -91,10 +91,11 @@ async function listLanguages() {
 function resolveLanguageCode(
   page: Awaited<ReturnType<typeof getPage>>,
   languages: Awaited<ReturnType<typeof listLanguages>>,
-  slug: string[]
-): string | null {
-  if (page?.properties?.language) {
-    return page.properties.language;
+  slug: string[],
+): string | undefined {
+  const language = (page?.properties as any)?.language as string | undefined;
+  if (language) {
+    return language;
   }
 
   const matchedBySlug = languages.find((l) => l.code === slug[0]);
@@ -102,7 +103,7 @@ function resolveLanguageCode(
     return matchedBySlug.code;
   }
 
-  return null;
+  return undefined;
 }
 
 async function getPage(path: string) {
@@ -128,7 +129,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     listLanguages(),
   ]);
 
-  const languagePaths = page?.languagePaths;
+  const languagePaths = (page as any)?.languagePaths as Record<string, string>;
   const currentLanguageCode = resolveLanguageCode(page, languages, slug);
 
   return (
