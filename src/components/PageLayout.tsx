@@ -6,7 +6,7 @@ import type { LanguagePaths } from "./LanguageSelector";
 interface PageLayoutProps {
   children: React.ReactNode;
   languages?: Language[];
-  languagePaths?: LanguagePaths | null;
+  languagePaths?: LanguagePaths;
   currentLanguageCode?: string | null;
 }
 

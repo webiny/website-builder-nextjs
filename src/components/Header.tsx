@@ -13,13 +13,13 @@ const navigation = [
 
 interface HeaderProps {
   languages?: Language[];
-  languagePaths?: LanguagePaths | null;
+  languagePaths?: LanguagePaths;
   currentLanguageCode?: string | null;
 }
 
 export default function Header({
   languages = [],
-  languagePaths,
+  languagePaths = {},
   currentLanguageCode,
 }: HeaderProps) {
   return (

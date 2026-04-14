@@ -8,7 +8,7 @@ export type LanguagePaths = Record<string, string>;
 
 interface LanguageSelectorProps {
   languages: Language[];
-  languagePaths: LanguagePaths | null | undefined;
+  languagePaths: LanguagePaths;
   currentLanguageCode: string | null | undefined;
 }
 
@@ -69,7 +69,7 @@ export function LanguageSelector({
           <ul role="listbox" className="py-1">
             {languages.map((lang) => {
               const isActive = lang.code === activeCode;
-              const path = languagePaths?.[lang.code] ?? `/${lang.code}`;
+              const path = languagePaths[lang.code] ?? `/${lang.code}`;
 
               return (
                 <li key={lang.code} role="option" aria-selected={isActive}>
