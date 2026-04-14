@@ -88,6 +88,23 @@ async function listLanguages() {
   return result.isFail() ? [] : result.value;
 }
 
+function resolveLanguageCode(
+  page: Awaited<ReturnType<typeof getPage>>,
+  languages: Awaited<ReturnType<typeof listLanguages>>,
+  slug: string[]
+): string | null {
+  if (page?.properties?.language) {
+    return page.properties.language;
+  }
+
+  const matchedBySlug = languages.find((l) => l.code === slug[0]);
+  if (matchedBySlug) {
+    return matchedBySlug.code;
+  }
+
+  return null;
+}
+
 async function getPage(path: string) {
   const { isEnabled } = await draftMode();
 
@@ -112,7 +129,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   ]);
 
   const languagePaths = page?.languagePaths;
-  const currentLanguageCode = page?.properties?.language;
+  const currentLanguageCode = resolveLanguageCode(page, languages, slug);
 
   return (
     <PageLayout
