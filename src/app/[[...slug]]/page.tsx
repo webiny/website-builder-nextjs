@@ -80,9 +80,6 @@ export async function generateMetadata({
   };
 }
 
-// This function fetches page data for a given path, considering preview (draft) mode.
-// It is critical to initialize the SDK **before** using the `contentSdk` because this function
-// runs **before** any React components mount, so our ContentSdkInitializer has no effect.
 async function listLanguages() {
   const result = await webinySdk.languages.listLanguages();
   return result.isFail() ? [] : result.value;
@@ -93,7 +90,7 @@ function resolveLanguageCode(
   languages: Awaited<ReturnType<typeof listLanguages>>,
   slug: string[],
 ): string | undefined {
-  const language = (page?.properties as any)?.language as string | undefined;
+  const language = page?.properties.language;
   if (language) {
     return language;
   }
@@ -106,6 +103,9 @@ function resolveLanguageCode(
   return undefined;
 }
 
+// This function fetches page data for a given path, considering preview (draft) mode.
+// It is critical to initialize the SDK **before** using the `contentSdk` because this function
+// runs **before** any React components mount, so our ContentSdkInitializer has no effect.
 async function getPage(path: string) {
   const { isEnabled } = await draftMode();
 
@@ -129,7 +129,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     listLanguages(),
   ]);
 
-  const languagePaths = (page as any)?.languagePaths as Record<string, string>;
+  const languagePaths = page?.languagePaths;
   const currentLanguageCode = resolveLanguageCode(page, languages, slug);
 
   return (
