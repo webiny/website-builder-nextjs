@@ -111,7 +111,6 @@ export default async function Page({ params, searchParams }: PageProps) {
     listLanguages(),
   ]);
 
-  console.log("Received page:", page);
   const languagePaths = page?.languagePaths;
   const currentLanguageCode = page?.properties?.language;
 

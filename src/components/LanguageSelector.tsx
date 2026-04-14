@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import Link from "next/link";
 import type { Language } from "@webiny/sdk";
 
 // { en: '/about', de: '/de/about', ... }
@@ -45,7 +44,7 @@ export function LanguageSelector({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-sm font-medium text-text-base hover:bg-muted transition-colors"
+        className="flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-sm font-medium text-text-base hover:bg-surface transition-colors cursor-pointer"
         aria-haspopup="listbox"
         aria-expanded={open}
       >
@@ -74,17 +73,16 @@ export function LanguageSelector({
 
               return (
                 <li key={lang.code} role="option" aria-selected={isActive}>
-                  <Link
+                  <a
                     href={path}
-                    onClick={() => setOpen(false)}
-                    className={`block px-4 py-2 text-sm transition-colors duration-150 ${
+                    className={`block px-4 py-2 text-sm transition-colors duration-150 cursor-pointer ${
                       isActive
                         ? "font-semibold text-primary bg-surface"
                         : "text-text-base hover:bg-surface"
                     }`}
                   >
                     {lang.name}
-                  </Link>
+                  </a>
                 </li>
               );
             })}
