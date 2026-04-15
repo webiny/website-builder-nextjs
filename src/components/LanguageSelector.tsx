@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import type { Language } from "@webiny/sdk";
+import type { Language } from "@/src/webinySdk";
 
 // { en: '/about', de: '/de/about', ... }
 export type LanguagePaths = Record<string, string>;

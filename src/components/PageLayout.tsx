@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import type { Language } from "@webiny/sdk";
+import type { Language } from "@/src/webinySdk";
 import type { LanguagePaths } from "./LanguageSelector";
 
 interface PageLayoutProps {

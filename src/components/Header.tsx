@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { Language } from "@webiny/sdk";
+import type { Language } from "@/src/webinySdk";
 import { LanguageSelector } from "./LanguageSelector";
 import type { LanguagePaths } from "./LanguageSelector";
 
