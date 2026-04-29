@@ -62,14 +62,18 @@ export async function middleware(request: NextRequest) {
     request.url,
   );
 
-  const redirectResponse = await fetch(redirectsUrl);
+  try {
+    const redirectResponse = await fetch(redirectsUrl);
 
-  const { redirect } = await redirectResponse.json();
-  if (redirect) {
-    return NextResponse.redirect(
-      new URL(redirect.to, request.url),
-      redirect.permanent ? 308 : 307,
-    );
+    const { redirect } = await redirectResponse.json();
+    if (redirect) {
+      return NextResponse.redirect(
+        new URL(redirect.to, request.url),
+        redirect.permanent ? 308 : 307,
+      );
+    }
+  } catch {
+    // Do nothing. Most probably redirect was simply not found.
   }
 
   // For all other requests, continue as normal without any modifications.
