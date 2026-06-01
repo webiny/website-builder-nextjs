@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { contentSdk } from "@webiny/website-builder-nextjs";
 import { initializeContentSdk, getTenant } from "@/src/contentSdk";
+import { webinySdk } from "@/src/webinySdk";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { normalizeSlug } from "@/src/utils/normalizeSlug";
@@ -79,6 +80,29 @@ export async function generateMetadata({
   };
 }
 
+async function listLanguages() {
+  const result = await webinySdk.languages.listLanguages();
+  return result.isFail() ? [] : result.value;
+}
+
+function resolveLanguageCode(
+  page: Awaited<ReturnType<typeof getPage>>,
+  languages: Awaited<ReturnType<typeof listLanguages>>,
+  slug: string[],
+): string | undefined {
+  const language = page?.properties.language;
+  if (language) {
+    return language;
+  }
+
+  const matchedBySlug = languages.find((l) => l.code === slug[0]);
+  if (matchedBySlug) {
+    return matchedBySlug.code;
+  }
+
+  return undefined;
+}
+
 // This function fetches page data for a given path, considering preview (draft) mode.
 // It is critical to initialize the SDK **before** using the `contentSdk` because this function
 // runs **before** any React components mount, so our ContentSdkInitializer has no effect.
@@ -100,10 +124,20 @@ export default async function Page({ params, searchParams }: PageProps) {
   // Check if the application is loaded in "live editing" mode.
   const isEditing = search["wb.editing"] === "true";
 
-  const page = await getPage(normalizeSlug(slug));
+  const [page, languages] = await Promise.all([
+    getPage(normalizeSlug(slug)),
+    listLanguages(),
+  ]);
+
+  const languagePaths = page?.languagePaths;
+  const currentLanguageCode = resolveLanguageCode(page, languages, slug);
 
   return (
-    <PageLayout>
+    <PageLayout
+      languages={languages}
+      languagePaths={languagePaths}
+      currentLanguageCode={currentLanguageCode}
+    >
       <DocumentRenderer document={page} isEditing={isEditing} />
     </PageLayout>
   );
