@@ -16,7 +16,7 @@ export default async (): Promise<NextConfig> => {
                 {
                     protocol: "https",
                     hostname:
-                        String(process.env.NEXT_PUBLIC_WEBSITE_BUILDER_API_HOST).replace(
+                        String(process.env.NEXT_PUBLIC_WEBINY_API_HOST).replace(
                             "https://",
                             ""
                         ) || "",
@@ -57,6 +57,6 @@ export default async (): Promise<NextConfig> => {
 };
 
 function whitelistedDomains(): string[] {
-    const adminHost = process.env.NEXT_PUBLIC_WEBSITE_BUILDER_ADMIN_HOST ?? "";
+    const adminHost = process.env.NEXT_PUBLIC_WEBINY_ADMIN_HOST ?? "";
     return adminHost.split(",").map(host => host.trim());
 }
