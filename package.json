@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "NODE_PATH=../webiny-to-esm/node_modules next dev",
+    "build": "NODE_PATH=../webiny-to-esm/node_modules next build",
+    "start": "NODE_PATH=../webiny-to-esm/node_modules next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@webiny/sdk": "*",
-    "@webiny/website-builder-nextjs": "*",
     "next": "^15.5.14",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
@@ -21,6 +19,7 @@
     "@types/node": "^22.19.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "oxfmt": "^0.61.0",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3"
   },

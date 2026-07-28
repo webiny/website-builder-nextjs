@@ -1,144 +1,140 @@
 import React from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
-import { contentSdk } from "@webiny/website-builder-nextjs";
-import { initializeContentSdk, getTenant } from "@/src/contentSdk";
-import { webinySdk } from "@/src/webinySdk";
+import { sdk, type Language } from "@webiny/sdk-nextjs";
+import { initializeSdk, getTenant } from "@/src/sdk";
 import { PageLayout } from "@/src/components/PageLayout";
 import { DocumentRenderer } from "@/src/components/DocumentRenderer";
 import { normalizeSlug } from "@/src/utils/normalizeSlug";
 
 type PageProps = {
-  // If it's a catch-all route, you get an array of path segments.
-  params: Promise<{ slug: string[] }>;
-  searchParams: Promise<Record<string, string>>;
+    // If it's a catch-all route, you get an array of path segments.
+    params: Promise<{ slug: string[] }>;
+    searchParams: Promise<Record<string, string>>;
 };
 
 // This function runs at build time to generate all static paths for Next.js prerendering.
 // We must initialize the SDK here because the SDK needs to be ready before fetching the list of pages.
 export async function generateStaticParams() {
-  initializeContentSdk({ tenantId: await getTenant() });
+    initializeSdk({ tenantId: await getTenant() });
 
-  // List all published pages
-  const pages = await contentSdk.listPages();
+    // List all published pages
+    const result = await sdk.wb.listPages();
+    const pages = result.isOk() ? result.value.data : [];
 
-  return pages.data.map((page) => {
-    const path = page.properties.path;
+    return pages.map(page => {
+        const path = page.properties.path;
+
+        return {
+            // The starter kit defines one single catch-all route, which expects an array of path segments.
+            // We split by `/` and remove the leading segment (which is a `/`), because Next appends the leading slash!
+            slug: path.split("/").slice(1)
+        };
+    });
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    initializeSdk({ tenantId: await getTenant() });
+
+    const { slug = "" } = await params;
+    const normalizedSlug = normalizeSlug(slug);
+
+    const result = await sdk.wb.getPage(normalizedSlug);
+
+    if (result.isFail()) {
+        return {};
+    }
+
+    const page = result.value;
+    const title = page.properties.seo?.title ?? page.properties.title;
+    const ogTitle = page.properties.social?.title ?? title;
+
+    const description = page.properties.seo?.description ?? page.properties.description;
+    const ogDescription = page.properties.social?.description ?? description;
+
+    // Custom tags
+    const otherSeoTags = page.properties.seo?.metaTags.reduce((acc, item) => {
+        return { ...acc, [item.name]: item.content };
+    }, {});
+
+    const otherOgTags = page.properties.social?.metaTags.reduce((acc, item) => {
+        return { ...acc, [item.property]: item.content };
+    }, {});
 
     return {
-      // The starter kit defines one single catch-all route, which expects an array of path segments.
-      // We split by `/` and remove the leading segment (which is a `/`), because Next appends the leading slash!
-      slug: path.split("/").slice(1),
+        title,
+        description,
+        openGraph: {
+            type: "website",
+            url: `https://example.com${normalizedSlug}`,
+            title: ogTitle,
+            description: ogDescription,
+            siteName: "My Website"
+        },
+        other: {
+            ...otherSeoTags,
+            ...otherOgTags
+        }
     };
-  });
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  initializeContentSdk({ tenantId: await getTenant() });
-
-  const { slug = "" } = await params;
-  const normalizedSlug = normalizeSlug(slug);
-
-  const page = await contentSdk.getPage(normalizedSlug);
-
-  if (!page) {
-    return {};
-  }
-
-  const title = page.properties.seo?.title ?? page.properties.title;
-  const ogTitle = page.properties.social?.title ?? title;
-
-  const description =
-    page.properties.seo?.description ?? page.properties.description;
-  const ogDescription = page.properties.social?.description ?? description;
-
-  // Custom tags
-  const otherSeoTags = page.properties.seo?.metaTags.reduce((acc, item) => {
-    return { ...acc, [item.name]: item.content };
-  }, {});
-
-  const otherOgTags = page.properties.social?.metaTags.reduce((acc, item) => {
-    return { ...acc, [item.property]: item.content };
-  }, {});
-
-  return {
-    title,
-    description,
-    openGraph: {
-      type: "website",
-      url: `https://example.com${normalizedSlug}`,
-      title: ogTitle,
-      description: ogDescription,
-      siteName: "My Website",
-    },
-    other: {
-      ...otherSeoTags,
-      ...otherOgTags,
-    },
-  };
-}
-
-async function listLanguages() {
-  const result = await webinySdk.languages.listLanguages();
-  return result.isFail() ? [] : result.value;
+async function listLanguages(): Promise<Language[]> {
+    const result = await sdk.languages.listLanguages();
+    return result.isFail() ? [] : result.value;
 }
 
 function resolveLanguageCode(
-  page: Awaited<ReturnType<typeof getPage>>,
-  languages: Awaited<ReturnType<typeof listLanguages>>,
-  slug: string[],
+    page: Awaited<ReturnType<typeof getPage>>,
+    languages: Awaited<ReturnType<typeof listLanguages>>,
+    slug: string[]
 ): string | undefined {
-  const language = page?.properties.language;
-  if (language) {
-    return language;
-  }
+    const language = page?.properties.language;
+    if (language) {
+        return language;
+    }
 
-  const matchedBySlug = languages.find((l) => l.code === slug[0]);
-  if (matchedBySlug) {
-    return matchedBySlug.code;
-  }
+    const matchedBySlug = languages.find(l => l.code === slug[0]);
+    if (matchedBySlug) {
+        return matchedBySlug.code;
+    }
 
-  return undefined;
+    return undefined;
 }
 
 // This function fetches page data for a given path, considering preview (draft) mode.
-// It is critical to initialize the SDK **before** using the `contentSdk` because this function
-// runs **before** any React components mount, so our ContentSdkInitializer has no effect.
+// It is critical to initialize the SDK **before** using the `sdk` because this function
+// runs **before** any React components mount, so our SdkInitializer has no effect.
 async function getPage(path: string) {
-  const { isEnabled } = await draftMode();
-
-  // Initialize the SDK with the preview flag to ensure correct data fetching.
-  initializeContentSdk({ preview: isEnabled, tenantId: await getTenant() });
-
-  return await contentSdk.getPage(path);
+    const result = await sdk.wb.getPage(path);
+    return result.isOk() ? result.value : null;
 }
 
 // The main page component, rendered server-side, receives parameters and search params.
 // It takes into account the live editing mode (`wb.editing` query parameter).
 export default async function Page({ params, searchParams }: PageProps) {
-  const { slug = [] } = await params;
-  const search = await searchParams;
+    const { slug = [] } = await params;
+    const search = await searchParams;
 
-  // Check if the application is loaded in "live editing" mode.
-  const isEditing = search["wb.editing"] === "true";
+    const previewMode = await draftMode();
 
-  const [page, languages] = await Promise.all([
-    getPage(normalizeSlug(slug)),
-    listLanguages(),
-  ]);
+    // Initialize the SDK with the preview flag to ensure correct data fetching.
+    initializeSdk({ preview: previewMode.isEnabled, tenantId: await getTenant() });
 
-  const languagePaths = page?.languagePaths;
-  const currentLanguageCode = resolveLanguageCode(page, languages, slug);
+    // Check if the application is loaded in "live editing" mode.
+    const isEditing = search["wb.editing"] === "true";
 
-  return (
-    <PageLayout
-      languages={languages}
-      languagePaths={languagePaths}
-      currentLanguageCode={currentLanguageCode}
-    >
-      <DocumentRenderer document={page} isEditing={isEditing} />
-    </PageLayout>
-  );
+    const [page, languages] = await Promise.all([getPage(normalizeSlug(slug)), listLanguages()]);
+
+    const languagePaths = page?.languagePaths;
+    const currentLanguageCode = resolveLanguageCode(page, languages, slug);
+
+    return (
+        <PageLayout
+            languages={languages}
+            languagePaths={languagePaths}
+            currentLanguageCode={currentLanguageCode}
+        >
+            <DocumentRenderer document={page} isEditing={isEditing} />
+        </PageLayout>
+    );
 }

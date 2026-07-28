@@ -17,6 +17,7 @@ For full documentation, visit [webiny.com/docs](https://www.webiny.com/docs).
 Languages are managed in Webiny. Each page has a `language` property and a set of `languagePaths` that map language codes to their corresponding URLs (e.g. `{ en: "/en/contact", de: "/de/kontakt" }`).
 
 Rules of URLs in the Website Builder:
+
 - 1 language in the system - pages are NOT prefixed with the language code
 - 2 or more languages in the system - page paths are prefixed with their language code (e.g. `/de/about`).
 
