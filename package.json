@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@webiny/sdk": "*",
-    "@webiny/website-builder-nextjs": "*",
+    "@webiny/sdk": "^6.4.2",
+    "@webiny/website-builder-nextjs": "^6.4.2",
     "next": "^15.5.14",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
