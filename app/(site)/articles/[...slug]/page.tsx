@@ -6,6 +6,9 @@ import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { fromBackend } from "@/sdk/backend";
 import { Article } from "@/components/Article/Article";
 
+// See the note in the page route: the root layout makes every render request-dependent.
+export const dynamic = "force-dynamic";
+
 interface ArticlePageProps {
     params: Promise<{ slug: string[] }>;
     searchParams: Promise<Record<string, string>>;

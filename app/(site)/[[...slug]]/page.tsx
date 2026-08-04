@@ -9,13 +9,19 @@ import { PageLayout } from "@/components/PageLayout";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
 import { normalizeSlug } from "@/utils/normalizeSlug";
 
+// The root layout reads request headers and draft mode on every render, so no page under it can be
+// static. Saying so explicitly keeps Next from trying to prerender a path it hasn't seen before and
+// failing with `DYNAMIC_SERVER_USAGE` when the layout reaches for those APIs.
+export const dynamic = "force-dynamic";
+
 type PageProps = {
     // If it's a catch-all route, you get an array of path segments.
     params: Promise<{ slug: string[] }>;
     searchParams: Promise<Record<string, string>>;
 };
 
-// This function runs at build time to generate all static paths for Next.js prerendering.
+// Lists every path Next could prerender. It is kept for deployments that render statically, but has
+// no effect while `dynamic` above is set to "force-dynamic" — Next skips it entirely.
 // We must initialize the SDK here because the SDK needs to be ready before fetching the list of pages.
 export async function generateStaticParams() {
     initializeSdk({ tenantId: await getTenant() });

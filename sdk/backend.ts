@@ -1,3 +1,5 @@
+import { rethrowIfNextControlFlow } from "@/utils/nextControlFlow";
+
 /**
  * Everything that depends on a Webiny backend goes through this module.
  *
@@ -45,6 +47,9 @@ export async function fromBackend<T>(fallback: T, call: () => Promise<T>): Promi
     try {
         return await call();
     } catch (error) {
+        // SDK calls read request headers, so a static render bails out through here. Let that signal
+        // pass; only genuine request failures fall back.
+        rethrowIfNextControlFlow(error);
         console.error("[webiny] API request failed:", error);
         return fallback;
     }

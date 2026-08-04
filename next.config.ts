@@ -2,11 +2,14 @@ import path from "path";
 import type { NextConfig } from "next";
 import { injectThemeCss } from "@webiny/sdk-nextjs/webpack.js";
 import { trailingSlash } from "@/constants";
-import { backend } from "@/sdk/backend";
 
 export default async (): Promise<NextConfig> => {
     // Create webpack plugins for theme injection.
     const { getPlugins } = await injectThemeCss(path.resolve("theme/theme.css"));
+
+    // Read straight from the environment rather than through `sdk/backend`: Next compiles this config
+    // on its own, and `@/*` aliases are not resolved in the files it pulls in transitively.
+    const apiHost = (process.env.NEXT_PUBLIC_WEBINY_API_HOST ?? "").trim();
 
     return {
         devIndicators: false,
@@ -15,11 +18,11 @@ export default async (): Promise<NextConfig> => {
         images: {
             // Only a configured backend serves images. Without one there is no remote host to allow,
             // and an empty pattern list is better than one pointing at the string "undefined".
-            remotePatterns: backend.apiHost
+            remotePatterns: apiHost
                 ? [
                       {
                           protocol: "https" as const,
-                          hostname: backend.apiHost.replace(/^https?:\/\//, ""),
+                          hostname: apiHost.replace(/^https?:\/\//, ""),
                           pathname: "/**"
                       }
                   ]

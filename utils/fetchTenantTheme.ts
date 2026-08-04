@@ -1,5 +1,6 @@
 import { sdk } from "@webiny/sdk-nextjs";
 import { isBackendConfigured } from "@/sdk/backend";
+import { rethrowIfNextControlFlow } from "@/utils/nextControlFlow";
 
 export interface TenantTheme {
     websiteTitle: string;
@@ -35,6 +36,7 @@ export async function fetchTenantTheme(): Promise<TenantTheme | null> {
             additionalColors: values.additionalColors ?? []
         };
     } catch (e) {
+        rethrowIfNextControlFlow(e);
         console.error("Failed to fetch tenant theme:", e);
         return null;
     }
