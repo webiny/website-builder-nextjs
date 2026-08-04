@@ -1,5 +1,5 @@
-import { trailingSlash } from "@/src/constants";
-import { SlugNormalizer, type SlugInput } from "@/src/utils/SlugNormalizer";
+import { trailingSlash } from "@/constants";
+import { SlugNormalizer, type SlugInput } from "@/utils/SlugNormalizer";
 
 const normalizer = new SlugNormalizer({ trailingSlash });
 

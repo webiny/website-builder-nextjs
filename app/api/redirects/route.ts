@@ -1,6 +1,6 @@
 import { sdk } from "@webiny/sdk-nextjs";
-import { initializeSdk } from "@/src/sdk";
-import { redirectsCacheTtl } from "@/src/constants";
+import { initializeSdk } from "@/sdk";
+import { redirectsCacheTtl } from "@/constants";
 
 // We don't want to cache the response!
 const noCacheHeaders = {

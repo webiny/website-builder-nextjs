@@ -1,11 +1,11 @@
 import React from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
-import { sdk, type Language } from "@webiny/sdk-nextjs";
-import { initializeSdk, getTenant } from "@/src/sdk";
-import { PageLayout } from "@/src/components/PageLayout";
-import { DocumentRenderer } from "@/src/components/DocumentRenderer";
-import { normalizeSlug } from "@/src/utils/normalizeSlug";
+import { type Language } from "@webiny/sdk-nextjs";
+import { initializeSdk, getTenant, sdk } from "@/sdk";
+import { PageLayout } from "@/components/PageLayout";
+import { DocumentRenderer } from "@/components/DocumentRenderer";
+import { normalizeSlug } from "@/utils/normalizeSlug";
 
 type PageProps = {
     // If it's a catch-all route, you get an array of path segments.

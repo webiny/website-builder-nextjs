@@ -1,12 +1,12 @@
 "use server";
 import React from "react";
 import { draftMode } from "next/headers";
-import { SdkInitializer, getTenant, initializeSdk } from "@/src/sdk";
-import "@/src/theme/tailwind.css";
-import { theme, css } from "@/src/theme/theme";
+import { SdkInitializer, getTenant, initializeSdk } from "@/sdk";
+import "@/theme/tailwind.css";
+import { theme, css } from "@/theme/theme";
 import { Inter } from "next/font/google";
-import { fetchTenantTheme } from "@/src/utils/fetchTenantTheme";
-import { mergeThemes, getTenantFontUrl } from "@/src/utils/mergeThemes";
+import { fetchTenantTheme } from "@/utils/fetchTenantTheme";
+import { mergeThemes, getTenantFontUrl } from "@/utils/mergeThemes";
 
 // Fallback font
 const inter = Inter({

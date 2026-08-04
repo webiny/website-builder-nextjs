@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import { Header } from "./Header";
 import type { Language } from "@webiny/sdk-nextjs";
 import type { LanguagePaths } from "./LanguageSelector";
 

@@ -7,7 +7,7 @@ interface ContentSdkOptions {
     theme?: WebsiteBuilderThemeInput;
 }
 
-export const initializeSdk = ({ tenantId, preview, theme }: ContentSdkOptions = {}) => {
+const initializeSdk = ({ tenantId, preview, theme }: ContentSdkOptions = {}) => {
     sdk.init({
         endpoint: String(process.env.NEXT_PUBLIC_WEBINY_API_HOST),
         token: String(process.env.NEXT_PUBLIC_WEBINY_API_KEY),
@@ -16,3 +16,5 @@ export const initializeSdk = ({ tenantId, preview, theme }: ContentSdkOptions = 
         wb: { theme, componentGroups }
     });
 };
+
+export { sdk, initializeSdk };

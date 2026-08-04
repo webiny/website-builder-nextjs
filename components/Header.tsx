@@ -17,11 +17,7 @@ interface HeaderProps {
     currentLanguageCode?: string;
 }
 
-export default function Header({
-    languages = [],
-    languagePaths = {},
-    currentLanguageCode
-}: HeaderProps) {
+export function Header({ languages = [], languagePaths = {}, currentLanguageCode }: HeaderProps) {
     return (
         <header className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
             <nav

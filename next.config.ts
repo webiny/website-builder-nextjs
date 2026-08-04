@@ -1,11 +1,11 @@
 import path from "path";
 import type { NextConfig } from "next";
 import { injectThemeCss } from "@webiny/sdk-nextjs/webpack.js";
-import { trailingSlash } from "@/src/constants";
+import { trailingSlash } from "@/constants";
 
 export default async (): Promise<NextConfig> => {
     // Create webpack plugins for theme injection.
-    const { getPlugins } = await injectThemeCss(path.resolve("src/theme/theme.css"));
+    const { getPlugins } = await injectThemeCss(path.resolve("theme/theme.css"));
 
     return {
         devIndicators: false,

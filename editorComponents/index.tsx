@@ -1,16 +1,16 @@
 "use client";
-import { createComponent, createTextInput } from "@webiny/sdk-nextjs";
+import { createWbComponent, createTextInput } from "@webiny/sdk-nextjs";
 import { Hero1 } from "./Hero1";
 import { Banner } from "./Banner";
 
 export const editorComponents = [
-    createComponent(Hero1, {
+    createWbComponent(Hero1, {
         name: "Webiny/Hero",
         label: "Hero #1",
         aiContext: "Create a hero section with a headline and a call-to-action button.",
         inputs: []
     }),
-    createComponent(Banner, {
+    createWbComponent(Banner, {
         name: "Custom/Banner",
         label: "Banner",
         aiContext: "Never place multiple banners next to each other.",
