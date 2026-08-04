@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { type Language } from "@webiny/sdk-nextjs";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
+import { fromBackend } from "@/sdk/backend";
+import { createEditingDocument } from "@/sdk/editingDocument";
 import { PageLayout } from "@/components/PageLayout";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
 import { normalizeSlug } from "@/utils/normalizeSlug";
@@ -18,18 +20,20 @@ type PageProps = {
 export async function generateStaticParams() {
     initializeSdk({ tenantId: await getTenant() });
 
-    // List all published pages
-    const result = await sdk.wb.listPages();
-    const pages = result.isOk() ? result.value.data : [];
+    return fromBackend<{ slug: string[] }[]>([], async () => {
+        // List all published pages
+        const result = await sdk.wb.listPages();
+        const pages = result.isOk() ? result.value.data : [];
 
-    return pages.map(page => {
-        const path = page.properties.path;
+        return pages.map(page => {
+            const path = page.properties.path;
 
-        return {
-            // The starter kit defines one single catch-all route, which expects an array of path segments.
-            // We split by `/` and remove the leading segment (which is a `/`), because Next appends the leading slash!
-            slug: path.split("/").slice(1)
-        };
+            return {
+                // The starter kit defines one single catch-all route, which expects an array of path segments.
+                // We split by `/` and remove the leading segment (which is a `/`), because Next appends the leading slash!
+                slug: path.split("/").slice(1)
+            };
+        });
     });
 }
 
@@ -39,13 +43,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const { slug = "" } = await params;
     const normalizedSlug = normalizeSlug(slug);
 
-    const result = await sdk.wb.getPage(normalizedSlug);
+    const page = await fromBackend(null, async () => {
+        const result = await sdk.wb.getPage(normalizedSlug);
+        return result.isFail() ? null : result.value;
+    });
 
-    if (result.isFail()) {
+    if (!page) {
         return {};
     }
 
-    const page = result.value;
     const title = page.properties.seo?.title ?? page.properties.title;
     const ogTitle = page.properties.social?.title ?? title;
 
@@ -79,8 +85,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 async function listLanguages(): Promise<Language[]> {
-    const result = await sdk.languages.listLanguages();
-    return result.isFail() ? [] : result.value;
+    return fromBackend<Language[]>([], async () => {
+        const result = await sdk.languages.listLanguages();
+        return result.isFail() ? [] : result.value;
+    });
 }
 
 function resolveLanguageCode(
@@ -105,8 +113,10 @@ function resolveLanguageCode(
 // It is critical to initialize the SDK **before** using the `sdk` because this function
 // runs **before** any React components mount, so our SdkInitializer has no effect.
 async function getPage(path: string) {
-    const result = await sdk.wb.getPage(path);
-    return result.isOk() ? result.value : null;
+    return fromBackend(null, async () => {
+        const result = await sdk.wb.getPage(path);
+        return result.isOk() ? result.value : null;
+    });
 }
 
 // The main page component, rendered server-side, receives parameters and search params.
@@ -128,13 +138,27 @@ export default async function Page({ params, searchParams }: PageProps) {
     const languagePaths = page?.languagePaths;
     const currentLanguageCode = resolveLanguageCode(page, languages, slug);
 
+    // While editing, the editor is the source of truth for the page's content, so we don't need to
+    // have fetched it: a placeholder is enough to boot the renderer, and the editor fills it in.
+    // This is what keeps the editor working on a page that was never saved, and on an instance with
+    // no backend configured at all.
+    const document =
+        page ??
+        (isEditing
+            ? createEditingDocument({
+                  id: search["wb.id"] ?? "",
+                  // `wb.path` is what the SDK matches against, so prefer it over our own slug.
+                  path: search["wb.path"] ?? normalizeSlug(slug)
+              })
+            : null);
+
     return (
         <PageLayout
             languages={languages}
             languagePaths={languagePaths}
             currentLanguageCode={currentLanguageCode}
         >
-            <DocumentRenderer document={page} isEditing={isEditing} />
+            <DocumentRenderer document={document} isEditing={isEditing} />
         </PageLayout>
     );
 }

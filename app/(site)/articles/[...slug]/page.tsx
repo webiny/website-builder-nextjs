@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { draftMode } from "next/headers";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
+import { fromBackend } from "@/sdk/backend";
 import { Article } from "@/components/Article/Article";
 
 interface ArticlePageProps {
@@ -13,18 +14,20 @@ interface ArticlePageProps {
 export async function generateStaticParams() {
     initializeSdk({ tenantId: await getTenant() });
 
-    const result = await sdk.cms.listEntries({
-        modelId: "article"
-    });
+    return fromBackend<{ slug: string[] }[]>([], async () => {
+        const result = await sdk.cms.listEntries({
+            modelId: "article"
+        });
 
-    if (result.isFail()) {
-        return [];
-    }
+        if (result.isFail()) {
+            return [];
+        }
 
-    return result.value.data.map(entry => {
-        const values = entry.values;
-        const slug = values.slug as string;
-        return { slug: slug.split("/") };
+        return result.value.data.map(entry => {
+            const values = entry.values;
+            const slug = values.slug as string;
+            return { slug: slug.split("/") };
+        });
     });
 }
 
@@ -32,26 +35,28 @@ async function getEntry(slug: string[], searchParams: Record<string, string>) {
     const { isEnabled } = await draftMode();
     initializeSdk({ preview: isEnabled, tenantId: await getTenant() });
 
-    const entryId = searchParams["wb.id"];
-    if (entryId) {
-        const result = await sdk.cms.getEntry({ modelId: "article", entryId });
-        return result.isOk() ? result.value : null;
-    }
+    return fromBackend(null, async () => {
+        const entryId = searchParams["wb.id"];
+        if (entryId) {
+            const result = await sdk.cms.getEntry({ modelId: "article", entryId });
+            return result.isOk() ? result.value : null;
+        }
 
-    const slugValue = slug.join("/");
-    const result = await sdk.cms.listEntries({
-        modelId: "article",
-        where: { values: { slug: slugValue } },
-        limit: 1
+        const slugValue = slug.join("/");
+        const result = await sdk.cms.listEntries({
+            modelId: "article",
+            where: { values: { slug: slugValue } },
+            limit: 1
+        });
+
+        if (result.isFail()) {
+            return null;
+        }
+
+        const data = result.value.data;
+
+        return data.length > 0 ? data[0] : null;
     });
-
-    if (result.isFail()) {
-        return null;
-    }
-
-    const data = result.value.data;
-
-    return data.length > 0 ? data[0] : null;
 }
 
 export async function generateMetadata({
@@ -79,16 +84,19 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 
     initializeSdk({ tenantId: await getTenant() });
 
-    const modelResult = await sdk.cms.getModel("article");
+    const model = await fromBackend(null, async () => {
+        const result = await sdk.cms.getModel("article");
+        return result.isFail() ? null : result.value;
+    });
     const entry = await getEntry(slug, search);
 
-    if (!entry || modelResult.isFail()) {
+    if (!entry || !model) {
         return notFound();
     }
 
     return (
         <main className="pb-12">
-            <Article entry={entry} model={modelResult.value} />
+            <Article entry={entry} model={model} />
         </main>
     );
 }

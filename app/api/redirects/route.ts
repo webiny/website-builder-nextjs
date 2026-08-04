@@ -1,5 +1,6 @@
 import { sdk } from "@webiny/sdk-nextjs";
 import { initializeSdk } from "@/sdk";
+import { fromBackend, isBackendConfigured } from "@/sdk/backend";
 import { redirectsCacheTtl } from "@/constants";
 
 // We don't want to cache the response!
@@ -31,15 +32,15 @@ export async function GET(request: Request) {
     const tenantId = searchParams.get("wb.tenant");
     const pathname = searchParams.get("pathname");
 
-    if (!pathname || !tenantId) {
+    if (!pathname || !tenantId || !isBackendConfigured) {
         return noRedirectResponse;
     }
 
     // Check if there's a redirect defined for the requested page.
     initializeSdk({ tenantId });
-    const result = await sdk.wb.getRedirectByPath(pathname);
+    const result = await fromBackend(null, () => sdk.wb.getRedirectByPath(pathname));
 
-    if (result.isOk() && result.value) {
+    if (result?.isOk() && result.value) {
         return Response.json({ redirect: result.value }, { headers });
     }
 

@@ -1,38 +1,22 @@
 "use client";
-import { createWbComponent, createTextInput } from "@webiny/sdk-nextjs";
-import { Hero1 } from "./Hero1";
-import { Banner } from "./Banner";
+import { Hero } from "./Hero";
+import { FeatureSection } from "./FeatureSection";
+import { ContentSection } from "./ContentSection";
+import { StatsSection } from "./StatsSection";
+import { TestimonialsSection } from "./TestimonialsSection";
+import { FaqSection } from "./FaqSection";
+import { CtaSection } from "./CtaSection";
 
+/**
+ * The components the page editor can place on a page. Each one lives in its own file together with
+ * its manifest, so adding a section to this starter kit means adding a file and a line here.
+ */
 export const editorComponents = [
-    createWbComponent(Hero1, {
-        name: "Webiny/Hero",
-        label: "Hero #1",
-        aiContext: "Create a hero section with a headline and a call-to-action button.",
-        inputs: []
-    }),
-    createWbComponent(Banner, {
-        name: "Custom/Banner",
-        label: "Banner",
-        aiContext: "Never place multiple banners next to each other.",
-        inputs: [
-            createTextInput({
-                name: "headline",
-                label: "Headline",
-                description: "The main headline text displayed on the banner.",
-                defaultValue: "Ready to get started?"
-            }),
-            createTextInput({
-                name: "ctaLabel",
-                label: "Button Label",
-                description: "The text displayed on the call-to-action button.",
-                defaultValue: "Get started"
-            }),
-            createTextInput({
-                name: "ctaUrl",
-                label: "Button URL",
-                description: "The URL the button links to.",
-                defaultValue: "/"
-            })
-        ]
-    })
+    Hero,
+    FeatureSection,
+    ContentSection,
+    StatsSection,
+    TestimonialsSection,
+    FaqSection,
+    CtaSection
 ];

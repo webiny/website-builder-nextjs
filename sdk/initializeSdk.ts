@@ -1,4 +1,5 @@
 import { sdk, type WebsiteBuilderThemeInput } from "@webiny/sdk-nextjs";
+import { backend } from "./backend";
 import { componentGroups } from "./groups";
 
 interface ContentSdkOptions {
@@ -7,11 +8,14 @@ interface ContentSdkOptions {
     theme?: WebsiteBuilderThemeInput;
 }
 
+// The SDK is initialized even when no backend is configured: the theme and the component groups it
+// carries are what the editor needs to render this frontend's components. Data fetching is guarded
+// separately, through `fromBackend`.
 const initializeSdk = ({ tenantId, preview, theme }: ContentSdkOptions = {}) => {
     sdk.init({
-        endpoint: String(process.env.NEXT_PUBLIC_WEBINY_API_HOST),
-        token: String(process.env.NEXT_PUBLIC_WEBINY_API_KEY),
-        tenant: tenantId ?? String(process.env.NEXT_PUBLIC_WEBINY_API_TENANT),
+        endpoint: backend.apiHost,
+        token: backend.apiKey,
+        tenant: tenantId ?? backend.tenant,
         preview,
         wb: { theme, componentGroups }
     });

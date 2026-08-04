@@ -1,7 +1,45 @@
 import { draftMode } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
+import { backend, isBackendConfigured } from "@/sdk/backend";
 
 const ENABLE_DRAFT_MODE_ROUTE = "/api/preview";
+
+/**
+ * Decides who may embed this frontend in an iframe, which is what the page editor does.
+ *
+ * A configured instance names its own admin app(s) via `NEXT_PUBLIC_WEBINY_ADMIN_HOST`. With nothing
+ * configured, this frontend is meant to be opened from any Webiny instance, and the only thing we
+ * know about the admin that opened us is the origin it passes in `wb.referrer` — so we allow exactly
+ * that origin, per request. Nothing here is worth clickjacking: the page holds no session and no
+ * data of its own.
+ *
+ * This header must live in middleware rather than `next.config.ts`, because it depends on the
+ * request. Two `Content-Security-Policy` headers would be intersected by the browser, so there must
+ * be only one source of it.
+ */
+function frameAncestors(referrer: string | null): string {
+    const configured = backend.adminHost
+        .split(",")
+        .map(host => host.trim())
+        .filter(Boolean);
+
+    if (configured.length > 0) {
+        return ["'self'", ...configured].join(" ");
+    }
+
+    try {
+        const { origin, protocol } = new URL(referrer ?? "");
+        return protocol === "http:" || protocol === "https:" ? `'self' ${origin}` : "'self'";
+    } catch {
+        return "'self'";
+    }
+}
+
+function allowEmbedding(response: NextResponse, request: NextRequest): NextResponse {
+    const referrer = request.nextUrl.searchParams.get("wb.referrer");
+    response.headers.set("Content-Security-Policy", `frame-ancestors ${frameAncestors(referrer)}`);
+    return response;
+}
 
 export async function middleware(request: NextRequest) {
     const { searchParams, pathname } = request.nextUrl;
@@ -36,7 +74,7 @@ export async function middleware(request: NextRequest) {
             );
             response.headers.set("Pragma", "no-cache");
             response.headers.set("Expires", "0");
-            return response;
+            return allowEmbedding(response, request);
         }
 
         // If preview mode is not enabled yet, redirect to the preview API route
@@ -55,32 +93,38 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(request.url);
     }
 
-    // Check if there's a redirect defined for the requested page.
-    const redirectsUrl = new URL(
-        `/api/redirects?wb.tenant=${tenantId}&pathname=${encodeURIComponent(pathname)}`,
-        request.url
-    );
+    // Check if there's a redirect defined for the requested page. Redirects are stored in Webiny, so
+    // there is nothing to look up when no backend is configured.
+    if (isBackendConfigured) {
+        const redirectsUrl = new URL(
+            `/api/redirects?wb.tenant=${tenantId}&pathname=${encodeURIComponent(pathname)}`,
+            request.url
+        );
 
-    try {
-        const redirectResponse = await fetch(redirectsUrl);
+        try {
+            const redirectResponse = await fetch(redirectsUrl);
 
-        const { redirect } = await redirectResponse.json();
-        if (redirect) {
-            return NextResponse.redirect(
-                new URL(redirect.to, request.url),
-                redirect.permanent ? 308 : 307
-            );
+            const { redirect } = await redirectResponse.json();
+            if (redirect) {
+                return NextResponse.redirect(
+                    new URL(redirect.to, request.url),
+                    redirect.permanent ? 308 : 307
+                );
+            }
+        } catch {
+            // Do nothing. Most probably redirect was simply not found.
         }
-    } catch {
-        // Do nothing. Most probably redirect was simply not found.
     }
 
     // For all other requests, continue as normal without any modifications.
-    return NextResponse.next({
-        request: {
-            headers: requestHeaders
-        }
-    });
+    return allowEmbedding(
+        NextResponse.next({
+            request: {
+                headers: requestHeaders
+            }
+        }),
+        request
+    );
 }
 
 export const config = {

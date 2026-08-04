@@ -29,7 +29,7 @@ export default async function RootLayout({
 
     const tenantTheme = await fetchTenantTheme();
     const resolvedTheme = tenantTheme ? mergeThemes(theme, tenantTheme) : theme;
-    const resolvedCss = tenantTheme ? resolvedTheme.css ?? css : css;
+    const resolvedCss = tenantTheme ? (resolvedTheme.css ?? css) : css;
     const tenantFontUrl = tenantTheme ? getTenantFontUrl(tenantTheme) : null;
 
     return (
@@ -38,7 +38,11 @@ export default async function RootLayout({
                 {tenantFontUrl && (
                     <>
                         <link rel="preconnect" href="https://fonts.googleapis.com" />
-                        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                        <link
+                            rel="preconnect"
+                            href="https://fonts.gstatic.com"
+                            crossOrigin="anonymous"
+                        />
                         <link rel="stylesheet" href={tenantFontUrl} />
                     </>
                 )}

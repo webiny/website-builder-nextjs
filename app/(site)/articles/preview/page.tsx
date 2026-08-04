@@ -1,20 +1,25 @@
 import React from "react";
 import { initializeSdk, sdk, getTenant } from "@/sdk";
+import { fromBackend } from "@/sdk/backend";
 import { Article } from "@/components/Article/Article";
 
 export const dynamic = "force-dynamic";
 
 export default async function ArticlePreviewPage() {
     initializeSdk({ preview: true, tenantId: await getTenant() });
-    const modelResult = await sdk.cms.getModel("article");
+    // The CMS live preview needs the model, which only a backend can provide.
+    const model = await fromBackend(null, async () => {
+        const result = await sdk.cms.getModel("article");
+        return result.isFail() ? null : result.value;
+    });
 
-    if (modelResult.isFail()) {
+    if (!model) {
         return null;
     }
 
     return (
         <main className="pb-12">
-            <Article entry={null} model={modelResult.value} isEditing />
+            <Article entry={null} model={model} isEditing />
         </main>
     );
 }

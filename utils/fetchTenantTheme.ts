@@ -1,4 +1,5 @@
 import { sdk } from "@webiny/sdk-nextjs";
+import { isBackendConfigured } from "@/sdk/backend";
 
 export interface TenantTheme {
     websiteTitle: string;
@@ -8,6 +9,11 @@ export interface TenantTheme {
 }
 
 export async function fetchTenantTheme(): Promise<TenantTheme | null> {
+    // Without a backend there is no tenant to ask; the local theme is used as-is.
+    if (!isBackendConfigured) {
+        return null;
+    }
+
     try {
         const result = await sdk.tenantManager.getCurrentTenant();
 

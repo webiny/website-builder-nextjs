@@ -23,7 +23,8 @@ export const PageLayout = ({
                 languagePaths={languagePaths}
                 currentLanguageCode={currentLanguageCode}
             />
-            <main className="flex-1 mx-auto w-full max-w-7xl px-6 lg:px-8 py-10">{children}</main>
+            {/* Sections are full width bands that bring their own container and padding. */}
+            <main className="flex-1 w-full">{children}</main>
         </div>
     );
 };

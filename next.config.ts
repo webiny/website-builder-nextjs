@@ -2,6 +2,7 @@ import path from "path";
 import type { NextConfig } from "next";
 import { injectThemeCss } from "@webiny/sdk-nextjs/webpack.js";
 import { trailingSlash } from "@/constants";
+import { backend } from "@/sdk/backend";
 
 export default async (): Promise<NextConfig> => {
     // Create webpack plugins for theme injection.
@@ -12,36 +13,21 @@ export default async (): Promise<NextConfig> => {
         trailingSlash,
         productionBrowserSourceMaps: false,
         images: {
-            remotePatterns: [
-                {
-                    protocol: "https",
-                    hostname:
-                        String(process.env.NEXT_PUBLIC_WEBINY_API_HOST).replace(
-                            "https://",
-                            ""
-                        ) || "",
-                    pathname: "/**"
-                }
-            ]
+            // Only a configured backend serves images. Without one there is no remote host to allow,
+            // and an empty pattern list is better than one pointing at the string "undefined".
+            remotePatterns: backend.apiHost
+                ? [
+                      {
+                          protocol: "https" as const,
+                          hostname: backend.apiHost.replace(/^https?:\/\//, ""),
+                          pathname: "/**"
+                      }
+                  ]
+                : []
         },
-        async headers() {
-            return [
-                {
-                    source: "/:path*",
-                    headers: [
-                        {
-                            key: "Content-Security-Policy",
-                            value: [
-                                "frame-ancestors",
-                                "http://localhost:3001",
-                                ...whitelistedDomains()
-                            ].join(" ")
-                            // Example: "frame-ancestors http://localhost:3001 https://d3fak6u4cx01ke.cloudfront.net"
-                        }
-                    ]
-                }
-            ];
-        },
+        // `frame-ancestors` is set in `middleware.ts` instead of here, because who may embed this
+        // frontend depends on the request (see the comment there). Sending the header from both
+        // places would make the browser intersect the two, and the editor's iframe would be blocked.
         webpack: (config, context) => {
             config.externals.push({
                 "thread-stream": "commonjs thread-stream",
@@ -55,8 +41,3 @@ export default async (): Promise<NextConfig> => {
         }
     };
 };
-
-function whitelistedDomains(): string[] {
-    const adminHost = process.env.NEXT_PUBLIC_WEBINY_ADMIN_HOST ?? "";
-    return adminHost.split(",").map(host => host.trim());
-}
