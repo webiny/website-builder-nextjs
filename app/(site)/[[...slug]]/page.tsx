@@ -2,7 +2,8 @@ import React from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { type Language } from "@webiny/sdk-nextjs";
-import { initializeSdk, getTenant, sdk } from "@/sdk";
+import { initializeSdk, sdk } from "@/sdk";
+import { getTenant } from "@/sdk/getTenant";
 import { PageLayout } from "@/components/PageLayout";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
 import { normalizeSlug } from "@/utils/normalizeSlug";
@@ -123,7 +124,15 @@ export default async function Page({ params, searchParams }: PageProps) {
     // Check if the application is loaded in "live editing" mode.
     const isEditing = search["wb.editing"] === "true";
 
-    const [page, languages] = await Promise.all([getPage(normalizeSlug(slug)), listLanguages()]);
+    const [page, languages, remoteComponentsResult] = await Promise.all([
+        getPage(normalizeSlug(slug)),
+        listLanguages(),
+        sdk.components.loadComponents({
+            fetchOptions: { next: { revalidate: 60 } } as RequestInit
+        })
+    ]);
+
+    const remoteComponents = remoteComponentsResult.isOk() ? remoteComponentsResult.value : [];
 
     const languagePaths = page?.languagePaths;
     const currentLanguageCode = resolveLanguageCode(page, languages, slug);
@@ -134,7 +143,11 @@ export default async function Page({ params, searchParams }: PageProps) {
             languagePaths={languagePaths}
             currentLanguageCode={currentLanguageCode}
         >
-            <DocumentRenderer document={page} isEditing={isEditing} />
+            <DocumentRenderer
+                document={page}
+                isEditing={isEditing}
+                remoteComponents={remoteComponents}
+            />
         </PageLayout>
     );
 }

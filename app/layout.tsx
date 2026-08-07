@@ -1,7 +1,8 @@
 "use server";
 import React from "react";
 import { draftMode } from "next/headers";
-import { SdkInitializer, getTenant, initializeSdk } from "@/sdk";
+import { SdkInitializer, initializeSdk } from "@/sdk";
+import { getTenant } from "@/sdk/getTenant";
 import "@/theme/tailwind.css";
 import { theme, css } from "@/theme/theme";
 import { Inter } from "next/font/google";
