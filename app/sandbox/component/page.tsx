@@ -1,6 +1,5 @@
 import React from "react";
-import { initializeSdk } from "@/sdk";
-import { getTenant } from "@/sdk/getTenant";
+import { initializeSdk, getTenant } from "@/sdk";
 import { ComponentSandbox } from "@webiny/sdk-nextjs";
 import { editorComponents } from "@/editorComponents";
 

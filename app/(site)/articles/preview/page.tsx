@@ -1,6 +1,5 @@
 import React from "react";
-import { initializeSdk, sdk } from "@/sdk";
-import { getTenant } from "@/sdk/getTenant";
+import { initializeSdk, sdk, getTenant } from "@/sdk";
 import { Article } from "@/components/Article/Article";
 
 export const dynamic = "force-dynamic";

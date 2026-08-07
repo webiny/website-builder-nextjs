@@ -2,8 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { draftMode } from "next/headers";
-import { initializeSdk, sdk } from "@/sdk";
-import { getTenant } from "@/sdk/getTenant";
+import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { Article } from "@/components/Article/Article";
 
 interface ArticlePageProps {
