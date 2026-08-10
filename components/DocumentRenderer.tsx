@@ -1,14 +1,13 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
-import { type Document } from "@webiny/sdk-nextjs";
+import { type Document, sdk } from "@webiny/sdk-nextjs";
+import * as sdkNextjs from "@webiny/sdk-nextjs";
+import type { RemoteComponentEntry } from "@webiny/sdk-nextjs";
 import { editorComponents } from "../editorComponents";
 import { NotFound } from "./NotFound";
 
-// Dynamically import DocumentRenderer with SSR enabled for non-editing mode.
-// This component will be server-side rendered for better SEO and initial load performance.
 const DocumentRendererSSR = dynamic(
-    // eslint-disable-next-line import/dynamic-import-chunkname
     () =>
         import("@webiny/sdk-nextjs").then(m => ({
             default: m.DocumentRenderer
@@ -16,10 +15,7 @@ const DocumentRendererSSR = dynamic(
     { ssr: true }
 );
 
-// Dynamically import DocumentRenderer with SSR disabled for editing mode.
-// This prevents hydration mismatches and allows client-only behavior needed during editing.
 const DocumentRendererNoSSR = dynamic(
-    // eslint-disable-next-line import/dynamic-import-chunkname
     () =>
         import("@webiny/sdk-nextjs").then(m => ({
             default: m.DocumentRenderer
@@ -30,26 +26,46 @@ const DocumentRendererNoSSR = dynamic(
 interface DocumentRendererProps {
     document: Document | null;
     isEditing?: boolean;
+    remoteComponents?: RemoteComponentEntry[];
     children?: React.ReactNode | React.ReactNode[];
 }
 
-// Main DocumentRenderer component that decides whether to render with SSR or without SSR
-// based on the `isEditing` flag. If no document is provided, it shows a simple "Page Not Found" message.
-export const DocumentRenderer = ({ document, isEditing, children }: DocumentRendererProps) => {
-    // Optionally, show a 404 page here!
+export const DocumentRenderer = ({
+    document,
+    isEditing,
+    remoteComponents = [],
+    children
+}: DocumentRendererProps) => {
+    const { allComponents, remoteCss } = useMemo(() => {
+        const hydrated = remoteComponents
+            .map(entry => sdk.components.hydrateComponent(entry, { sdk: sdkNextjs, React }))
+            .filter(Boolean);
+
+        return {
+            allComponents: [
+                ...editorComponents,
+                ...hydrated.map(h => ({ component: h.component, manifest: h.manifest }))
+            ],
+            remoteCss: hydrated.map(h => h.css).filter(Boolean).join("\n")
+        };
+    }, [remoteComponents]);
+
     if (!document && !isEditing) {
         return <NotFound />;
     }
 
-    // Render the client-only version when editing to avoid SSR issues,
-    // otherwise render server-side for production view.
-    return isEditing ? (
-        <DocumentRendererNoSSR document={document} components={editorComponents}>
-            {children}
-        </DocumentRendererNoSSR>
-    ) : (
-        <DocumentRendererSSR document={document} components={editorComponents}>
-            {children}
-        </DocumentRendererSSR>
+    return (
+        <>
+            {remoteCss ? <style dangerouslySetInnerHTML={{ __html: remoteCss }} /> : null}
+            {isEditing ? (
+                <DocumentRendererNoSSR document={document} components={allComponents}>
+                    {children}
+                </DocumentRendererNoSSR>
+            ) : (
+                <DocumentRendererSSR document={document} components={allComponents}>
+                    {children}
+                </DocumentRendererSSR>
+            )}
+        </>
     );
 };
