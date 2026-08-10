@@ -7,9 +7,9 @@ export function Hero1() {
             <div className="relative isolate px-6 pt-6 lg:px-8">
                 <div className="mx-auto max-w-2xl py-8 sm:py-8 lg:py-8">
                     <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-                        <div className="relative rounded-full px-3 py-1 text-sm/6 text-text-muted ring-1 ring-border/90 hover:ring-border/60">
+                        <div className="relative rounded-pill px-3 py-1 text-sm/6 text-text-muted ring-1 ring-border hover:ring-border-strong">
                             Announcing our next round of funding.{" "}
-                            <a href="#" className="font-semibold text-primary">
+                            <a href="#" className="font-semibold text-link">
                                 <span aria-hidden="true" className="absolute inset-0" />
                                 Read more <span aria-hidden="true">&rarr;</span>
                             </a>
@@ -26,7 +26,7 @@ export function Hero1() {
                         <div className="mt-10 flex items-center justify-center gap-x-6">
                             <a
                                 href="#"
-                                className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                                className="rounded-control bg-primary px-3.5 py-2.5 text-sm font-semibold text-on-primary shadow-raised hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus"
                             >
                                 Get started
                             </a>

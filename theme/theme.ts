@@ -10,53 +10,60 @@ export const theme = createTheme({
     css,
     fonts: ["https://fonts.googleapis.com/css2?family=Inter&display=swap"],
     allowCustomColors: false,
+    // Each swatch resolves to the active theme's canonical slot first, then to the starter's static
+    // value — so content authored against these colors follows the active theme, and renders as before
+    // when none is active. Mapping mirrors theme/tailwind.css so utilities and content agree.
     colors: [
         {
             id: "color-primary",
             label: "Primary",
-            value: "var(--wb-theme-color-primary)"
+            value: "var(--wby-color-action-primary-background, var(--wb-theme-color-primary))"
         },
         {
             id: "color-secondary",
             label: "Secondary",
-            value: "var(--wb-theme-color-secondary)"
+            value: "var(--wby-color-action-secondary-background, var(--wb-theme-color-secondary))"
         },
         {
             id: "color-background",
             label: "Background",
-            value: "var(--wb-theme-color-background)"
+            value: "var(--wby-color-surface-page, var(--wb-theme-color-background))"
         },
         {
             id: "color-surface",
             label: "Surface",
-            value: "var(--wb-theme-color-surface)"
+            value: "var(--wby-color-surface-raised, var(--wb-theme-color-surface))"
         },
         {
             id: "color-text-base",
             label: "Text",
-            value: "var(--wb-theme-color-text-base)"
+            value: "var(--wby-color-text-primary, var(--wb-theme-color-text-base))"
         },
         {
             id: "color-text-muted",
             label: "Text Muted",
-            value: "var(--wb-theme-color-text-muted)"
+            value: "var(--wby-color-text-muted, var(--wb-theme-color-text-muted))"
         },
         {
             id: "color-border",
             label: "Border",
-            value: "var(--wb-theme-color-border)"
+            value: "var(--wby-color-border-default, var(--wb-theme-color-border))"
         },
         {
             id: "color-success",
             label: "Success",
-            value: "var(--wb-theme-color-success)"
+            value: "var(--wby-color-feedback-success-foreground, var(--wb-theme-color-success))"
         },
         {
             id: "color-warning",
             label: "Warning",
-            value: "var(--wb-theme-color-warning)"
+            value: "var(--wby-color-feedback-warning-foreground, var(--wb-theme-color-warning))"
         },
-        { id: "color-error", label: "Error", value: "var(--wb-theme-color-error)" }
+        {
+            id: "color-error",
+            label: "Error",
+            value: "var(--wby-color-feedback-danger-foreground, var(--wb-theme-color-error))"
+        }
     ],
     typography: {
         headings: [

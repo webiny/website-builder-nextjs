@@ -1,15 +1,63 @@
 @import "tailwindcss";
 
+/*
+ * Theme tokens resolve new-theme-first, with the starter's static defaults as the fallback.
+ *
+ * When a Webiny theme is active, its `tokens.css` defines the `--wby-*` variables on `:root` and they
+ * win. With no active theme, `--wby-*` is undefined and each token falls back to the original
+ * `--wb-theme-*` value from `theme.css` (or a sensible built-in for the tokens that predate it) — so a
+ * site that never adopted the theming module renders as before. Adoption is purely additive.
+ *
+ * These map onto Tailwind v4 theme namespaces, so the values drive utilities directly:
+ * `--color-*` → bg-/text-/border-*, `--radius-*` → rounded-*, `--shadow-*` → shadow-*.
+ */
 @theme inline {
-  --font-sans: var(--wb-theme-font-family, "Inter", sans-serif);
-  --color-primary: var(--wb-theme-color-primary);
-  --color-secondary: var(--wb-theme-color-secondary);
-  --color-background: var(--wb-theme-color-background);
-  --color-surface: var(--wb-theme-color-surface);
-  --color-text-base: var(--wb-theme-color-text-base);
-  --color-text-muted: var(--wb-theme-color-text-muted);
-  --color-border: var(--wb-theme-color-border);
-  --color-success: var(--wb-theme-color-success);
-  --color-warning: var(--wb-theme-color-warning);
-  --color-error: var(--wb-theme-color-error);
+  --font-sans: var(--wby-font-sans, var(--wb-theme-font-family, "Inter", sans-serif));
+
+  /* Surfaces */
+  --color-background: var(--wby-color-surface-page, var(--wb-theme-color-background));
+  --color-surface: var(--wby-color-surface-raised, var(--wb-theme-color-surface));
+  --color-sunken: var(--wby-color-surface-sunken, var(--wb-theme-color-surface));
+  --color-overlay: var(--wby-color-surface-overlay, var(--wb-theme-color-surface));
+
+  /* Text */
+  --color-text-base: var(--wby-color-text-primary, var(--wb-theme-color-text-base));
+  --color-text-muted: var(--wby-color-text-muted, var(--wb-theme-color-text-muted));
+  --color-text-secondary: var(--wby-color-text-secondary, var(--wb-theme-color-text-base));
+  --color-link: var(--wby-color-text-link, var(--wb-theme-color-primary));
+
+  /* Borders (colour) */
+  --color-border: var(--wby-color-border-default, var(--wb-theme-color-border));
+  --color-border-strong: var(--wby-color-border-strong, var(--wb-theme-color-border));
+  --color-border-focus: var(--wby-color-border-focus, var(--wb-theme-color-primary));
+
+  /* Primary action */
+  --color-primary: var(--wby-color-action-primary-background, var(--wb-theme-color-primary));
+  --color-on-primary: var(--wby-color-action-primary-foreground, #ffffff);
+  --color-primary-hover: var(--wby-color-action-primary-hover, var(--wb-theme-color-primary));
+
+  /* Secondary + ghost + destructive actions (new theme only; sensible fallbacks otherwise) */
+  --color-secondary: var(--wby-color-action-secondary-background, var(--wb-theme-color-surface));
+  --color-on-secondary: var(
+    --wby-color-action-secondary-foreground,
+    var(--wb-theme-color-text-base)
+  );
+  --color-ghost: var(--wby-color-action-ghost-foreground, var(--wb-theme-color-primary));
+  --color-destructive: var(--wby-color-action-destructive-background, var(--wb-theme-color-error));
+  --color-on-destructive: var(--wby-color-action-destructive-foreground, #ffffff);
+
+  /* Feedback */
+  --color-success: var(--wby-color-feedback-success-foreground, var(--wb-theme-color-success));
+  --color-warning: var(--wby-color-feedback-warning-foreground, var(--wb-theme-color-warning));
+  --color-error: var(--wby-color-feedback-danger-foreground, var(--wb-theme-color-error));
+
+  /* Radius — the semantic roles, not raw steps (rounded-control / -container / -pill). */
+  --radius-control: var(--wby-radius-control, 0.375rem);
+  --radius-container: var(--wby-radius-container, 0.75rem);
+  --radius-pill: var(--wby-radius-pill, 9999px);
+
+  /* Shadow — semantic elevation roles (shadow-raised / -overlay / -modal). */
+  --shadow-raised: var(--wby-shadow-raised, 0 1px 3px 0 rgba(15, 23, 42, 0.08));
+  --shadow-overlay: var(--wby-shadow-overlay, 0 10px 15px -3px rgba(15, 23, 42, 0.12));
+  --shadow-modal: var(--wby-shadow-modal, 0 20px 30px -6px rgba(15, 23, 42, 0.16));
 }

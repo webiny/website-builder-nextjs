@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_PATH=../webiny-to-esm/node_modules next dev",
-    "build": "NODE_PATH=../webiny-to-esm/node_modules next build",
-    "start": "NODE_PATH=../webiny-to-esm/node_modules next start",
+    "dev": "NODE_PATH=../webiny-js/node_modules next dev",
+    "build": "NODE_PATH=../webiny-js/node_modules next build",
+    "start": "NODE_PATH=../webiny-js/node_modules next start",
     "lint": "next lint"
   },
   "dependencies": {
