@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
-import { type Language, resolveAutoLoad } from "@webiny/sdk-nextjs";
+import type { Language } from "@webiny/sdk-nextjs";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { PageLayout } from "@/components/PageLayout";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
@@ -106,7 +106,7 @@ function resolveLanguageCode(
 // It is critical to initialize the SDK **before** using the `sdk` because this function
 // runs **before** any React components mount, so our SdkInitializer has no effect.
 async function getPage(path: string) {
-    const result = await sdk.wb.getPage(path);
+    const result = await sdk.wb.getPage(path, { components: editorComponents });
     return result.isOk() ? result.value : null;
 }
 
@@ -125,10 +125,6 @@ export default async function Page({ params, searchParams }: PageProps) {
     const isEditing = search["wb.editing"] === "true";
 
     const [page, languages] = await Promise.all([getPage(normalizeSlug(slug)), listLanguages()]);
-
-    // Resolve contentEntry inputs server-side (no-op when editorComponents are
-    // opaque client refs in SSR; the client resolves via the loader instead).
-    await resolveAutoLoad(page, editorComponents);
 
     const languagePaths = page?.languagePaths;
     const currentLanguageCode = resolveLanguageCode(page, languages, slug);
