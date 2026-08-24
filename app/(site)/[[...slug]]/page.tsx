@@ -1,10 +1,11 @@
 import React from "react";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
-import { type Language } from "@webiny/sdk-nextjs";
+import { type Language, resolveAutoLoad } from "@webiny/sdk-nextjs";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { PageLayout } from "@/components/PageLayout";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
+import { editorComponents } from "@/editorComponents";
 import { normalizeSlug } from "@/utils/normalizeSlug";
 
 type PageProps = {
@@ -124,6 +125,10 @@ export default async function Page({ params, searchParams }: PageProps) {
     const isEditing = search["wb.editing"] === "true";
 
     const [page, languages] = await Promise.all([getPage(normalizeSlug(slug)), listLanguages()]);
+
+    // Resolve contentEntry inputs server-side (no-op when editorComponents are
+    // opaque client refs in SSR; the client resolves via the loader instead).
+    await resolveAutoLoad(page, editorComponents);
 
     const languagePaths = page?.languagePaths;
     const currentLanguageCode = resolveLanguageCode(page, languages, slug);
