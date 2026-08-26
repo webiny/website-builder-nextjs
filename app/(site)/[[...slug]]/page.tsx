@@ -5,7 +5,6 @@ import type { Language } from "@webiny/sdk-nextjs";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { PageLayout } from "@/components/PageLayout";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
-import { editorComponents } from "@/editorComponents";
 import { normalizeSlug } from "@/utils/normalizeSlug";
 
 type PageProps = {
@@ -106,7 +105,7 @@ function resolveLanguageCode(
 // It is critical to initialize the SDK **before** using the `sdk` because this function
 // runs **before** any React components mount, so our SdkInitializer has no effect.
 async function getPage(path: string) {
-    const result = await sdk.wb.getPage(path, { components: editorComponents });
+    const result = await sdk.wb.getPage(path);
     return result.isOk() ? result.value : null;
 }
 
