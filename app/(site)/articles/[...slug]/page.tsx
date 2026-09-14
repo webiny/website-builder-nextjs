@@ -5,6 +5,8 @@ import { draftMode } from "next/headers";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { Article } from "@/components/Article/Article";
 
+const MODEL_ID = "code-article";
+
 interface ArticlePageProps {
     params: Promise<{ slug: string[] }>;
     searchParams: Promise<Record<string, string>>;
@@ -14,7 +16,7 @@ export async function generateStaticParams() {
     initializeSdk({ tenantId: await getTenant() });
 
     const result = await sdk.cms.listEntries({
-        modelId: "article"
+        modelId: MODEL_ID
     });
 
     if (result.isFail()) {
@@ -29,18 +31,15 @@ export async function generateStaticParams() {
 }
 
 async function getEntry(slug: string[], searchParams: Record<string, string>) {
-    const { isEnabled } = await draftMode();
-    initializeSdk({ preview: isEnabled, tenantId: await getTenant() });
-
     const entryId = searchParams["wb.id"];
     if (entryId) {
-        const result = await sdk.cms.getEntry({ modelId: "article", entryId });
+        const result = await sdk.cms.getEntry({ modelId: MODEL_ID, entryId });
         return result.isOk() ? result.value : null;
     }
 
     const slugValue = slug.join("/");
     const result = await sdk.cms.listEntries({
-        modelId: "article",
+        modelId: MODEL_ID,
         where: { values: { slug: slugValue } },
         limit: 1
     });
@@ -60,6 +59,11 @@ export async function generateMetadata({
 }: ArticlePageProps): Promise<Metadata> {
     const { slug } = await params;
     const search = await searchParams;
+
+    // Initialize the SDK with the preview flag to ensure correct data fetching.
+    const previewMode = await draftMode();
+    initializeSdk({ preview: previewMode.isEnabled, tenantId: await getTenant() });
+
     const entry = await getEntry(slug, search);
 
     if (!entry) {
@@ -77,9 +81,11 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
     const { slug } = await params;
     const search = await searchParams;
 
-    initializeSdk({ tenantId: await getTenant() });
+    // Initialize the SDK with the preview flag to ensure correct data fetching.
+    const previewMode = await draftMode();
+    initializeSdk({ preview: previewMode.isEnabled, tenantId: await getTenant() });
 
-    const modelResult = await sdk.cms.getModel("article");
+    const modelResult = await sdk.cms.getModel(MODEL_ID);
     const entry = await getEntry(slug, search);
 
     if (!entry || modelResult.isFail()) {

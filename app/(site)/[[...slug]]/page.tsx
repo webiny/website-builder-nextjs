@@ -34,7 +34,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    initializeSdk({ tenantId: await getTenant() });
+    // Initialize the SDK with the preview flag to ensure correct data fetching.
+    const previewMode = await draftMode();
+    initializeSdk({ preview: previewMode.isEnabled, tenantId: await getTenant() });
 
     const { slug = "" } = await params;
     const normalizedSlug = normalizeSlug(slug);
@@ -115,9 +117,8 @@ export default async function Page({ params, searchParams }: PageProps) {
     const { slug = [] } = await params;
     const search = await searchParams;
 
-    const previewMode = await draftMode();
-
     // Initialize the SDK with the preview flag to ensure correct data fetching.
+    const previewMode = await draftMode();
     initializeSdk({ preview: previewMode.isEnabled, tenantId: await getTenant() });
 
     // Check if the application is loaded in "live editing" mode.
