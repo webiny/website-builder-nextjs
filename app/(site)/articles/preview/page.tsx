@@ -11,7 +11,7 @@ export default async function ArticlePreviewPage() {
     const modelResult = await sdk.cms.getModel(MODEL_ID);
 
     if (modelResult.isFail()) {
-        return <p>Unable to load model `${MODEL_ID}`!</p>;
+        return <p>Unable to load model `{MODEL_ID}`!</p>;
     }
 
     return (
