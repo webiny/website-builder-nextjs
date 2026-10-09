@@ -3,6 +3,16 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const ENABLE_DRAFT_MODE_ROUTE = "/api/preview";
 
+/**
+ * The tenant a visitor arrived at with `?wb.tenant=`, kept for the rest of their visit.
+ *
+ * A composed page's links are plain paths, so without this a click inside a migrated tenant's site
+ * fell back to root and rendered root's page at the same path — the same site's content, from the
+ * wrong tenant, with nothing showing it (2026-10-09). Session-scoped (no expiry), so it ends with the
+ * browser session, and `?wb.tenant=` always overrides it: `?wb.tenant=root` clears it.
+ */
+const TENANT_COOKIE = "wb_tenant";
+
 export async function middleware(request: NextRequest) {
     const { searchParams, pathname } = request.nextUrl;
     // Check if the preview/editing flag is set.
@@ -11,8 +21,24 @@ export async function middleware(request: NextRequest) {
 
     const requestHeaders = new Headers(request.headers);
 
-    // Detect tenant id
-    const tenantId = searchParams.get("wb.tenant") ?? "root";
+    // Detect tenant id: the query parameter, else the visit's tenant, else root.
+    const tenantParam = searchParams.get("wb.tenant");
+    const tenantId = tenantParam ?? request.cookies.get(TENANT_COOKIE)?.value ?? "root";
+    const keepTenant = (response: NextResponse): NextResponse => {
+        if (tenantParam === null) {
+            return response;
+        }
+        if (tenantParam === "root") {
+            response.cookies.delete(TENANT_COOKIE);
+        } else {
+            response.cookies.set(TENANT_COOKIE, tenantParam, {
+                path: "/",
+                httpOnly: true,
+                sameSite: "lax"
+            });
+        }
+        return response;
+    };
     if (tenantId) {
         requestHeaders.set("X-Tenant", tenantId);
     }
@@ -36,7 +62,7 @@ export async function middleware(request: NextRequest) {
             );
             response.headers.set("Pragma", "no-cache");
             response.headers.set("Expires", "0");
-            return response;
+            return keepTenant(response);
         }
 
         // If preview mode is not enabled yet, redirect to the preview API route
@@ -45,14 +71,14 @@ export async function middleware(request: NextRequest) {
         const url = new URL(request.url);
         url.pathname = ENABLE_DRAFT_MODE_ROUTE;
 
-        return NextResponse.redirect(url);
+        return keepTenant(NextResponse.redirect(url));
     } else if (!previewRequested && previewMode.isEnabled) {
         // If the preview query param is missing but draft mode is enabled,
         // disable draft mode to exit preview mode.
         previewMode.disable();
 
         // Redirect to the same URL to clear draft mode cookies properly.
-        return NextResponse.redirect(request.url);
+        return keepTenant(NextResponse.redirect(request.url));
     }
 
     // Check if there's a redirect defined for the requested page.
@@ -66,9 +92,11 @@ export async function middleware(request: NextRequest) {
 
         const { redirect } = await redirectResponse.json();
         if (redirect) {
-            return NextResponse.redirect(
-                new URL(redirect.to, request.url),
-                redirect.permanent ? 308 : 307
+            return keepTenant(
+                NextResponse.redirect(
+                    new URL(redirect.to, request.url),
+                    redirect.permanent ? 308 : 307
+                )
             );
         }
     } catch {
@@ -76,11 +104,13 @@ export async function middleware(request: NextRequest) {
     }
 
     // For all other requests, continue as normal without any modifications.
-    return NextResponse.next({
-        request: {
-            headers: requestHeaders
-        }
-    });
+    return keepTenant(
+        NextResponse.next({
+            request: {
+                headers: requestHeaders
+            }
+        })
+    );
 }
 
 export const config = {
