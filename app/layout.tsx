@@ -6,6 +6,7 @@ import "@/theme/tailwind.css";
 import { theme, css } from "@/theme/theme";
 import { Inter } from "next/font/google";
 import { fetchTenantTheme } from "@/utils/fetchTenantTheme";
+import { fetchThemeCss } from "@/utils/fetchThemeCss";
 import { mergeThemes, getTenantFontUrl } from "@/utils/mergeThemes";
 
 // Fallback font
@@ -27,7 +28,7 @@ export default async function RootLayout({
 
     initializeSdk({ preview: isEnabled, tenantId });
 
-    const tenantTheme = await fetchTenantTheme();
+    const [tenantTheme, themeCss] = await Promise.all([fetchTenantTheme(), fetchThemeCss(tenantId)]);
     const resolvedTheme = tenantTheme ? mergeThemes(theme, tenantTheme) : theme;
     const resolvedCss = tenantTheme ? resolvedTheme.css ?? css : css;
     const tenantFontUrl = tenantTheme ? getTenantFontUrl(tenantTheme) : null;
@@ -42,6 +43,8 @@ export default async function RootLayout({
                         <link rel="stylesheet" href={tenantFontUrl} />
                     </>
                 )}
+                {/* The tenant's Theme App theme: the `--wby-*` values its pages' elements read. */}
+                {themeCss && <style dangerouslySetInnerHTML={{ __html: themeCss }} />}
                 <style>{resolvedCss}</style>
                 {tenantTheme?.websiteTitle && <title>{tenantTheme.websiteTitle}</title>}
             </head>

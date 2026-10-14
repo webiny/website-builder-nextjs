@@ -39,7 +39,7 @@ export const DocumentRenderer = ({
     const { allComponents, remoteCss } = useMemo(() => {
         const hydrated = remoteComponents
             .map(entry => sdk.components.hydrateComponent(entry, { sdk: sdkNextjs, React }))
-            .filter(Boolean);
+            .filter((h): h is NonNullable<typeof h> => Boolean(h));
 
         return {
             allComponents: [

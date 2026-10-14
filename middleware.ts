@@ -1,7 +1,19 @@
-import { draftMode } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
 const ENABLE_DRAFT_MODE_ROUTE = "/api/preview";
+
+/**
+ * The cookie Next.js carries draft mode in.
+ *
+ * Read directly, because `draftMode()` does not report enabled state in middleware — it is for
+ * Server Components and Route Handlers. Asking it here returned `isEnabled: false` whether the
+ * cookie was present or not, which made the hand-off below unconditional: every preview request
+ * redirected to /api/preview, which enabled draft mode and redirected back, forever. The editor's
+ * canvas never loaded.
+ *
+ * The name is Next's internal one, which is the price of doing this in middleware at all.
+ */
+const DRAFT_MODE_COOKIE = "__prerender_bypass";
 
 /**
  * The tenant a visitor arrived at with `?wb.tenant=`, kept for the rest of their visit.
@@ -44,7 +56,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // Retrieve the current draft mode state for this request.
-    const previewMode = await draftMode();
+    const previewEnabled = Boolean(request.cookies.get(DRAFT_MODE_COOKIE));
 
     if (previewRequested) {
         // If preview mode is already enabled, disable caching on the response.
@@ -54,7 +66,7 @@ export async function middleware(request: NextRequest) {
             }
         });
         // This ensures fresh content when in preview.
-        if (previewMode.isEnabled) {
+        if (previewEnabled) {
             response.headers.set("X-Preview-Params", searchParams.toString());
             response.headers.set(
                 "Cache-Control",
@@ -72,13 +84,18 @@ export async function middleware(request: NextRequest) {
         url.pathname = ENABLE_DRAFT_MODE_ROUTE;
 
         return keepTenant(NextResponse.redirect(url));
-    } else if (!previewRequested && previewMode.isEnabled) {
-        // If the preview query param is missing but draft mode is enabled,
-        // disable draft mode to exit preview mode.
-        previewMode.disable();
-
-        // Redirect to the same URL to clear draft mode cookies properly.
-        return keepTenant(NextResponse.redirect(request.url));
+    } else if (previewEnabled) {
+        /*
+         * The preview flag is gone but draft mode is still on, so exit preview.
+         *
+         * By clearing the cookie on the response rather than calling `previewMode.disable()`, which
+         * is unavailable here for the same reason `isEnabled` is. Clearing it on this response
+         * matters: the redirected request must not arrive still carrying the cookie, or this branch
+         * fires again and becomes its own loop.
+         */
+        const response = NextResponse.redirect(request.url);
+        response.cookies.delete(DRAFT_MODE_COOKIE);
+        return keepTenant(response);
     }
 
     // Check if there's a redirect defined for the requested page.

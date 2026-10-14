@@ -16,7 +16,9 @@ export async function fetchTenantTheme(): Promise<TenantTheme | null> {
             return null;
         }
 
-        const values = result.value.values.extensions as Partial<TenantTheme>;
+        // Only tenants whose model carries the theme extension have these values; others have no
+        // `extensions` at all, and get the default theme.
+        const values = (result.value.values?.extensions ?? {}) as Partial<TenantTheme>;
 
         if (!values.primaryColor && !values.font) {
             return null;

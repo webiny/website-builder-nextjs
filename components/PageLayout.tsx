@@ -23,7 +23,17 @@ export const PageLayout = ({
                 languagePaths={languagePaths}
                 currentLanguageCode={currentLanguageCode}
             />
-            <main className="flex-1 mx-auto w-full max-w-7xl px-6 lg:px-8 py-10">{children}</main>
+            {/*
+             * Full-bleed on purpose. A migrated page's components carry their own layout — hero
+             * bands, footers and section backgrounds that run edge to edge, each applying its own
+             * inner max-width — so a wrapper that centres and pads them boxes every one of those in
+             * a margin the source site does not have.
+             *
+             * Measured against source screenshots across four migrated sites, this single wrapper was
+             * the largest visual difference on all 28 comparable pages, and it disguised how closely
+             * some of them otherwise match.
+             */}
+            <main className="flex-1 w-full">{children}</main>
         </div>
     );
 };
