@@ -5,13 +5,11 @@ import { THEME_ARTIFACT_PATHS } from "@webiny/sdk-nextjs";
  *
  * Fetched on the server and inlined, rather than linked, because the theme route reads the tenant
  * from the `x-tenant` header and a browser `<link>` cannot send one: a link would always get root's
- * theme. The tenant also goes in the query string because the API's CloudFront caches this route by
- * URL and ignores the header, so without it every tenant would be served whichever answer was cached
- * first; root, with no active theme, caches an empty 204 for all of them.
+ * theme. The API's CloudFront keys its cache on that header, so each tenant is cached on its own.
  */
 export async function fetchThemeCss(tenantId: string): Promise<string | null> {
     const host = String(process.env.NEXT_PUBLIC_WEBINY_API_HOST);
-    const url = `${host}${THEME_ARTIFACT_PATHS.css}?tenant=${encodeURIComponent(tenantId)}`;
+    const url = `${host}${THEME_ARTIFACT_PATHS.css}`;
 
     try {
         const response = await fetch(url, {
