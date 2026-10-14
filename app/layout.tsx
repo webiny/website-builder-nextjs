@@ -34,7 +34,17 @@ export default async function RootLayout({
     const tenantFontUrl = tenantTheme ? getTenantFontUrl(tenantTheme) : null;
 
     return (
-        <html lang="en" className={tenantTheme?.font ? undefined : inter.className}>
+        /*
+         * Light mode always. The theme stylesheet switches to its dark values when the visitor's
+         * system is in dark mode, unless the page opts out with this attribute. A migrated site was
+         * captured and generated in its light appearance only, so the dark values (the theme's
+         * defaults) turned its pages a dark blue the source never had.
+         */
+        <html
+            lang="en"
+            data-wby-theme-mode="light"
+            className={tenantTheme?.font ? undefined : inter.className}
+        >
             <head>
                 {tenantFontUrl && (
                     <>
