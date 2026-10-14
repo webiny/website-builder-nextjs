@@ -10,11 +10,17 @@ export default async (): Promise<NextConfig> => {
     return {
         devIndicators: false,
         /*
-         * css-tree (used by the Webiny SDK for component CSS) loads its data through `createRequire`:
-         * `../data/patch.json`, its own `package.json` and mdn-data's CSS tables. Next's file tracing
-         * cannot follow those calls, so on Vercel the files are missing from the server bundle and
-         * every server render fails with "Cannot find module '../data/patch.json'".
+         * css-tree (used by the Webiny SDK for component CSS) loads its data through
+         * `createRequire(import.meta.url)`: `../data/patch.json`, its own `package.json` and mdn-data's
+         * CSS tables.
+         *
+         * Bundled, webpack replaces `import.meta.url` with the build machine's absolute path
+         * (`file:///vercel/path0/...`), which does not exist where the function runs, so every server
+         * render failed with "Cannot find module '../data/patch.json'". Kept external, it is loaded
+         * from node_modules with its real location. The includes ship the files it reads, which
+         * file tracing cannot see through `createRequire`.
          */
+        serverExternalPackages: ["css-tree"],
         outputFileTracingIncludes: {
             "/**": [
                 "./node_modules/css-tree/package.json",
