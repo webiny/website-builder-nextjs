@@ -9,6 +9,20 @@ export default async (): Promise<NextConfig> => {
 
     return {
         devIndicators: false,
+        /*
+         * css-tree (used by the Webiny SDK for component CSS) loads its data through `createRequire`:
+         * `../data/patch.json`, its own `package.json` and mdn-data's CSS tables. Next's file tracing
+         * cannot follow those calls, so on Vercel the files are missing from the server bundle and
+         * every server render fails with "Cannot find module '../data/patch.json'".
+         */
+        outputFileTracingIncludes: {
+            "/**": [
+                "./node_modules/css-tree/package.json",
+                "./node_modules/css-tree/data/**/*",
+                "./node_modules/mdn-data/css/**/*",
+                "./node_modules/css-tree/node_modules/mdn-data/css/**/*"
+            ]
+        },
         trailingSlash,
         productionBrowserSourceMaps: false,
         images: {
