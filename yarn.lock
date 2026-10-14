@@ -528,94 +528,94 @@
   dependencies:
     csstype "^3.2.2"
 
-"@webiny/cms-nextjs@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/cms-nextjs/-/cms-nextjs-0.0.0-unstable.eb81deee7e.tgz#7467bf9ddea3088862d418cb357f748b3bac5502"
-  integrity sha512-AStZE9ng6oI/pZPoRaPK2T/dlaUR1HMQWTeQjgJrqJWEV8y+qQv3iz+6LK6kxsjYstdpMn9fM+JB8d8pJDzXBA==
+"@webiny/cms-nextjs@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/cms-nextjs/-/cms-nextjs-0.0.0-unstable.e9333b3f0b.tgz#6c1badcc3125843cfce6258a9bdb179c64f1c40f"
+  integrity sha512-HaZGR2JawlqtG8iR4KmOySM72qa8bQ9Pm1Zd3bV8I8pgBl9N3oPWcsnXpyUujW7Sut8kCmDJB3bgzbHe1+M8xw==
   dependencies:
-    "@webiny/cms-sdk" "0.0.0-unstable.eb81deee7e"
+    "@webiny/cms-sdk" "0.0.0-unstable.e9333b3f0b"
     mobx-react-lite "5.0.3"
 
-"@webiny/cms-sdk@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/cms-sdk/-/cms-sdk-0.0.0-unstable.eb81deee7e.tgz#1a551b982c1d75de5f5e487dc0ecddba03e52eee"
-  integrity sha512-zcLufBQVtVdoWnUXNa/8/ED4E3ok6MBUUhGEt4HbwANM8LUi5RgMmdMOXcYqua0T35eJvXOqz6fgZJWQgC+rnQ==
+"@webiny/cms-sdk@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/cms-sdk/-/cms-sdk-0.0.0-unstable.e9333b3f0b.tgz#7a905074fa8c8ef1cde576fa57d1665d38fec1b6"
+  integrity sha512-sP6uygqLymv4H9kHho47ML06wYOBGDw3lX3uOQ9+yMCUMqMqCMXBloK776wG2NkoYq2JITT4uGdJZ7xbPz6MRQ==
   dependencies:
-    "@webiny/sdk" "0.0.0-unstable.eb81deee7e"
+    "@webiny/sdk" "0.0.0-unstable.e9333b3f0b"
     fast-json-patch "3.1.1"
     mobx "7.0.3"
 
-"@webiny/sdk-frontend@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/sdk-frontend/-/sdk-frontend-0.0.0-unstable.eb81deee7e.tgz#b35891a78d28f4568cc63e8739fdbc3760ee21ad"
-  integrity sha512-PWrRjMbRirVy4YonkA3g1wByoIWFRZEvauBNKoEmKwctaZ42JSWEd52R8iJZbdnc6vv2d7Uus19Q9JHRsbOxqw==
+"@webiny/sdk-frontend@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/sdk-frontend/-/sdk-frontend-0.0.0-unstable.e9333b3f0b.tgz#50602c794297091392e9ffd8ca15f2262d1ea389"
+  integrity sha512-b4sJ7r7uYWh2/so2amTrrQXAZZNwlMJZ3RlTNOVuEpufXpCMgpkqihwrw3wW5kakWzKWxiMJzeloYoaGSFVerA==
   dependencies:
-    "@webiny/cms-sdk" "0.0.0-unstable.eb81deee7e"
-    "@webiny/sdk" "0.0.0-unstable.eb81deee7e"
-    "@webiny/theme-sdk" "0.0.0-unstable.eb81deee7e"
-    "@webiny/website-builder-sdk" "0.0.0-unstable.eb81deee7e"
+    "@webiny/cms-sdk" "0.0.0-unstable.e9333b3f0b"
+    "@webiny/sdk" "0.0.0-unstable.e9333b3f0b"
+    "@webiny/theme-sdk" "0.0.0-unstable.e9333b3f0b"
+    "@webiny/website-builder-sdk" "0.0.0-unstable.e9333b3f0b"
     css-tree "3.2.1"
 
-"@webiny/sdk-nextjs@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/sdk-nextjs/-/sdk-nextjs-0.0.0-unstable.eb81deee7e.tgz#ed9f176f9c2443a3c65b467b82f60bccf8a1c255"
-  integrity sha512-UeUDr2ZTqAFQRLGOujE6+HZ90GslW7cFHm0X1Hdfuw/+WIZB6FOZWFta4x9ti8onwfMw9ia7IuafXe5JYu/8uQ==
+"@webiny/sdk-nextjs@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/sdk-nextjs/-/sdk-nextjs-0.0.0-unstable.e9333b3f0b.tgz#64e898515fa35d945e639b46d78a8497a169963d"
+  integrity sha512-5hGUqHh1/x+YHyq5/3p11uwVZMeCwU7RmJGDA43I8i4tKuhWpZI0SuxjL85i81D+0wgO1U39mBBFPTOXoliYsA==
   dependencies:
-    "@webiny/cms-nextjs" "0.0.0-unstable.eb81deee7e"
-    "@webiny/sdk-frontend" "0.0.0-unstable.eb81deee7e"
-    "@webiny/website-builder-nextjs" "0.0.0-unstable.eb81deee7e"
+    "@webiny/cms-nextjs" "0.0.0-unstable.e9333b3f0b"
+    "@webiny/sdk-frontend" "0.0.0-unstable.e9333b3f0b"
+    "@webiny/website-builder-nextjs" "0.0.0-unstable.e9333b3f0b"
 
-"@webiny/sdk@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/sdk/-/sdk-0.0.0-unstable.eb81deee7e.tgz#ab6d16a225ad6e3d33e065d5ab7209374a67332c"
-  integrity sha512-pbyteluKrrFQu7Gn99ShB5PB4uZYWPTdHJdEo68rtjULM4dn9LyGgzNC2jd8D+kiJ6Cv0RYBbraOnYmy+tN6uQ==
+"@webiny/sdk@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/sdk/-/sdk-0.0.0-unstable.e9333b3f0b.tgz#3ff0a3a9861e4a65aae0dc9ab11b04f67e0faf4c"
+  integrity sha512-ml9ENuuQEDaczNz4j/DWYvOXuEQmnc9w+KdPKDMh2RZqHPIFx/eGQLRJnow78TXOLlhVq6/QvRVn+kN8fdsm1g==
   dependencies:
     p-map "7.0.6"
     p-retry "8.0.0"
     standardwebhooks "1.0.0"
     zod "4.4.3"
 
-"@webiny/theme-common@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/theme-common/-/theme-common-0.0.0-unstable.eb81deee7e.tgz#3f4c5bf9796a0ff97c454e27af635d05d9be53e8"
-  integrity sha512-KcIARBBhfQ6hQ//7wjlCzkISN8tHxmRGhVRdkHNc1PpFPcPkk/V28vbS+MjBdaDm7Zd9kBZV6D3LylWug6J+nw==
+"@webiny/theme-common@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/theme-common/-/theme-common-0.0.0-unstable.e9333b3f0b.tgz#ed00510734e4b036280ebf687b40928f76170e20"
+  integrity sha512-ZKlY9eTX1a+nW5AnZt2CghxQcMwc+/ZAffNH5OOzoBMDpF8LUtNFkPSbBUlPu1L8Q72Wh3yLeMojRWQ+/llXEQ==
   dependencies:
     zod "4.4.3"
 
-"@webiny/theme-sdk@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/theme-sdk/-/theme-sdk-0.0.0-unstable.eb81deee7e.tgz#cc5f493ffc5156611fa0db3a44227cc3f060a106"
-  integrity sha512-UBVVqL5U+UtfaSe6lXrnps7jGs/RV1ZUtZ91/U2GZ81V7cOctunKlxaCasE6r3oGugpTYgHmHZy2plACyO2Bkg==
+"@webiny/theme-sdk@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/theme-sdk/-/theme-sdk-0.0.0-unstable.e9333b3f0b.tgz#642601912cff3450eca73d1aa93ff24baae76fc6"
+  integrity sha512-0xxZ0EBajoz+awLbsw9R1syD0J9CEMfZV3OnPAVfSQhlU7WsD9XU7QfhZP0aXN/dLDSmDwLetHZNd2TKp1y3RQ==
 
-"@webiny/website-builder-nextjs@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-nextjs/-/website-builder-nextjs-0.0.0-unstable.eb81deee7e.tgz#86e5071792588c2c8ea28ae5e2aa64cc865dd03f"
-  integrity sha512-2RVRxQdPKsp8pw77IYBeJL+lwkqQf1hygXIfvYTixXt+WvW2x86Qo2YgRHgWJjv86OvPJTfWYsfM2ddwNrLAWA==
+"@webiny/website-builder-nextjs@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-nextjs/-/website-builder-nextjs-0.0.0-unstable.e9333b3f0b.tgz#ed508789dc38cf9cedb262744ea880f24d59bf56"
+  integrity sha512-b96g6L5df8khSS8Qp4UhAUMaGTnjCLZ3XilQhrrRn9ldyhLt18Pd4FOpOSpzapuGN2+LWJoj+JYqYDLT2r0I3Q==
   dependencies:
-    "@webiny/website-builder-react" "0.0.0-unstable.eb81deee7e"
+    "@webiny/website-builder-react" "0.0.0-unstable.e9333b3f0b"
     postcss "8.5.26"
     postcss-import "17.0.0"
 
-"@webiny/website-builder-react@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-react/-/website-builder-react-0.0.0-unstable.eb81deee7e.tgz#21bc69864c7cf6290337d362bc902490430a2c89"
-  integrity sha512-3pgvRKa9ph6YvXouQHHJTSqIdsfkfshT0VT3ig+O2FcuVDRglBK3F+rxbLxFmC/nW3YIT872v17R9JbJBEuMPg==
+"@webiny/website-builder-react@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-react/-/website-builder-react-0.0.0-unstable.e9333b3f0b.tgz#610f1996c6f36c2d1fd81d4c3da1ee32938c0057"
+  integrity sha512-GMr83gJEu7wnrewiCAsVtzR0z/CjM/Pn0nKx3G4EH3OMcGVb7h5sMhf8ZBRewRHjzKiJsQHncSKNNE5IUuSoMg==
   dependencies:
-    "@webiny/cms-sdk" "0.0.0-unstable.eb81deee7e"
-    "@webiny/website-builder-sdk" "0.0.0-unstable.eb81deee7e"
+    "@webiny/cms-sdk" "0.0.0-unstable.e9333b3f0b"
+    "@webiny/website-builder-sdk" "0.0.0-unstable.e9333b3f0b"
     deep-equal "2.2.3"
     mobx "7.0.3"
     mobx-react-lite "5.0.3"
     react "18.3.1"
     react-dom "18.3.1"
 
-"@webiny/website-builder-sdk@0.0.0-unstable.eb81deee7e":
-  version "0.0.0-unstable.eb81deee7e"
-  resolved "https://registry.yarnpkg.com/@webiny/website-builder-sdk/-/website-builder-sdk-0.0.0-unstable.eb81deee7e.tgz#0016ab1ea648451a59f2dcb47ac9740f77cc09ef"
-  integrity sha512-co0+DUavON0Gx5pAqb4urolouNRxturpsj3Zi8LwQ40hnx3U8R9EAIsgWBx/MSnwzfWbFw5bkvRSn6kKMk6feg==
+"@webiny/website-builder-sdk@0.0.0-unstable.e9333b3f0b":
+  version "0.0.0-unstable.e9333b3f0b"
+  resolved "https://registry.yarnpkg.com/@webiny/website-builder-sdk/-/website-builder-sdk-0.0.0-unstable.e9333b3f0b.tgz#841efabc6f9f86bc388bbd02aa5eb723b74cefc5"
+  integrity sha512-53C+lBtEXgeq1zjpQNQjX+NClb7fT9man0CSSm1GwSgRxrqc3/d1A0hMahfQxCK8ywLqjQ9R0TZ/CqcxSFrbMw==
   dependencies:
-    "@webiny/sdk" "0.0.0-unstable.eb81deee7e"
-    "@webiny/theme-common" "0.0.0-unstable.eb81deee7e"
+    "@webiny/sdk" "0.0.0-unstable.e9333b3f0b"
+    "@webiny/theme-common" "0.0.0-unstable.e9333b3f0b"
     csstype "3.2.3"
     deep-equal "2.2.3"
     deepmerge "4.3.1"
