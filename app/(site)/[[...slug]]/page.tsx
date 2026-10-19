@@ -7,6 +7,14 @@ import { PageLayout } from "@/components/PageLayout";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
 import { normalizeSlug } from "@/utils/normalizeSlug";
 
+/*
+ * Rendered on every request. The page reads the request's tenant and draft-mode state, which a
+ * statically generated route can't: when the build listed no pages (an instance migrated into after
+ * the frontend was deployed), Next kept the route static and every page answered 500
+ * DYNAMIC_SERVER_USAGE.
+ */
+export const dynamic = "force-dynamic";
+
 type PageProps = {
     // If it's a catch-all route, you get an array of path segments.
     params: Promise<{ slug: string[] }>;

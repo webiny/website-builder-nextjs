@@ -5,6 +5,14 @@ import { draftMode } from "next/headers";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { Article } from "@/components/Article/Article";
 
+/*
+ * Rendered on every request. The page reads the request's tenant and draft-mode state, which a
+ * statically generated route can't: when the build listed no pages (an instance migrated into after
+ * the frontend was deployed), Next kept the route static and every page answered 500
+ * DYNAMIC_SERVER_USAGE.
+ */
+export const dynamic = "force-dynamic";
+
 interface ArticlePageProps {
     params: Promise<{ slug: string[] }>;
     searchParams: Promise<Record<string, string>>;
