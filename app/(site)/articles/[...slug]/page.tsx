@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { draftMode } from "next/headers";
 import { initializeSdk, getTenant, sdk } from "@/sdk";
 import { Article } from "@/components/Article/Article";
+import { EntryLayout } from "@/components/EntryLayout";
+import { articleModelId } from "@/constants";
 
 interface ArticlePageProps {
     params: Promise<{ slug: string[] }>;
@@ -14,7 +16,7 @@ export async function generateStaticParams() {
     initializeSdk({ tenantId: await getTenant() });
 
     const result = await sdk.cms.listEntries({
-        modelId: "article"
+        modelId: articleModelId
     });
 
     if (result.isFail()) {
@@ -34,13 +36,13 @@ async function getEntry(slug: string[], searchParams: Record<string, string>) {
 
     const entryId = searchParams["wb.id"];
     if (entryId) {
-        const result = await sdk.cms.getEntry({ modelId: "article", entryId });
+        const result = await sdk.cms.getEntry({ modelId: articleModelId, entryId });
         return result.isOk() ? result.value : null;
     }
 
     const slugValue = slug.join("/");
     const result = await sdk.cms.listEntries({
-        modelId: "article",
+        modelId: articleModelId,
         where: { values: { slug: slugValue } },
         limit: 1
     });
@@ -79,16 +81,20 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 
     initializeSdk({ tenantId: await getTenant() });
 
-    const modelResult = await sdk.cms.getModel("article");
+    const modelResult = await sdk.cms.getModel(articleModelId);
     const entry = await getEntry(slug, search);
 
     if (!entry || modelResult.isFail()) {
         return notFound();
     }
 
+    const model = modelResult.value;
+
     return (
-        <main className="pb-12">
-            <Article entry={entry} model={modelResult.value} />
-        </main>
+        <EntryLayout model={model}>
+            <main className="pb-12">
+                <Article entry={entry} model={model} />
+            </main>
+        </EntryLayout>
     );
 }

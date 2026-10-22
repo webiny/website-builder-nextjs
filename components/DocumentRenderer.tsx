@@ -1,11 +1,10 @@
 "use client";
-import React, { useMemo } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
-import { type Document, type DocumentLayout, GlobalComponent, sdk } from "@webiny/sdk-nextjs";
-import * as sdkNextjs from "@webiny/sdk-nextjs";
+import { type Document, type DocumentLayout, GlobalComponent } from "@webiny/sdk-nextjs";
 import type { RemoteComponentEntry } from "@webiny/sdk-nextjs";
-import { editorComponents } from "../editorComponents";
 import { NotFound } from "./NotFound";
+import { useEditorComponents } from "./useEditorComponents";
 
 const DocumentRendererSSR = dynamic(
     () =>
@@ -51,19 +50,7 @@ export const DocumentRenderer = ({
     remoteComponents = [],
     children
 }: DocumentRendererProps) => {
-    const { allComponents, remoteCss } = useMemo(() => {
-        const hydrated = remoteComponents
-            .map(entry => sdk.components.hydrateComponent(entry, { sdk: sdkNextjs, React }))
-            .filter(Boolean);
-
-        return {
-            allComponents: [
-                ...editorComponents,
-                ...hydrated.map(h => ({ component: h.component, manifest: h.manifest }))
-            ],
-            remoteCss: hydrated.map(h => h.css).filter(Boolean).join("\n")
-        };
-    }, [remoteComponents]);
+    const { allComponents, remoteCss } = useEditorComponents(remoteComponents);
 
     if (!document && !isEditing) {
         return <NotFound />;
