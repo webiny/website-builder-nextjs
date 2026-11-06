@@ -1,5 +1,5 @@
 import React from "react";
-import { initializeSdk, getTenant, sdk } from "@/sdk";
+import { initializeSdk, getTenant } from "@/sdk";
 import { DocumentRenderer } from "@/components/DocumentRenderer";
 import { NotFound } from "@/components/NotFound";
 
@@ -20,18 +20,5 @@ export default async function LayoutPreviewPage({ searchParams }: LayoutPreviewP
 
     initializeSdk({ preview: true, tenantId: await getTenant() });
 
-    // A layout can hold remote components too, so they're loaded as for pages.
-    const remoteComponentsResult = await sdk.components.loadComponents({
-        fetchOptions: { next: { revalidate: 60 } } as RequestInit
-    });
-    const remoteComponents = remoteComponentsResult.isOk() ? remoteComponentsResult.value : [];
-
-    return (
-        <DocumentRenderer
-            document={null}
-            isEditing
-            layout={null}
-            remoteComponents={remoteComponents}
-        />
-    );
+    return <DocumentRenderer document={null} isEditing layout={null} />;
 }
