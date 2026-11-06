@@ -19,13 +19,8 @@ export async function EntryLayout({ model, areas, children }: EntryLayoutProps) 
         return <>{children}</>;
     }
 
-    const remoteComponentsResult = await sdk.components.loadComponents({
-        fetchOptions: { next: { revalidate: 60 } } as RequestInit
-    });
-    const remoteComponents = remoteComponentsResult.isOk() ? remoteComponentsResult.value : [];
-
     return (
-        <LayoutRenderer layout={layout} remoteComponents={remoteComponents} areas={areas}>
+        <LayoutRenderer layout={layout} areas={areas}>
             {children}
         </LayoutRenderer>
     );
