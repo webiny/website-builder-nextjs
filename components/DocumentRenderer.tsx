@@ -2,9 +2,8 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { type Document, type DocumentLayout, GlobalComponent } from "@webiny/sdk-nextjs";
-import type { RemoteComponentEntry } from "@webiny/sdk-nextjs";
 import { NotFound } from "./NotFound";
-import { useEditorComponents } from "./useEditorComponents";
+import { editorComponents } from "../editorComponents";
 
 const DocumentRendererSSR = dynamic(
     () =>
@@ -28,7 +27,6 @@ interface DocumentRendererProps {
     isEditing?: boolean;
     // The site's layout, used for pages without a layout of their own. `null` renders no layout.
     layout?: DocumentLayout | null;
-    remoteComponents?: RemoteComponentEntry[];
     children?: React.ReactNode | React.ReactNode[];
 }
 
@@ -47,22 +45,18 @@ export const DocumentRenderer = ({
     document,
     isEditing,
     layout = siteLayout,
-    remoteComponents = [],
     children
 }: DocumentRendererProps) => {
-    const { allComponents, remoteCss } = useEditorComponents(remoteComponents);
-
     if (!document && !isEditing) {
         return <NotFound />;
     }
 
     return (
         <>
-            {remoteCss ? <style dangerouslySetInnerHTML={{ __html: remoteCss }} /> : null}
             {isEditing ? (
                 <DocumentRendererNoSSR
                     document={document}
-                    components={allComponents}
+                    components={editorComponents}
                     layout={layout ?? undefined}
                 >
                     {children}
@@ -70,7 +64,7 @@ export const DocumentRenderer = ({
             ) : (
                 <DocumentRendererSSR
                     document={document}
-                    components={allComponents}
+                    components={editorComponents}
                     layout={layout ?? undefined}
                 >
                     {children}
